@@ -1,4 +1,5 @@
-import { config as config_deploy, findNextView, submitResults } from "./babe-main.js";
+import { findNextView, submitResults } from "./babe-main.js";
+import {_babe} from "./babe-init.js";
 
 const intro = {
     name: "intro",
@@ -28,7 +29,7 @@ const intro = {
             }
         }
 
-        if (config_deploy.deployMethod !== "Prolific") {
+        if (_babe.deploy.deployMethod !== "Prolific") {
             IDform.addClass("nodisplay");
             next.removeClass("nodisplay");
         }
@@ -43,7 +44,7 @@ const intro = {
 
         // moves to the next view
         next.on("click", function() {
-            if (config_deploy.deployMethod === "Prolific") {
+            if (_babe.deploy.deployMethod === "Prolific") {
                 _babe.global_data.prolific_id = prolificId.val().trim();
             }
 
@@ -1075,8 +1076,8 @@ const thanks = {
         // what is seen on the screen depends on the used deploy method
         //    normally, you do not need to modify this
         if (
-            config_deploy.is_MTurk ||
-            config_deploy.deployMethod === "directLink"
+            _babe.deploy.is_MTurk ||
+            _babe.deploy.deployMethod === "directLink"
         ) {
             // updates the fields in the hidden form with info for the MTurk's server
             $("#main").html(
@@ -1084,21 +1085,21 @@ const thanks = {
                     thanksMessage: this.message
                 })
             );
-        } else if (config_deploy.deployMethod === "Prolific") {
+        } else if (_babe.deploy.deployMethod === "Prolific") {
             $("main").html(
                 Mustache.render(viewTemplate, {
                     thanksMessage: this.message,
                     extraMessage: "Please press the button below to confirm that you completed the experiment with Prolific<br />".concat(
                         "<a href=",
-                        config_deploy.prolificURL,
+                        _babe.deploy.prolificURL,
                         ' class="prolific-url">Confirm</a>'
                     )
                 })
             );
-        } else if (config_deploy.deployMethod === "debug") {
+        } else if (_babe.deploy.deployMethod === "debug") {
             $("main").html(Mustache.render(viewTemplate, {}));
         } else {
-            console.log("no such config_deploy.deployMethod");
+            console.log("no such _babe.deploy.deployMethod");
         }
 
         submitResults();
