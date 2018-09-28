@@ -32,12 +32,10 @@ function babeInit(config) {
     _babe.deploy.is_MTurk = _babe.deploy.MTurk_server !== "";
     _babe.deploy.submissionURL = _babe.deploy.deployMethod == "localServer" ? "http://localhost:4000/api/submit_experiment/" + _babe.deploy.experimentID : _babe.deploy.serverAppURL + _babe.deploy.experimentID;
 
-    // insert a Current Trial (CT) counter for each view
-    _.map(_babe.views_seq, function(view) {
-        view.CT = 0;
-    });
-
+    // adds progress bars to the views
     addProgressBars();
+
+    // renders the first view
     findNextView();
 };
 

@@ -16,18 +16,17 @@ import {updateProgress} from './babe-progress-bar.js';
 // };
 
 const submitResults = function() {
-    return submit(_babe.trial_data, _babe.global_data, config);
+    return submit(_babe.trial_data, _babe.global_data, _babe.deploy);
 };
 
 // navigation through the views and steps in each view;
 // shows each view (in the order defined in 'modules/experiment.js') for
 // the given number of steps (as defined in the view's 'trial' property)
 const findNextView = function() {
-    console.log(_babe);
     let currentView = _babe.views_seq[_babe.currentViewCounter];
 
     if (_babe.currentTrialInViewCounter < currentView.trials) {
-        currentView.render(currentView.CT, _babe.currentTrialInViewCounter);
+        currentView.render(currentView.CT);
     } else {
         _babe.currentViewCounter++;
         currentView = _babe.views_seq[_babe.currentViewCounter];
@@ -40,12 +39,11 @@ const findNextView = function() {
     _babe.currentTrialCounter++;
     // increment counter for how many trials we have seen of THIS view during the whole experiment
     currentView.CT++;
+
     // updates the progress bar if the view has one
     if (currentView.hasProgressBar) {
         updateProgress();
     }
-
-    return currentView;
 };
 
 // renders the first view from experiment.js
