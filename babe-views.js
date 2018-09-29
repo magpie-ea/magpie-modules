@@ -8,9 +8,27 @@ function _intro(config) {
         text: config.text,
         buttonText: config.buttonText,
         render: function() {
-            const viewTemplate = $(
-                "#intro-view"
-            ).html();
+            const viewTemplate =
+            `<div class='view'>
+                {{# title }}
+                <h1 class="title">{{ title }}</h1>
+                {{/ title }}
+                {{# text }}
+                <section class="text-container">
+                <p class="text">{{{ text }}}</p>
+                </section>
+                {{/ text }}
+                <p id="prolific-id-form">
+                    <label for="prolific-id">Please, enter your Prolific ID</label>
+                    <input type="text" id="prolific-id" />
+                </p>
+                {{# button }}
+                <button id="next" class="nodisplay">{{ button }}</button>
+                {{/ button }}
+                {{^ button }}
+                <button id="next" class="nodisplay">Begin Experiment</button>
+                {{/ button }}
+            </div>`;
 
             $("#main").html(
                 Mustache.render(viewTemplate, {
@@ -69,7 +87,21 @@ function _instructions(config) {
         text: config.text,
         buttonText: config.buttonText,
         render: function() {
-            const viewTemplate = $("#instructions-view").html();
+            const viewTemplate =
+            `<div class="view">
+                {{# title }}
+                <h1>{{ title }}</h1>
+                {{/ title }}
+                {{# text }}
+                <section class="text-container">
+                    <p class="text">{{ text }}</p>
+                </section>
+                {{/ text }}
+                {{# button }}
+                <button id="next">{{ button }}</button>
+                {{/ button }}
+            </div>`;
+
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     title: this.title,
@@ -96,7 +128,16 @@ function _begin(config) {
         "text": config.text,
         // render function renders the view
         render: function () {
-            const viewTemplate = $('#begin-exp-view').html();
+            const viewTemplate = 
+            `<div class="view">
+                {{# text }}
+                <section class="text-container">
+                    <p class="text">{{ text }}</p>
+                </section>
+                {{/ text }}
+                <button id="next">Begin Experiment</button>
+            </div>`;
+
             $('#main').html(Mustache.render(viewTemplate, {
                 title: this.title,
                 text: this.text
@@ -119,7 +160,24 @@ function _forcedChoice(config) {
     const _forcedChoice = {
         name: "forcedChoice",
         render: function(CT) {
-            const viewTemplate = $("#trial-view-buttons-response").html();
+            const viewTemplate = 
+            `<div class="view">
+                <div class="picture", align = "center">
+                    <img src={{picture}} alt="a picture" height="100" width="100">
+                </div>
+                <p class="question">
+                {{# question }}
+                {{ question }}
+                {{/ question }}
+                </p>
+                <p class="answer-container buttons-container">
+                    <label for="yes" class="button-answer">{{ option1 }}</label>
+                    <input type="radio" name="answer" id="yes" value={{ option1 }} />
+                    <input type="radio" name="answer" id="no" value={{ option2 }} />
+                    <label for="no" class="button-answer">{{option2}}</label>
+                </p>
+            </div>`;
+
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     question:
@@ -149,7 +207,7 @@ function _forcedChoice(config) {
                     option1:
                         config.data[CT].option1,
                     option2:
-                        config.data.option2,
+                        config.data[CT].option2,
                     option_chosen: $("input[name=answer]:checked").val(),
                     RT: RT
                 };
@@ -168,7 +226,24 @@ function _sliderRating(config) {
     const _sliderRating = {
         name: "slider_rating",
         render: function(CT) {
-            const viewTemplate = $("#trial-view-slider-response").html();
+            const viewTemplate =
+            `<div class="view">
+                <div class="picture", align = "center">
+                    <img src={{ picture }} alt="a picture" height="100" width="100">
+                </div>
+                <p class="question">
+                {{# question }}
+                {{ question }}
+                {{/ question }}
+                </p>
+                <p class="answer-container slider-container">
+                    <span class="unnatural">{{ option1 }}</span>
+                    <input type="range" id="response" class="slider-response" min="0" max="100" value="50"/>
+                    <span class="natural">{{ option2 }}</span>
+                </p>
+                <button id="next" class="nodisplay">Next</button>
+            </div>`;
+
             let response;
             $("#main").html(
                 Mustache.render(viewTemplate, {
@@ -222,7 +297,24 @@ function _textboxInput(config) {
     const _textboxInput = {
         name: "textboxInput",
         render: function(CT) {
-            const viewTemplate = $("#trial-view-textbox-input").html();
+            const viewTemplate =
+            `<div class="view">
+                <p class="question">
+                {{# question }}
+                {{/ question }}
+                {{ question }}
+                </p>
+                {{# picture }}
+                <div class="picture", align = "center">
+                    <img src={{ picture }} alt="picture" height="100" width="100">
+                </div>
+                {{/ picture }}
+                <p class="answer-container">
+                    <textarea name="textbox-input" rows=10 cols=50 class="textbox-input" />
+                </p>
+                <button id="next" class="nodisplay">next</button>
+            </div>`;
+
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     question:
@@ -271,7 +363,41 @@ function _dropdownChoice(config) {
     const _dropdownChoice = {
         name: "dropdownChoice",
         render: function(CT) {
-            const viewTemplate = $("#trial-view-dropdown-response").html();
+            const viewTemplate = 
+            `<div class="view">
+                <div class="picture", align = "center">
+                    <img src={{ picture }} alt="a picture" height="100" width="100">
+                </div>
+
+                {{# question }}
+                <p class="answer-container dropdown-container">
+                    <p class="question">
+                    {{ question }}
+                    <select id="response" name="answer">
+                        <option disabled selected></option>
+                        <option value={{ option1 }}>{{ option1 }}</option>
+                        <option value={{ option2 }}>{{ option2 }}</option>
+                    </select>
+                    </p>
+                    <button id="next" class="nodisplay">Next</button>
+                </p>
+                {{/ question }}
+                {{# questionLeftPart }}
+                <p class="answer-container dropdown-container">
+                    <p class="question">
+                    {{ questionLeftPart }}
+                    <select id="response" name="answer">
+                        <option disabled selected></option>
+                        <option value={{ option1 }}>{{ option1 }}</option>
+                        <option value={{ option2 }}>{{ option2 }}</option>
+                    </select>
+                    {{ questionRightPart }}
+                    </p>
+                    <button id="next" class="nodisplay">Next</button>
+                </p>
+                {{/ questionLeftPart }}
+            </div>`;
+
             let response;
             $("#main").html(
                 Mustache.render(viewTemplate, {
@@ -326,7 +452,39 @@ function _ratingScale(config) {
     const _mainRatingScale = {
         name: "ratingScale",
         render: function(CT) {
-            const viewTemplate = $("#trial-view-rating-response").html();
+            const viewTemplate =
+            `<div class="view">
+                {{# picture }}
+                <div class="picture", align = "center">
+                    <img src={{ picture }} alt="picture" height="100" width="100">
+                </div>
+                {{/ picture }}
+
+                <p class="question">
+                {{# question }}
+                {{ question }}
+                {{/ question }}
+                </p>
+
+                <p class="answer-container buttons-container">
+                    <strong>{{ option1 }}</strong>
+                    <label for="1" class="rating-answer">1</label>
+                    <input type="radio" name="answer" id="1" value="1" />
+                    <label for="2" class="rating-answer">2</label>
+                    <input type="radio" name="answer" id="2" value="2" />
+                    <label for="3" class="rating-answer">3</label>
+                    <input type="radio" name="answer" id="3" value="3" />
+                    <label for="4" class="rating-answer">4</label>
+                    <input type="radio" name="answer" id="4" value="4" />
+                    <label for="5" class="rating-answer">5</label>
+                    <input type="radio" name="answer" id="5" value="5" />
+                    <label for="6" class="rating-answer">6</label>
+                    <input type="radio" name="answer" id="6" value="6" />
+                    <label for="7" class="rating-answer">7</label>
+                    <input type="radio" name="answer" id="7" value="7" />
+                    <strong>{{ option2 }}</strong>
+                </p>
+            </div>`;
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     question: config.data[CT].question,
@@ -367,7 +525,28 @@ function _sentenceChoice(config) {
     const _sentenceChoice = {
         name: "sentenceChoice",
         render: function(CT) {
-            var viewTemplate = $("#trial-view-sentence-choice").html();
+            var viewTemplate = 
+            `<div class="view">
+                {{# picture }}
+                <div class="picture" align = "center">
+                    <img src={{ picture }} alt="picture" height="100" width="100">
+                </div>
+                {{/ picture }}
+
+                <p class="question">
+                {{# question }}
+                {{ question }}
+                {{/ question }}
+                </p>
+
+                <p class="answer-container buttons-container">
+                    <label for="1" class="sentence-selection">{{ option1 }}</label>
+                    <input type="radio" name="answer" id="1" value="{{ option1 }}"/>
+                    <label for="2" class="sentence-selection">{{ option2 }}</label>
+                    <input type="radio" name="answer" id="2" value="{{ option2 }}"/>
+                </p>
+            </div>`;
+
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     question:
@@ -410,7 +589,22 @@ function _imageSelection(config) {
     const _imageSelection = {
         name: "mainImageSelection",
         render: function(CT) {
-            const viewTemplate = $("#trial-view-image-selection").html();
+            const viewTemplate =
+            `<div class="view">
+                <p class="question">
+                {{# question }}
+                {{ question }}
+                {{/ question }}
+                </p>
+
+                <p class="answer-container imgs-container">
+                    <label for="img1" class="img-answer"><img src={{ picture1 }} alt="picture" height="100" width="100"></label>
+                    <input type="radio" name="answer" id="img1" value={{  option1 }} />
+                    <input type="radio" name="answer" id="img2" value={{ option2 }} />
+                    <label for="img2" class="img-answer"><img src={{ picture2 }} alt="picture" height="100" width="100"></label>
+                </p>
+            </div>`;
+
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     question:
@@ -460,9 +654,24 @@ function _keyPress(config) {
     const _keyPress = {
         name: "mainKeyPress",
         render: function(CT) {
-            const viewTemplate = $("#trial-view-key-press").html();
+            const viewTemplate =
+            `<div class="view">
+                <h3>{{ key1 }} = {{ value1 }}, {{ key2 }} = {{ value2 }}</h3>
+                <p class="question">
+                {{# question }}
+                {{/ question }}
+                {{ question }}
+                </p>
+                {{# picture }}
+                <div class="picture", align = "center">
+                    <img src={{ picture }} alt="picture" height="100" width="100">
+                </div>
+                {{/ picture }}
+            </div>`;
+
             const key1 = config.data[CT].key1;
             const key2 = config.data[CT].key2;
+
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     question: config.data[CT].question,
@@ -549,7 +758,57 @@ function _postTest(config) {
         text: config.text,
         buttonText: config.buttonText,
         render: function() {
-            const viewTemplate = $("#post-test-view").html();
+            const viewTemplate =
+            `<div class="view post-test-templ">
+                {{# title }}
+                <h1>{{ title }}</h1>
+                {{/ title }}
+                {{# text }}
+                <section class="text-container">
+                    <p class="text">{{ text }}</p>
+                </section>
+                {{/ text }}
+                <form>
+                    <p>
+                        <label for="age">Age:</label>
+                        <input type="number" name="age" min="18" max="110" id="age" />
+                    </p>
+                    <p>
+                        <label for="gender">Gender:</label>
+                        <select id="gender" name="gender">
+                            <option></option>
+                            <option value="male">male</option>
+                            <option value="female">female</option>
+                            <option value="other">other</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="education">Level of Education:</label>
+                        <select id="education" name="education">
+                            <option></option>
+                            <option value="graduated_high_school">Graduated High School</option>
+                            <option value="graduated_college">Graduated College</option>
+                            <option value="higher_degree">Higher Degree</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="languages" name="languages">Native Languages: <br /><span>(i.e. the language(s) spoken at home when you were a child)</</span></label>
+                        <input type="text" id="languages"/>
+                    </p>
+                    <p class="comment-sect">
+                        <label for="comments">Further comments</label>
+                        <textarea name="comments" id="comments"
+                        rows="6" cols="40"></textarea>
+                    </p>
+                    {{# buttonText }}
+                    <button id="next">{{ buttonText }}</button>
+                    {{/ buttonText }}
+                    {{^ buttonText }}
+                    <button id="next">Next</button>
+                    {{/ buttonText }}
+                </form>
+            </div>`;
+
             $("#main").html(
                 Mustache.render(viewTemplate, {
                     title: this.title,
@@ -591,7 +850,21 @@ function _thanks(config) {
         name: "thanks",
         message: config.title,
         render: function() {
-            var viewTemplate = $("#thanks-view").html();
+            var viewTemplate =
+            `<div class="view thanks-templ">
+                <h4 class="warning-message">submitting the data
+                    <div class="loader"></div>
+                </h4>
+                {{# thanksMessage }}
+                <h1 class="thanks-message nodisplay">{{ thanksMessage }}</h1>
+                {{/ thanksMessage }}
+                {{^ thanksMessage }}
+                <h1 class="thanks-message nodisplay">Thank you for taking part in this experiment!</h1>
+                {{/ thanksMessage }}
+                {{# extraMessage }}
+                <h2 class="extra-message nodisplay">{{{ extraMessage }}}</h2>
+                {{/ extraMessage }}
+            </div>`;
 
             // what is seen on the screen depends on the used deploy method
             //    normally, you do not need to modify this
