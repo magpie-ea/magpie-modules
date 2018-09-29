@@ -1,5 +1,5 @@
 // submits data to the server and MTurk's server if the experiment runs on MTurk
-const submitResults = function(contactEmail, submissionURL, data, config) {
+function submitResults(contactEmail, submissionURL, data, config) {
     // set a default contact email
     contactEmail =
         typeof contactEmail !== "undefined" ? contactEmail : "not provided";
@@ -60,13 +60,13 @@ const submitResults = function(contactEmail, submissionURL, data, config) {
 
 // submits to MTurk's servers
 // and the correct url is given in config.MTurk_server
-const submitToMTurk = function() {
+function submitToMTurk() {
     var form = $("#mturk-submission-form");
     form.submit();
 };
 
 // adds columns with NA values
-const addEmptyColumns = function(trialData) {
+function addEmptyColumns(trialData) {
     var columns = [];
 
     for (var i = 0; i < trialData.length; i++) {
@@ -92,7 +92,7 @@ const addEmptyColumns = function(trialData) {
 };
 
 // prepare the data form debug mode
-const formatDebugData = function(flattenedData) {
+function formatDebugData(flattenedData) {
     var output = "<table id='debugresults'>";
 
     var t = flattenedData[0];
@@ -128,7 +128,7 @@ const formatDebugData = function(flattenedData) {
     return output;
 };
 
-const createCSVForDownload = function(flattenedData) {
+function createCSVForDownload(flattenedData) {
     var csvOutput = "";
 
     var t = flattenedData[0];
@@ -164,7 +164,7 @@ const createCSVForDownload = function(flattenedData) {
     }
 };
 
-const flattenData = function(data) {
+function flattenData(data) {
     var trials = data.trials;
     delete data.trials;
 
@@ -190,7 +190,7 @@ const flattenData = function(data) {
 };
 
 // parses the url to get the assignmentId and workerId
-const getHITData = function() {
+function getHITData() {
     const url = window.location.href;
     const qArray = url.split("?");
     const HITData = {};
@@ -212,7 +212,7 @@ const getHITData = function() {
 // trials - the data collected from the experiment
 // global_data - other data (start date, user agent, etc.)
 // config - information about the deploy method and URLs
-const submit = function(trials, global_data, config) {
+function submit(trials, global_data, config) {
     // construct data object for output
     let data = {
         experiment_id: config.experimentID,
@@ -281,4 +281,4 @@ const submit = function(trials, global_data, config) {
     }
 };
 
-export {submit};
+export { submit };

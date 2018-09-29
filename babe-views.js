@@ -1,5 +1,5 @@
 import { findNextView, submitResults } from "./babe-main.js";
-import {_babe} from "./babe-init.js";
+import { _babe } from "./babe-init.js";
 
 function _intro(config) {
     const _intro = {

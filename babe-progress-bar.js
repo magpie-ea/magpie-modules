@@ -106,4 +106,4 @@ function updateProgress() {
     }
 };
 
-export {addProgressBars, updateProgress};
+export { addProgressBars, updateProgress };

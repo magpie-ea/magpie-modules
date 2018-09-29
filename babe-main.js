@@ -1,16 +1,15 @@
-// import {updateProgress} from "./babe-progress-bar.js";
 import {submit} from "./babe-submit.js";
 import {_babe} from './babe-init.js';
 import {updateProgress} from './babe-progress-bar.js';
 
-const submitResults = function() {
+function submitResults() {
     return submit(_babe.trial_data, _babe.global_data, _babe.deploy);
 };
 
 // navigation through the views and steps in each view;
 // shows each view (in the order defined in 'modules/experiment.js') for
 // the given number of steps (as defined in the view's 'trial' property)
-const findNextView = function() {
+function findNextView() {
     let currentView = _babe.views_seq[_babe.currentViewCounter];
 
     if (_babe.currentTrialInViewCounter < currentView.trials) {
@@ -19,7 +18,11 @@ const findNextView = function() {
         _babe.currentViewCounter++;
         currentView = _babe.views_seq[_babe.currentViewCounter];
         _babe.currentTrialInViewCounter = 0;
-        currentView.render(currentView.CT);
+        if (currentView !== undefined) {
+            currentView.render(currentView.CT);
+        } else {
+            noMoreViews();
+        }
     }
     // increment counter for how many trials we have seen of THIS view during THIS occurrence of it
     _babe.currentTrialInViewCounter++;
@@ -34,4 +37,15 @@ const findNextView = function() {
     }
 };
 
-export {findNextView, submitResults};
+function noMoreViews() {
+    const viewTemplate =
+    `<div class='view'>
+        <h1 class="title">Nothing more to show</h1>
+    </div>`;
+
+    $("#main").html(
+        Mustache.render(viewTemplate)
+    );
+};
+
+export { findNextView, submitResults };
