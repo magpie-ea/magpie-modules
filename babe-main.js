@@ -3,18 +3,6 @@ import {submit} from "./babe-submit.js";
 import {_babe} from './babe-init.js';
 import {updateProgress} from './babe-progress-bar.js';
 
-// // prepare information about trials (procedure)
-// _babe.trial_info = {
-//     practice_trials: {
-//         forcedChoice: _.shuffle(practice_trials.forcedChoice),
-//         sliderRating: practice_trials.sliderRating
-//     },
-//     main_trials: {
-//         forcedChoice: _.shuffle(main_trials.forcedChoice),
-//         sliderRating: main_trials.sliderRating
-//     }
-// };
-
 const submitResults = function() {
     return submit(_babe.trial_data, _babe.global_data, _babe.deploy);
 };
@@ -45,8 +33,5 @@ const findNextView = function() {
         updateProgress();
     }
 };
-
-// renders the first view from experiment.js
-// findNextView();
 
 export {findNextView, submitResults};

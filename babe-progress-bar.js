@@ -67,7 +67,7 @@ function updateProgress() {
     try {
         addToDOM();
     } catch(e) {
-        console.log(e.message);
+        console.error(e.message);
     }
 
     const progressBars = $(".progress-bar");

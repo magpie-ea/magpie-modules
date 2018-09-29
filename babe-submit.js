@@ -191,24 +191,27 @@ const flattenData = function(data) {
 
 // parses the url to get the assignmentId and workerId
 const getHITData = function() {
-    var url = window.location.href;
-    var qArray = url.split("?");
-    qArray = qArray[1].split("&");
-    var HITData = {};
+    const url = window.location.href;
+    const qArray = url.split("?");
+    const HITData = {};
 
-    for (var i = 0; i < qArray.length; i++) {
-        HITData[qArray[i].split("=")[0]] = qArray[i].split("=")[1];
+    if (qArray[1] === undefined) {
+        throw new Error("Cannot get participant' s assignmentId from the URL (happens if the experiment does NOT run on MTurk or MTurkSandbox).");
+    } else {
+        qArray = qArray[1].split("&");
+
+        for (var i = 0; i < qArray.length; i++) {
+            HITData[qArray[i].split("=")[0]] = qArray[i].split("=")[1];
+        }
     }
 
-    console.log(HITData);
     return HITData;
 };
 
 // submits the data
-// id - experiment id
-// trials - trials
-// global_data - other data
-// deploy - config_deploy obj
+// trials - the data collected from the experiment
+// global_data - other data (start date, user agent, etc.)
+// config - information about the deploy method and URLs
 const submit = function(trials, global_data, config) {
     // construct data object for output
     let data = {
@@ -216,35 +219,39 @@ const submit = function(trials, global_data, config) {
         trials: addEmptyColumns(trials)
     };
 
-    // merge in global data accummulated so far
-    // this could be unsafe if 'exp.global_data' contains keys used in 'data'!!
+    // merge in global_data accummulated so far
+    // this could be unsafe if 'global_data' contains keys used in 'trials'!!
     data = _.merge(global_data, data);
 
     // add more fields depending on the deploy method
     if (config.is_MTurk) {
-        const HITData = getHITData();
+        try {
+            const HITData = getHITData();
+            data["assignment_id"] = HITData["assignmentId"];
+            data["worker_id"] = HITData["workerId"];
+            data["hit_id"] = HITData["hitId"];
 
-        data["assignment_id"] = HITData["assignmentId"];
-        data["worker_id"] = HITData["workerId"];
-        data["hit_id"] = HITData["hitId"];
+            // creates a form with assignmentId input for the submission ot MTurk
+            var form = jQuery("<form/>", {
+                id: "mturk-submission-form",
+                action: config_deploy.MTurk_server
+            }).appendTo(".thanks-templ");
+            jQuery("<input/>", {
+                type: "hidden",
+                name: "data",
+                value: JSON.stringify(data)
+            }).appendTo(form);
+            // MTurk expects a key 'assignmentId' for the submission to work,
+            // that is why is it not consistent with the snake case that the other keys have
+            jQuery("<input/>", {
+                type: "hidden",
+                name: "assignmentId",
+                value: HITData["assignmentId"]
+            }).appendTo(form);
+        } catch(e) {
+            console.error(e);
+        }
 
-        // creates a form with assignmentId input for the submission ot MTurk
-        var form = jQuery("<form/>", {
-            id: "mturk-submission-form",
-            action: config_deploy.MTurk_server
-        }).appendTo(".thanks-templ");
-        jQuery("<input/>", {
-            type: "hidden",
-            name: "data",
-            value: JSON.stringify(data)
-        }).appendTo(form);
-        // MTurk expects a key 'assignmentId' for the submission to work,
-        // that is why is it not consistent with the snake case that the other keys have
-        jQuery("<input/>", {
-            type: "hidden",
-            name: "assignmentId",
-            value: HITData["assignmentId"]
-        }).appendTo(form);
     }
 
     // if the experiment is set to live (see config liveExperiment)
