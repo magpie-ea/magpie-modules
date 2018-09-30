@@ -4,7 +4,7 @@ basic architecture for browser-based experiments
 ## Installation
 #### Install with npm (recommended)
 
-You need npm installed on your machine. Here is more information on how to [install npm](link)
+You need npm installed on your machine. Here is more information on how to [install npm](https://www.npmjs.com/get-npm)
 
 If you have npm installed, run the following command from your experiment's directory
 
@@ -13,7 +13,7 @@ If you have npm installed, run the following command from your experiment's dire
 #### Download the package
 Alternatively you can get the package by cloning the repo in your experiment's directory (?)
 
-## API
+## Usage
 
 ### \_babe Initialisation
 
@@ -31,9 +31,9 @@ import { babeInit } from './link_to_your_libraries/babe-project/babe-init.js';
 
 `babeInit` takes an object as a parameter with the following properties:
 
-* **views_seq** - a list of view objects in the sequence you want the to appear in your experiment
-* **deploy** - an object with information about the deploy methods of your experiment 
-* **progress_bar** - an object with information about the progress bars in the views of your experiment
+* `views_seq` - a list of view objects in the sequence you want the to appear in your experiment
+* `deploy` - an object with information about the deploy methods of your experiment 
+* `progress_bar` - an object with information about the progress bars in the views of your experiment
 
 
 Sample `babeInit` call:
@@ -69,27 +69,27 @@ $("document").ready(function() {
 });
  ```
 
-### Using views in \_babe
+### Views in \_babe
 
 For \_babe views to render, you need to have an html tag (preferrably `div` or `main`)
 with `id="main"`
 
 
-#### Using \_babe's ready-made views
+#### \_babe's ready-made views
 
 \_babe provides several ready-made views which you can use by importing them in `your_js_file.js`.
 
-* **trial type views**:
-    * binary forced-choice task (forcedChoice)
-    * textbox input task (textboxInput)
-    * slider rating task (sliderRating)
-    * dropdown menu task (dropdownMenu)
-    * Likert-scale rating task (..)
-    * text selection task (sentenceSelection)
-    * click-on-a-picture task (imageSelection)
-    * press a button task (KeyPress)
+* trial type views:
+    * `forcedChoice` - binary forced-choice task
+    * `textboxInput` textbox input task
+    * `sliderRating` - slider rating task
+    * `dropdownMenu` - dropdown menu task
+    * `ratingScale` - Likert-scale rating task
+    * `sentenceSelection` - text selection task
+    * `imageSelection` - click-on-a-picture task
+    * `keyPress`- press a button task
 
-* **other views**:
+* other views:
     * intro (intro)
     * instructions (instructions)
     * post test (postTest)
@@ -98,18 +98,18 @@ with `id="main"`
 
 Each \_babe view function takes an object as a parameter with the following properties:
 
-* **trials** - the number of trials this view will appear
+* `trials` - the number of trials this view will appear
 
-     * **trial type views** also have:
+     * trial type views also have:
 
-        * **trial_type** - the name of the trial type that will be in the final data (for example 'main binary choice');
-        * **data** - a list of trials
+        * `trial_type` - the name of the trial type that will be in the final data (for example 'main binary choice');
+        * `data` - a list of trials
 
-    * **other views** also have:
+    * other views also have:
 
-        * **title** - the title in the view
-        * **text** - the text in the view
-        * **buttonText** - the text on the button that takes the user to the newxt view
+        * `title` - the title in the view
+        * `text` - the text in the view
+        * `buttonText` - the text on the button that takes the user to the newxt view
 
 Sample use of \_babe views:
 
@@ -179,14 +179,14 @@ You can also create your own views. Here is what you need to know:
 
 The view is an object that has the following properties:
 
-* **trials: number** - the number of trials this view appears
-* **CT: 0** - current trial, always starts from 0, ??
-* **name: string** - the name of the view ??
-* **render: function** - a function that renders the view
+* `trials: number` - the number of trials this view appears
+* `CT: 0` - current trial, always starts from 0, ??
+* `name: string` - the name of the view ??
+* `render: function` - a function that renders the view
 
-**for the trial type views**
+`for the trial type views`
 
-* pass **CT** as a parameter to render()
+* pass `CT` as a parameter to render()
 * add the trial info for this trial and the gathered data to the trial data
 
 
@@ -265,11 +265,11 @@ $("document").ready(function() {
 
 The deploy config has the following properties:
 
-* **experimentID** - the experimentID is needed to recover data from the babe server app. You receive the experimentID when you create the experiment using the babe server app
-* **serverAppURL** - if you use the _babe server app, specify its URL here
-* **deployMethod** - use one of 'debug', 'localServer', 'MTurk', 'MTurkSandbox', 'Prolific', 'directLink'
-* **contact_email** - who to contact in case of trouble
-* **prolificURL** - the prolific completion URL if the deploy method is "Prolific"
+* `experimentID` - the experimentID is needed to recover data from the babe server app. You receive the experimentID when you create the experiment using the babe server app
+* `serverAppURL` - if you use the _babe server app, specify its URL here
+* `deployMethod` - use one of 'debug', 'localServer', 'MTurk', 'MTurkSandbox', 'Prolific', 'directLink'
+* `contact_email` - who to contact in case of trouble
+* `prolificURL` - the prolific completion URL if the deploy method is "Prolific"
 
 ### Progress Bar
 
@@ -277,9 +277,9 @@ The deploy config has the following properties:
 
 You can use one of the following 3 styles (include pictues)
 
-* **separate** - have separate progress bars in each views declared in `progress_bar.in`
-* **default** - have one progress bar throughout the whole experiment
-* **chunks** - have a separate progress chunk for each view in `progress_bar.in`
+* `separate` - have separate progress bars in each views declared in `progress_bar.in`
+* `default` - have one progress bar throughout the whole experiment
+* `chunks` - have a separate progress chunk for each view in `progress_bar.in`
 
 Use `progress_bar.width` to set the width (in pixels) of the progress bar or chunk
 
