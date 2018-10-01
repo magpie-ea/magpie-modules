@@ -1,9 +1,11 @@
+import { errors } from './babe-errors.js';
 import { findNextView, submitResults } from "./babe-main.js";
 import { _babe } from "./babe-init.js";
 
-function _intro(config) {
+function intro(config) {
+    paramsChecker(config);
     const _intro = {
-        name: "intro",
+        name: config.name,
         title: config.title,
         text: config.text,
         buttonText: config.buttonText,
@@ -80,9 +82,10 @@ function _intro(config) {
     return _intro;
 };
 
-function _instructions(config) {
+function instructions(config) {
+    paramsChecker(config);
     const _instructions = {
-        name: "instructions",
+        name: config.name,
         title: config.title,
         text: config.text,
         buttonText: config.buttonText,
@@ -122,9 +125,10 @@ function _instructions(config) {
     return _instructions;
 };
 
-function _begin(config) {
+function begin(config) {
+    paramsChecker(config);
     const _begin = {
-        name: 'beginMainExp',
+        name: config.name,
         "text": config.text,
         // render function renders the view
         render: function () {
@@ -156,9 +160,11 @@ function _begin(config) {
     return _begin;
 };
 
-function _forcedChoice(config) {
+function forcedChoice(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _forcedChoice = {
-        name: "forcedChoice",
+        name: config.name,
         render: function(CT) {
             const viewTemplate = 
             `<div class="view">
@@ -222,9 +228,11 @@ function _forcedChoice(config) {
     return _forcedChoice;
 };
 
-function _sliderRating(config) {
+function sliderRating(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _sliderRating = {
-        name: "slider_rating",
+        name: config.name,
         render: function(CT) {
             const viewTemplate =
             `<div class="view">
@@ -293,9 +301,11 @@ function _sliderRating(config) {
     return _sliderRating;
 };
 
-function _textboxInput(config) {
+function textboxInput(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _textboxInput = {
-        name: "textboxInput",
+        name: config.name,
         render: function(CT) {
             const viewTemplate =
             `<div class="view">
@@ -359,9 +369,11 @@ function _textboxInput(config) {
     return _textboxInput;
 };
 
-function _dropdownChoice(config) {
+function dropdownChoice(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _dropdownChoice = {
-        name: "dropdownChoice",
+        name: config.name,
         render: function(CT) {
             const viewTemplate = 
             `<div class="view">
@@ -448,9 +460,11 @@ function _dropdownChoice(config) {
     return _dropdownChoice;
 };
 
-function _ratingScale(config) {
+function ratingScale(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _mainRatingScale = {
-        name: "ratingScale",
+        name: config.name,
         render: function(CT) {
             const viewTemplate =
             `<div class="view">
@@ -521,9 +535,11 @@ function _ratingScale(config) {
     return _ratingScale;
 };
 
-function _sentenceChoice(config) {
+function sentenceChoice(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _sentenceChoice = {
-        name: "sentenceChoice",
+        name: config.name,
         render: function(CT) {
             var viewTemplate = 
             `<div class="view">
@@ -585,9 +601,11 @@ function _sentenceChoice(config) {
     return _sentenceChoice;
 };
 
-function _imageSelection(config) {
+function imageSelection(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _imageSelection = {
-        name: "mainImageSelection",
+        name: config.name,
         render: function(CT) {
             const viewTemplate =
             `<div class="view">
@@ -650,9 +668,11 @@ function _imageSelection(config) {
     return _imageSelection;   
 };
 
-function _keyPress(config) {
+function keyPress(config) {
+    checkTrialView(config);
+    paramsChecker(config);
     const _keyPress = {
-        name: "mainKeyPress",
+        name: config.name,
         render: function(CT) {
             const viewTemplate =
             `<div class="view">
@@ -751,9 +771,10 @@ function _keyPress(config) {
     return _keyPress;
 }
 
-function _postTest(config) {
+function postTest(config) {
+    paramsChecker(config);
     const _postTest = {
-        name: "postTest",
+        name: config.name,
         title: config.title,
         text: config.text,
         buttonText: config.buttonText,
@@ -845,9 +866,10 @@ function _postTest(config) {
     return _postTest;
 };
 
-function _thanks(config) {
+function thanks(config) {
+    paramsChecker(config);
     const _thanks = {
-        name: "thanks",
+        name: config.name,
         message: config.title,
         render: function() {
             var viewTemplate =
@@ -904,18 +926,39 @@ function _thanks(config) {
     return _thanks;
 };
 
+function paramsChecker(config) {
+    if (config.trials === undefined || config.trials === '') {
+        throw new Error (errors.noTrials);
+    }
+
+    if (config.name === undefined || config.name === '') {
+        throw new Error (errors.noName);
+    }
+};
+
+function checkTrialView(config) {
+    if (config.data === undefined || typeof config.data !== 'object' || config.data === null) {
+        throw new Error (errors.noData)
+    }
+
+    // check fo t arrays
+    if (config.trial_type === undefined || config.trial_type === '') {
+        throw new Error (errors.noTrialType);
+    }
+}
+
 export {
-    _intro,
-    _instructions,
-    _begin,
-    _forcedChoice,
-    _sliderRating,
-    _textboxInput,
-    _dropdownChoice,
-    _ratingScale,
-    _sentenceChoice,
-    _imageSelection,
-    _keyPress,
-    _postTest,
-    _thanks
+    intro,
+    instructions,
+    begin,
+    forcedChoice,
+    sliderRating,
+    textboxInput,
+    dropdownChoice,
+    ratingScale,
+    sentenceChoice,
+    imageSelection,
+    keyPress,
+    postTest,
+    thanks
 };

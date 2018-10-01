@@ -1,5 +1,6 @@
-import {findNextView} from './babe-main.js';
-import {addProgressBars} from './babe-progress-bar.js';
+import { findNextView } from './babe-main.js';
+import { addProgressBars } from './babe-progress-bar.js';
+import { errors } from './babe-errors.js';
 
 const _babe = {};
 
@@ -32,8 +33,18 @@ function babeInit(config) {
     _babe.deploy.is_MTurk = _babe.deploy.MTurk_server !== "";
     _babe.deploy.submissionURL = _babe.deploy.deployMethod == "localServer" ? "http://localhost:4000/api/submit_experiment/" + _babe.deploy.experimentID : _babe.deploy.serverAppURL + _babe.deploy.experimentID;
 
+    checkProperties();
+
+    // adds progress bars to the views
+    addProgressBars();
+
+    // renders the first view
+    findNextView();
+};
+
+function checkProperties() {
     if (_babe.deploy.deployMethod === 'MTurk' || _babe.deploy.deployMethod === 'MTurkSandbox') {
-        console.log(
+            console.info(
 `The experiment runs on MTurk (or MTurk's sandbox)
 ----------------------------
 
@@ -44,9 +55,9 @@ The results will be submitted ${_babe.deploy.submissionURL}
 and
 
 MTurk's server: ${_babe.deploy.MTurk_server}`
-);
-    } else if (_babe.deploy.deployMethod === 'Prolific') {
-        console.log(
+    );
+        } else if (_babe.deploy.deployMethod === 'Prolific') {
+            console.info(
 `The experiment runs on Prolific
 -------------------------------
 
@@ -57,40 +68,43 @@ The results will be submitted to ${_babe.deploy.submissionURL}
 with
 
 Prolific URL (must be the same as in the website): ${_babe.deploy.prolificURL}`
-);
-    } else if (_babe.deploy.deployMethod === 'directLink') {
-        console.log(
+    );
+        } else if (_babe.deploy.deployMethod === 'directLink') {
+            console.info(
 `The experiment uses Direct Link
 -------------------------------
 
 The ID of your experiment is ${_babe.deploy.experimentID}
 
 The results will be submitted to ${_babe.deploy.submissionURL}`
-);
-    } else if (_babe.deploy.deployMethod === 'debug') {
-        console.log(
+    );
+        } else if (_babe.deploy.deployMethod === 'debug') {
+            console.info(
 `The experiment is in Debug Mode
 -------------------------------
 
 The results will be displayed in a table at the end of the experiment and available to download in CSV format.`
-);
-    } else {
+    );
+        } else {
 
-        throw new Error(
+            throw new Error(
 `There is no such deployMethod.
 
 Please use 'debug', 'directLink', 'Mturk', 'MTurkSandbox' or 'Prolific'.
 
 The deploy method you provided is '${_babe.deploy.deployMethod}'.
 
-You can find more information at https://github.com/babe-project/babe-base`);
-    }
+You can find more information at https://github.com/babe-project/babe-base`
+    );
+        }
 
-    // adds progress bars to the views
-    addProgressBars();
+        if (_babe.deploy.deployMethod === 'Prolific' && (_babe.deploy.prolificURL === undefined || _babe.deploy.prolificURL === '')) {
+            throw new Error (errors.prolificURL);
+        }
 
-    // renders the first view
-    findNextView();
-};
+        if (_babe.deploy.contact_email === undefined || _babe.deploy.contact_email === '') {
+            throw new Error (errors.contactEmail);
+        }
+}
 
 export { _babe, babeInit }
