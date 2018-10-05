@@ -2,7 +2,7 @@
 
 ## Forced-choice (binary choice) task
 
-![task](images/forcedChoice.png);
+![task](images/forcedChoice.png)
 
 ### Data properties
 
@@ -36,7 +36,7 @@ const forced_choice_trials = [
 
 ## Textbox Input task
 
-![textbox input task sample](images/textboxInput.png | width=250);
+![](images/textboxInput.png | width=250)
 
 ### Data properties
 
@@ -62,7 +62,7 @@ const textbox_input_trials = [
 
 ## Slider Rating task
 
-![slider rating task sample](images/sliderRating.png | width=250);
+![slider rating](images/sliderRating.png =250x250)
 
 ### Data properties
 
