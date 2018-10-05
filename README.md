@@ -80,20 +80,21 @@ with `id="main"`
 \_babe provides several ready-made views which you can use by importing them in `your_js_file.js`.
 
 * trial type views:
-    * `forcedChoice` - binary forced-choice task
-    * `textboxInput` textbox input task
-    * `sliderRating` - slider rating task
-    * `dropdownMenu` - dropdown menu task
-    * `ratingScale` - Likert-scale rating task
-    * `sentenceSelection` - text selection task
-    * `imageSelection` - click-on-a-picture task
-    * `keyPress`- press a button task
+    * `forcedChoice` - [binary forced-choice task](docs/views.md)
+    * `textboxInput` [textbox input task](docs/views.md)
+    * `sliderRating` - [slider rating task](docs/views.md)
+    * `dropdownMenu` - [dropdown menu task](docs/views.md)
+    * `ratingScale` - [Likert-scale rating task](docs/views.md)
+    * `sentenceSelection` - [text selection task](docs/views.md)
+    * `imageSelection` - [click-on-a-picture task](docs/views.md)
+    * `keyPress`- press a [button task](docs/views.md)
 
 * other views:
-    * intro (intro)
-    * instructions (instructions)
-    * post test (postTest)
-    * submit results (thanks)
+    * `intro`  - introduction view 
+    * `instructions`-  instructions view
+    * `begin` - begin experiment view; can be used between the practice and the main view
+    * `postTest` - post-experiment questionnaire
+    * `thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
 
 
 Each \_babe view function takes an object as a parameter with the following properties:

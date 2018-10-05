@@ -5,10 +5,8 @@
   "main": "babe-main.js",
   "dependencies": {
     "csv-js": "^1.0.0",
-    "eslint": "^5.6.0",
     "jquery": "^3.3.1",
-    "mustache": "^3.0.0",
-    "prettier": "^1.14.3"
+    "mustache": "^3.0.0"
   },
   "devDependencies": {},
   "scripts": {

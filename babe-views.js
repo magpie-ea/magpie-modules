@@ -463,7 +463,7 @@ function dropdownChoice(config) {
 function ratingScale(config) {
     checkTrialView(config);
     paramsChecker(config);
-    const _mainRatingScale = {
+    const _ratingScale = {
         name: config.name,
         render: function(CT) {
             const viewTemplate =

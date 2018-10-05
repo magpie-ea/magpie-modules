@@ -33,7 +33,7 @@ function babeInit(config) {
     _babe.deploy.is_MTurk = _babe.deploy.MTurk_server !== "";
     _babe.deploy.submissionURL = _babe.deploy.deployMethod == "localServer" ? "http://localhost:4000/api/submit_experiment/" + _babe.deploy.experimentID : _babe.deploy.serverAppURL + _babe.deploy.experimentID;
 
-    checkProperties();
+    checkConfigProperties();
 
     // adds progress bars to the views
     addProgressBars();
@@ -42,7 +42,7 @@ function babeInit(config) {
     findNextView();
 };
 
-function checkProperties() {
+function checkConfigProperties() {
     if (_babe.deploy.deployMethod === 'MTurk' || _babe.deploy.deployMethod === 'MTurkSandbox') {
             console.info(
 `The experiment runs on MTurk (or MTurk's sandbox)
