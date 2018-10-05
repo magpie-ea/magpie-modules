@@ -2,7 +2,7 @@
 
 ## Forced-choice (binary choice) task
 
-![forced choice task sample](images/forcedChoice.png | width=250);
+![task](images/forcedChoice.png);
 
 ### Data properties
 
