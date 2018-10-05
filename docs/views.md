@@ -2,7 +2,7 @@
 
 ## Forced-choice (binary choice) task
 
-![task](images/forcedChoice.png)
+![task](./images/forcedChoice.png =250x250)
 
 ### Data properties
 
