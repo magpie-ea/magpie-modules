@@ -17,7 +17,7 @@ Alternatively you can get the package by cloning the repo in your experiment's d
 
 ### \_babe Initialisation
 
-To initialise the experiment import the babe `babeInit` function in `your_js_file.js`
+To initialise the experiment import the babe `babeInit` function in `your_js_file.js`.
     
 ```
 // your_js_file.js
@@ -81,8 +81,8 @@ with `id="main"`
 
 * trial type views:
     * `forcedChoice` - [binary forced-choice task](docs/views.md)
-    * `textboxInput` [textbox input task](docs/views.md)
     * `sliderRating` - [slider rating task](docs/views.md)
+    * `textboxInput` [textbox input task](docs/views.md)
     * `dropdownMenu` - [dropdown menu task](docs/views.md)
     * `ratingScale` - [Likert-scale rating task](docs/views.md)
     * `sentenceSelection` - [text selection task](docs/views.md)
