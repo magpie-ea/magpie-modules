@@ -2,7 +2,7 @@
 
 ## Forced-choice (binary choice) task
 
-<img src='./images/forcedChoice.png' width='300' height='200' />
+![](images/forcedChoice.png)
 
 ### Data properties
 
@@ -36,7 +36,7 @@ const forced_choice_trials = [
 
 ## Textbox Input task
 
-![](images/textboxInput.png | width=250)
+![](images/textboxInput.png)
 
 ### Data properties
 
@@ -62,7 +62,7 @@ const textbox_input_trials = [
 
 ## Slider Rating task
 
-![slider rating](images/sliderRating.png =250x250)
+![slider rating](images/sliderRating.png)
 
 ### Data properties
 
@@ -96,7 +96,7 @@ const slider_rating_trials = [
 
 ## Dropdown Choice task
 
-![dropdown choice task sample](images/dropdownChoice.png | width=250);
+![dropdown choice task sample](images/dropdownChoice.png);
 
 ### Data properties
 
@@ -130,7 +130,7 @@ const dropdown_choice_trials = [
 
 ## Rating Scale task
 
-![rating scale task sample](images/dropdownChoice.png | width=250);
+![rating scale task sample](images/dropdownChoice.png);
 
 ### Data properties
 
@@ -164,7 +164,7 @@ const rating_scale_trials = [
 
 ## Sentence Selection task
 
-![sentence selection task sample](images/sentenceSelection.png | width=250);
+![sentence selection task sample](images/sentenceSelection.png);
 
 ### Data properties
 
@@ -198,7 +198,7 @@ const sentence_selection_trials = [
 
 ## Image Selection task
 
-![image selection task sample](images/imageSelection.png | width=250);
+![image selection task sample](images/imageSelection.png);
 
 ### Data properties
 
@@ -230,7 +230,7 @@ const image_selection_trials = [
 
 ## Key Press task
 
-![key press task sample](images/keyPress.png | width=250);
+![key press task sample](images/keyPress.png);
 
 ### Data properties
 
