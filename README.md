@@ -74,20 +74,61 @@ $("document").ready(function() {
 For \_babe views to render, you need to have an html tag (preferrably `div` or `main`)
 with `id="main"`
 
+Sample `index.html`
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        <title>browser-based experiments</title>
+
+        <!-- fonts from Google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Noto+Serif:400,700|Playfair+Display:700" rel="stylesheet">
+
+        <!-- css -->
+        <link rel="stylesheet" type="text/css" href="node_modules/babe-project/babe-styles.css">
+
+        <!-- js dependencies -->
+        <script src="node_modules/mustache/mustache.min.js"></script>
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/csv-js/csv.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
+
+        <!-- load the trials -->
+        <script type="module" src="index.js"></script>
+    </head>
+
+    <body>
+        <-- ask the participants to enable JavaScript in their browser -->
+        <noscript>This task requires JavaScript. Please enable JavaScript in your browser and reload the page. For more information on how to do that, please refer to
+            <a href='https://enable-javascript.com' target='_blank'>enable-javascript.com</a>
+        </noscript>
+
+        <!-- views are inserted in here -->
+        <main id='main'>
+            Loading...
+        </main>
+
+    </body>
+</html>
+```
+
 
 #### \_babe's ready-made views
 
 \_babe provides several ready-made views which you can use by importing them in `your_js_file.js`.
 
 * trial type views:
-    * `forcedChoice` - [binary forced-choice task](docs/views.md#forced-choice-binary-choice-task)
-    * `sliderRating` - [slider rating task](docs/views.md#slider-rating-task)
-    * `textboxInput` [textbox input task](docs/views.md#textbox-input-task)
-    * `dropdownMenu` - [dropdown menu task](docs/views.md#dropdown-choice-task)
-    * `ratingScale` - [Likert-scale rating task](docs/views.md#rating-scale-task)
-    * `sentenceSelection` - [text selection task](docs/views.md#sentence-selection_task)
-    * `imageSelection` - [click-on-a-picture task](docs/views.md#image-selection-task)
-    * `keyPress`- press a [button task](docs/views.md#key-press-task)
+    * `forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
+    * `sliderRating` - [slider rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#slider-rating-task)
+    * `textboxInput` [textbox input task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#textbox-input-task)
+    * `dropdownMenu` - [dropdown menu task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#dropdown-choice-task)
+    * `ratingScale` - [Likert-scale rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#rating-scale-task)
+    * `sentenceSelection` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
+    * `imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
+    * `keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
 
 * other views:
     * `intro`  - introduction view 
