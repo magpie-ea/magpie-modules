@@ -96,7 +96,7 @@ const slider_rating_trials = [
 
 ## Dropdown Choice task
 
-![dropdown choice task sample](images/dropdownChoice.png);
+![dropdown choice task sample](images/dropdownChoice.png)
 
 ### Data properties
 
@@ -130,7 +130,7 @@ const dropdown_choice_trials = [
 
 ## Rating Scale task
 
-![rating scale task sample](images/dropdownChoice.png);
+![rating scale task sample](images/dropdownChoice.png)
 
 ### Data properties
 
@@ -164,7 +164,7 @@ const rating_scale_trials = [
 
 ## Sentence Selection task
 
-![sentence selection task sample](images/sentenceSelection.png);
+![sentence selection task sample](images/sentenceSelection.png)
 
 ### Data properties
 
@@ -198,7 +198,7 @@ const sentence_selection_trials = [
 
 ## Image Selection task
 
-![image selection task sample](images/imageSelection.png);
+![image selection task sample](images/imageSelection.png)
 
 ### Data properties
 
@@ -230,7 +230,7 @@ const image_selection_trials = [
 
 ## Key Press task
 
-![key press task sample](images/keyPress.png);
+![key press task sample](images/keyPress.png)
 
 ### Data properties
 

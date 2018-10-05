@@ -80,14 +80,14 @@ with `id="main"`
 \_babe provides several ready-made views which you can use by importing them in `your_js_file.js`.
 
 * trial type views:
-    * `forcedChoice` - [binary forced-choice task](docs/views.md)
-    * `sliderRating` - [slider rating task](docs/views.md)
-    * `textboxInput` [textbox input task](docs/views.md)
-    * `dropdownMenu` - [dropdown menu task](docs/views.md)
-    * `ratingScale` - [Likert-scale rating task](docs/views.md)
-    * `sentenceSelection` - [text selection task](docs/views.md)
-    * `imageSelection` - [click-on-a-picture task](docs/views.md)
-    * `keyPress`- press a [button task](docs/views.md)
+    * `forcedChoice` - [binary forced-choice task](docs/views.md#forced-choice-binary-choice-task)
+    * `sliderRating` - [slider rating task](docs/views.md#slider-rating-task)
+    * `textboxInput` [textbox input task](docs/views.md#textbox-input-task)
+    * `dropdownMenu` - [dropdown menu task](docs/views.md#dropdown-choice-task)
+    * `ratingScale` - [Likert-scale rating task](docs/views.md#rating-scale-task)
+    * `sentenceSelection` - [text selection task](docs/views.md#sentence-selection_task)
+    * `imageSelection` - [click-on-a-picture task](docs/views.md#image-selection-task)
+    * `keyPress`- press a [button task](docs/views.md#key-press-task)
 
 * other views:
     * `intro`  - introduction view 
