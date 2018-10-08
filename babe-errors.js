@@ -93,6 +93,52 @@ The trial type is needed for recording the results of your experiment.
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-};
+    notAnArray:
+`The data is not an array. Trial views get an array of objects.
 
-export { errors }
+for example:
+
+var mainTrials = forcedChoice({
+    ...
+    data: [
+        {
+            prop: val,
+            prop: val
+        },
+        {
+            prop: val,
+            prop:val
+        }
+    ],
+    ...
+});`,
+    noSuchViewName:
+`The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
+
+for example:
+
+var mainView = forcedChoice({
+    ...
+    name: 'myMainView',
+    ...
+});
+
+var introView = intro({
+    ...
+    name: 'intro',
+    ...
+});
+
+babeInit({
+    ...
+    progress_bar: {
+        in: [
+            "myMainView"
+        ],
+        style: "chunks"
+        width: 100
+    },
+    ...
+});
+`
+};

@@ -9,5 +9,3 @@ function loopShuffled (arr, count) {
         return _.shuffle(arr)
     })
 };
-
-export { loop, loopShuffled };
