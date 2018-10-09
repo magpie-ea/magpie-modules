@@ -1,47 +1,62 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-## Creating a \_babe experiment with \_babe
+**Table of contents**
+
+* [Create an experiment with \_babe](#creating-a-_babe-experiment)
+    * [Install \_babe](#install-_babe)
+    * [How to use \_babe](#usage)
+        * [Experiment Initialisation](#experiment-initialisation-with-_babeInit)
+            * [Views](#views-in-_babe)
+            * [Deploy configuraton](#deploy-configuration)
+            * [Progress bar](#progress-bar)
+
+* [Sample experiment](https://github.com/babe-project/MinimalTemplate/tree/modularized)
+
+
+## Creating a \_babe experiment
 
 ### Install \_babe
 
-#### Option 1: Download the \_babe project package
+#### Option 1: Download the babe-project
 
-1. Download the [\_babe .zip](https://github.com/babe-project/babe-base)
 
-2. Unzip and place the folder `_babe.full.min.js`, `_babe.min.js` and `_babe-styles.css` in the `libraries/` folder of your experiment.
+1. Download the .zip from this repository
+
+
+2. Unzip and move `_babe.full.min.js`, `_babe.min.js` and `_babe-styles.css` in the `libraries/` folder of your experiment.
 
  Your experiment's structure should look like this:
 
-    experiment/
-        + libraries/
-            + `_babe.full.min.js`
-            + `_babe.min.js`
-            + `_babe-styles.css`
+ experiment/
+
+    + libraries/
+
+        + `_babe.full.min.js`
+        + `_babe.min.js`
+        + `_babe-styles.css`
 
  `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js). There is no need to install and import jQuery, Mustache and csv-js.
 
  `_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
 
+ `_babe-styles.css` includes styles for \_babe experiments.
+
+
 3. Import \_babe in your `index.html`
 
- the full version:
-`<script src="libraries/_babe.full.min.js></script>`
+ the full version or no-dependencies version:
 
- no-dependencies version:
-`<script src="libraries/_babe.min.js></script>`
+ `<script src="libraries/_babe.full.min.js></script>` or `<script src="libraries/_babe.min.js></script>`
 
-4. Use \_babe styles:
-
- import \_babe-styles in your `index.html`:
+ and \_babe-styles:
 
  `<link rel="stylesheet" type="text/css" href="libraries/_babe-styles.css">`
 
+
 #### Option 2: Install with npm
 
-You need npm installed on your machine. Here is more information on how to [install npm](https://www.npmjs.com/get-npm)
-
-If you have npm installed, run the following command from your experiment's directory
+You need npm installed on your machine. Here is more information on how to [install npm](https://www.npmjs.com/get-npm). If you have npm installed, run the following command from your experiment's directory:
 
 `npm install babe-project --save`
 
@@ -51,13 +66,18 @@ Dependencies:
  + Mustache
  + csv-js
 
-Include \_babe in your main `.html` file
 
 ## Usage
 
-### Experiment initialisation
+Once you have installed \_babe, you can start using \_babe funcitons to create your experiment.
+You can use:
 
-Use `_babeInit()` to create a \_babe experiment.
+* \_babeInint({..}) - to initialize the experiment
+* \_babeViews._view_ - to create an instace of a \_babe view 
+
+### Experiment initialisation with \_babeInit
+
+Use `_babeInit({..})` to create a \_babe experiment.
 
 `_babeInit` takes an object as a parameter with the following properties:
 
@@ -153,18 +173,19 @@ Sample `index.html`
 
 Each \_babe view function takes an object as a parameter with the following properties:
 
-* `trials` - the number of trials this view will appear
+* `trials: int` - the number of trials this view will appear
+* `name: string`
 
      * trial type views also have:
 
-        * `trial_type` - the name of the trial type that will be in the final data (for example 'main binary choice');
-        * `data` - a list of trials
+        * `trial_type: string` - the name of the trial type that will be in the final data (for example 'main binary choice');
+        * `data: array` - an array of trial objects
 
     * other views also have:
 
-        * `title` - the title in the view
-        * `text` - the text in the view
-        * `buttonText` - the text on the button that takes the user to the newxt view
+        * `title: string` - the title in the view
+        * `text: string` - the text in the view
+        * `buttonText: string` - the text on the button that takes the user to the newxt view
 
 Sample use of \_babe views:
 
@@ -353,13 +374,16 @@ $("document").ready(function() {
 
 ### Deploy configuration
 
-The deploy config has the following properties:
+The deploy config expects the following properties:
 
-* `experimentID` - the experimentID is needed to recover data from the babe server app. You receive the experimentID when you create the experiment using the babe server app
-* `serverAppURL` - if you use the _babe server app, specify its URL here
-* `deployMethod` - use one of 'debug', 'localServer', 'MTurk', 'MTurkSandbox', 'Prolific', 'directLink'
-* `contact_email` - who to contact in case of trouble
-* `prolificURL` - the prolific completion URL if the deploy method is "Prolific"
+* `experimentID: string` - the experimentID is needed to recover data from the babe server app. You receive the experimentID when you create the experiment using the babe server app
+* `serverAppURL: string` - if you use the _babe server app, specify its URL here
+* `deployMethod: string` - use one of 'debug', 'localServer', 'MTurk', 'MTurkSandbox', 'Prolific', 'directLink'
+* `contact_email: string` - who to contact in case of trouble
+* `prolificURL: string` - the prolific completion URL if the deploy method is "Prolific"
+
+prolificURL is only needed if the experiment runs on Prolific.
+
 
 ### Progress Bar
 
@@ -367,9 +391,9 @@ The deploy config has the following properties:
 
 You can use one of the following 3 styles (include pictues)
 
-* `separate` - have separate progress bars in each views declared in `progress_bar.in`
+* `separate` - have separate progress bars in each type of views declared in `progress_bar.in`
 * `default` - have one progress bar throughout the whole experiment
-* `chunks` - have a separate progress chunk for each view in `progress_bar.in`
+* `chunks` - have a separate progress chunk for each type of view in `progress_bar.in`
 
 Use `progress_bar.width` to set the width (in pixels) of the progress bar or chunk
 
@@ -390,3 +414,10 @@ $("document").ready(function() {
     });
 });
 ```
+
+## Sample experiment
+
+[Here](https://github.com/babe-project/MinimalTemplate/tree/modularized) you can find a sample experiment created with \_babe.
+
+
+
