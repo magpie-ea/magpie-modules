@@ -3,21 +3,21 @@ basic architecture for browser-based experiments
 
 ## Creating a \_babe experiment with \_babe
 
-### Option 1: Download the \_babe project package
+### Install \_babe
+
+#### Option 1: Download the \_babe project package
 
 1. Download the [\_babe .zip](https://github.com/babe-project/babe-base)
 
-2. Unzip and place the folder (babe-base-master) in the `libraries/` folder of your experiment.
+2. Unzip and place the folder `_babe.full.min.js`, `_babe.min.js` and `_babe-styles.css` in the `libraries/` folder of your experiment.
 
- Your experiment's structure should look something like this:
+ Your experiment's structure should look like this:
 
     experiment/
         + libraries/
-            + babe-babe-master
-                + \_babe.full.min.js
-                + \_babe.min.js
-                + ...
-                + ...
+            + `_babe.full.min.js`
+            + `_babe.min.js`
+            + `_babe-styles.css`
 
  `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js). There is no need to install and import jQuery, Mustache and csv-js.
 
@@ -26,18 +26,18 @@ basic architecture for browser-based experiments
 3. Import \_babe in your `index.html`
 
  the full version:
-`<script src="libraries/babe-base-master/_babe.full.min.js></script>`
+`<script src="libraries/_babe.full.min.js></script>`
 
  no-dependencies version:
-`<script src="libraries/babe-base-master/_babe.min.js></script>`
+`<script src="libraries/_babe.min.js></script>`
 
 4. Use \_babe styles:
 
  import \_babe-styles in your `index.html`:
 
- `<link rel="stylesheet" type="text/css" href="libraries/babe-base-master/_babe-styles.css">`
+ `<link rel="stylesheet" type="text/css" href="libraries/_babe-styles.css">`
 
-### Option 2: Install with npm
+#### Option 2: Install with npm
 
 You need npm installed on your machine. Here is more information on how to [install npm](https://www.npmjs.com/get-npm)
 
@@ -51,20 +51,11 @@ Dependencies:
  + Mustache
  + csv-js
 
-Include \_babe in your main `.html` file:
-
-```
-<link rel="stylesheet" type="text/css"  href="node_modules/babe-project/_babe-styles.css">
-
-<script src="node_modules/mustache/mustache.min.js"></script>
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src="node_modules/csv-js/csv.js"></script>
-<script src="node_modules/babe-project/_babe.min.js></script>
-```
+Include \_babe in your main `.html` file
 
 ## Usage
 
-### \_babe Initialisation
+### Experiment initialisation
 
 Use `_babeInit()` to create a \_babe experiment.
 
@@ -138,7 +129,7 @@ Sample `index.html`
 ```
 
 
-#### \_babe views
+#### Included views
 
 \_babe provides several ready-made views which you can access form the `_babeViews` object.
 
@@ -233,7 +224,7 @@ $("document").ready(function() {
 ```
 
 
-#### Creating your own views
+#### Custom views
 
 You can also create your own views.
 
