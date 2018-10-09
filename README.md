@@ -9,35 +9,34 @@ basic architecture for browser-based experiments
 
 2. Unzip and place the folder (babe-base-master) in the `libraries/` folder of your experiment.
 
-Your experiment's structure should look something like this:
-`experiment/`
-    + `libraries/`
-        + `babe-babe-master`
-            + `_babe.full.min.js`
-            + `_babe.min.js`
-            + ...
-            + ...
+ Your experiment's structure should look something like this:
 
-`_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js).
-Using `_babe.full.min.js` there is no need to install and import jQuery, Mustache and csv-js.
+    experiment/
+        + libraries/
+            + babe-babe-master
+                + \_babe.full.min.js
+                + \_babe.min.js
+                + ...
+                + ...
 
-`_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work
+ `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js).
+ With `_babe.full.min.js` there is no need to install and import jQuery, Mustache and csv-js.
 
-3. Import \_babe in your `index.html`:
+ `_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
 
-3.1 the full version:
-`<script src="libraries/babe-base-master/_babe.full.min.js></script>"`
+3. Import \_babe in your `index.html`
 
-3.2 no-dependencies version:
-`<script src="libraries/babe-base-master/_babe.full.min.js></script>"`
+ the full version:
+`<script src="libraries/babe-base-master/_babe.full.min.js></script>`
 
-Note: You need to install jQuery, Mustache and csv-js in your experiment.
+ no-dependencies version:
+`<script src="libraries/babe-base-master/_babe.full.min.js></script>`
 
 4. Use \_babe styles:
 
-import \_babe-styles in your `index.html`:
+ import \_babe-styles in your `index.html`:
 
-`<link rel="stylesheet" type="text/css" href="libraries/babe-base-master/_babe-styles.css">`
+ `<link rel="stylesheet" type="text/css" href="libraries/babe-base-master/_babe-styles.css">`
 
 #### Option 2: Install with npm
 
@@ -47,24 +46,32 @@ If you have npm installed, run the following command from your experiment's dire
 
 `npm install babe-project --save`
 
-Import \_babe, jQuery, Mustache and csv-js in your main .html
+Dependencies:
+
+ + jQuery
+ + Mustache
+ + csv-js
+
+Include \_babe in your main .html file:
 
 ```
-<link rel="stylesheet" type="text/css" href="node_modules/babe-project/_babe-styles.css">
+<link rel="stylesheet" type="text/css"  href="node_modules/babe-project/_babe-styles.css">
 
 <script src="node_modules/mustache/mustache.min.js"></script>
 <script src="node_modules/jquery/dist/jquery.min.js"></script>
 <script src="node_modules/csv-js/csv.js"></script>
-<script src="node_modules/babe-project/_babe.min.js></script>"
+<script src="node_modules/babe-project/_babe.min.js></script>
 ```
 
 ## Usage
 
 ### \_babe Initialisation
 
+Use `_babeInit()` to create a \_babe experiment.
+
 `_babeInit` takes an object as a parameter with the following properties:
 
-* `views_seq` - a list of view objects in the sequence you want the to appear in your experiment
+* `views_seq` - a list of view objects in the sequence you want them to appear in your experiment
 * `deploy` - an object with information about the deploy methods of your experiment 
 * `progress_bar` - an object with information about the progress bars in the views of your experiment
 
@@ -98,7 +105,7 @@ $("document").ready(function() {
         }
     });
 });
- ```
+```
 
 ### Views in \_babe
 
@@ -134,24 +141,24 @@ Sample `index.html`
 
 #### \_babe's ready-made views
 
-\_babe provides several ready-made views which you can use by importing them in `your_js_file.js`.
+\_babe provides several ready-made views which you can access form the `_babeViews` object.
 
 * trial type views:
-    * `forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
-    * `sliderRating` - [slider rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#slider-rating-task)
-    * `textboxInput` [textbox input task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#textbox-input-task)
-    * `dropdownMenu` - [dropdown menu task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#dropdown-choice-task)
-    * `ratingScale` - [Likert-scale rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#rating-scale-task)
-    * `sentenceSelection` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
-    * `imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
-    * `keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
+    * `_babeViews.forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
+    * `_babeViews.sliderRating` - [slider rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#slider-rating-task)
+    * `_babeViews.textboxInput` [textbox input task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#textbox-input-task)
+    * `_babeViews.dropdownMenu` - [dropdown menu task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#dropdown-choice-task)
+    * `_babeViews.ratingScale` - [Likert-scale rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#rating-scale-task)
+    * `_babeViews.sentenceSelection` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
+    * `_babeViews.imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
+    * `_babeViews.keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
 
 * other views:
-    * `intro`  - introduction view 
-    * `instructions`-  instructions view
-    * `begin` - begin experiment view; can be used between the practice and the main view
-    * `postTest` - post-experiment questionnaire
-    * `thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
+    * `_babeViews.intro`  - introduction view 
+    * `_babeViews.instructions`-  instructions view
+    * `_babeViews.begin` - begin experiment view; can be used between the practice and the main view
+    * `_babeViews.postTest` - post-experiment questionnaire
+    * `_babeViews.thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
 
 
 Each \_babe view function takes an object as a parameter with the following properties:
@@ -229,76 +236,63 @@ $("document").ready(function() {
 
 #### Creating your own views
 
-!!!
+You can also create your own views.
 
-You can also create your own views. Here is what you need to know:
-
-The view is an object that has the following properties:
+The viewa are functions that return an object with the following properties:
 
 * `trials: number` - the number of trials this view appears
-* `CT: 0` - current trial, always starts from 0, ??
-* `name: string` - the name of the view ??
+* `CT: 0` - current trial, always starts from 0
+* `name: string` - the name of the view (the progress bar uses the name)
 * `render: function` - a function that renders the view
+    * pass `CT` and `_babe` as a parameter to render()
 
-`for the trial type views`
-
-* pass `CT` as a parameter to render()
-* add the trial info for this trial and the gathered data to the trial data
+Add the data gathered from your custom trial type views to `_babe.trial_data`
 
 
-Sample custom view:
+Sample custom trial type view:
 
 ```
-// your_js_file.js
+_babeViews.pressTheButton = function(config) {
+    const _pressTheButton = {
+        name: config.name,
+        title: config.title,
+        render(CT, _babe) {
+            let startTime = Date.now();
 
-const sayHello = function(info) {
-    const sayHello = {
-        name: info.name,
-        title: info.title,
-        text: info.text,
-        render() {
             const viewTemplate =
             `<div class='view'>
                 {{# title }}
                 <h1 class="title">{{ title }}</h1>
                 {{/ title }}
-                {{# text }}
-                <section class="text-container">
-                <p class="text">{{ text }}</p>
-                </section>
-                {{/ text }}
-                <button id="hello-back">Hello to you, too!</button>
-                <button id="next" class="nodisplay">Bye!</button>
+                <button id="the-button">Press me!</button>
             </div>`;
 
             $("#main").html(
                 Mustache.render(viewTemplate, {
-                    title: this.title,
-                    text: this.text
+                    title: this.title
                 })
             );
 
-            $('#hello-back').on('click', function(e) {
-                $('#next').removeClass('nodisplay');
-                $('.text').addClass('nodisplay');
-                e.target.classList.add('nodisplay');
+            $('#the-button').on('click', function(e) {
+                _babe.trial_data.push({
+                    trial_type: config.trial_type,
+                    trial_number: CT+1,
+                    RT: Date.now() - startTime
+                });
+                _babe.findNextView();
             });
-
-            $('#next').on('click', function() {
-                findNextView();
-            })
         },
         CT: 0,
-        trials: info.trials
+        trials: config.trials
     };
 
-    return sayHello;
+    return _pressTheButton;
 };
 
-const mySayHello = sayHello({
-    name: 'sayHello',
-    title: 'Hello',
-    text: 'I am here just to say Hello..',
+const mainTrial = _babeViews.pressTheButton({
+    name: 'buttonPress',
+    title: 'How quickly can you press this button?',
+    trial_type: 'main',
     trials: 1
 });
 
@@ -307,7 +301,59 @@ $("document").ready(function() {
         ...
         views_seq: [
             ...
-            mySayHello,
+            mainTrial,
+            ...
+        ],
+        ...
+    });
+});
+```
+
+Sample custom info view:
+
+```
+_babeViews.sayHello = function(config) {
+    const _sayHello = {
+        name: config.name,
+        title: config.title,
+        render(CT, _babe) {
+            const viewTemplate =
+            `<div class='view'>
+                {{# title }}
+                <h1 class="title">{{ title }}</h1>
+                {{/ title }}
+                <button id="hello-button">Hello back!</button>
+            </div>`;
+
+            $("#main").html(
+                Mustache.render(viewTemplate, {
+                    title: this.title
+                })
+            );
+
+            $('#hello-button').on('click', function(e) {
+                _babe.findNextView();
+            });
+        },
+        CT: 0,
+        trials: config.trials
+    };
+
+    return _sayHello;
+};
+
+const hello = _babeViews.sayHello({
+    name: 'buttonPress',
+    title: 'Hello!?',
+    trials: 1
+});
+
+$("document").ready(function() {
+    _babeInit({
+        ...
+        views_seq: [
+            ...
+            hello,
             ...
         ],
         ...
