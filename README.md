@@ -19,8 +19,7 @@ basic architecture for browser-based experiments
                 + ...
                 + ...
 
- `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js).
- With `_babe.full.min.js` there is no need to install and import jQuery, Mustache and csv-js.
+ `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js). There is no need to install and import jQuery, Mustache and csv-js.
 
  `_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
 
@@ -30,7 +29,7 @@ basic architecture for browser-based experiments
 `<script src="libraries/babe-base-master/_babe.full.min.js></script>`
 
  no-dependencies version:
-`<script src="libraries/babe-base-master/_babe.full.min.js></script>`
+`<script src="libraries/babe-base-master/_babe.min.js></script>`
 
 4. Use \_babe styles:
 
