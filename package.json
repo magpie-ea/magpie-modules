@@ -1,12 +1,13 @@
 {
   "name": "babe-project",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Basic Architecture for Browser-based experiments (https://github.com/babe-project)",
   "main": "babe-main.js",
   "dependencies": {
     "csv-js": "^1.0.0",
     "jquery": "^3.3.1",
-    "mustache": "^3.0.0"
+    "mustache": "^3.0.0",
+    "uglify-es": "^3.3.9"
   },
   "devDependencies": {},
   "scripts": {

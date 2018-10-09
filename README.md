@@ -1,8 +1,45 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-## Installation
-#### Install with npm (recommended)
+## Creating a \_babe experiment with \_babe
+
+#### Option 1: Download the \_babe project package
+
+1. Download the [\_babe .zip](https://github.com/babe-project/babe-base)
+
+2. Unzip and place the folder (babe-base-master) in the `libraries/` folder of your experiment.
+
+Your experiment's structure should look something like this:
+`experiment/`
+    + `libraries/`
+        + `babe-babe-master`
+            + `_babe.full.min.js`
+            + `_babe.min.js`
+            + ...
+            + ...
+
+`_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js).
+Using `_babe.full.min.js` there is no need to install and import jQuery, Mustache and csv-js.
+
+`_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work
+
+3. Import \_babe in your `index.html`:
+
+3.1 the full version:
+`<script src="libraries/babe-base-master/_babe.full.min.js></script>"`
+
+3.2 no-dependencies version:
+`<script src="libraries/babe-base-master/_babe.full.min.js></script>"`
+
+Note: You need to install jQuery, Mustache and csv-js in your experiment.
+
+4. Use \_babe styles:
+
+import \_babe-styles in your `index.html`:
+
+`<link rel="stylesheet" type="text/css" href="libraries/babe-base-master/_babe-styles.css">`
+
+#### Option 2: Install with npm
 
 You need npm installed on your machine. Here is more information on how to [install npm](https://www.npmjs.com/get-npm)
 
@@ -10,39 +47,33 @@ If you have npm installed, run the following command from your experiment's dire
 
 `npm install babe-project --save`
 
-#### Download the package
-Alternatively you can get the package by cloning the repo in your experiment's directory (?)
+Import \_babe, jQuery, Mustache and csv-js in your main .html
+
+```
+<link rel="stylesheet" type="text/css" href="node_modules/babe-project/_babe-styles.css">
+
+<script src="node_modules/mustache/mustache.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/csv-js/csv.js"></script>
+<script src="node_modules/babe-project/_babe.min.js></script>"
+```
 
 ## Usage
 
 ### \_babe Initialisation
 
-To initialise the experiment import the babe `babeInit` function in `your_js_file.js`.
-    
-```
-// your_js_file.js
-
-import { babeInit } from './link_to_your_libraries/babe-project/babe-init.js';
-
-...
-...
-...
-```
-
-`babeInit` takes an object as a parameter with the following properties:
+`_babeInit` takes an object as a parameter with the following properties:
 
 * `views_seq` - a list of view objects in the sequence you want the to appear in your experiment
 * `deploy` - an object with information about the deploy methods of your experiment 
 * `progress_bar` - an object with information about the progress bars in the views of your experiment
 
 
-Sample `babeInit` call:
+Sample `_babeInit` call:
 
 ```
-import { babeInit } from './link_to_your_libraries/babe-project/babe-init.js';
-
 $("document").ready(function() {
-    babeInit({
+    _babeInit({
         views_seq: [
             intro,
             instructions,
@@ -71,7 +102,7 @@ $("document").ready(function() {
 
 ### Views in \_babe
 
-For \_babe views to render, you need to have an html tag (preferrably `div` or `main`)
+\_babe views get inserted in an html element with id `main`, you need to have an html tag (preferrably `div` or `main`)
 with `id="main"`
 
 Sample `index.html`
@@ -80,24 +111,9 @@ Sample `index.html`
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-
-        <title>browser-based experiments</title>
-
-        <!-- fonts from Google fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700|Noto+Serif:400,700|Playfair+Display:700" rel="stylesheet">
-
-        <!-- css -->
-        <link rel="stylesheet" type="text/css" href="node_modules/babe-project/babe-styles.css">
-
-        <!-- js dependencies -->
-        <script src="node_modules/mustache/mustache.min.js"></script>
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="node_modules/csv-js/csv.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.5/lodash.js"></script>
-
-        <!-- load the trials -->
-        <script type="module" src="index.js"></script>
+        ...
+        ...
+        ...
     </head>
 
     <body>
@@ -158,41 +174,38 @@ Sample use of \_babe views:
 ```
 // your_js_file.js
 
-import { babeInit } from './link_to_your_libraries/babe-project/babe-init.js';
-import { intro, instructions, forcedChoice, thanks } from './link_to_your_libraries/babe-project/babe-views.js';
-
-const myIntro = intro({
+const intro = _babeViews.intro({
     title: 'Welcome!',
     text: 'This is an experiment!',
     buttonText: 'Begin the experiment',
     trials: 1
 });
 
-const myInstructions = instructions({
+const instructions = _babeViews.instructions({
     title: 'Instructions',
     text: 'Choose an answer',
     buttonText: 'Next',
     trials: 1
 });
 
-const main = forcedChoice({
+const main = _babeViews.forcedChoice({
     trial_type: 'main',
     data: main_trials,
     trials: 4
 });
 
-const thankYou = thanks({
+const thanks = _babeViews.thanks({
     title: 'Thank you for taking part in this experiment!',
     trials: 1
 });
 
 $("document").ready(function() {
-    babeInit({
+    _babeInit({
         views_seq: [
-            myIntro,
-            myInstructions,
+            intro,
+            instructions,
             main,
-            thankYou
+            thanks
         ],
         deploy: {
             "experimentID": "4",
@@ -204,11 +217,10 @@ $("document").ready(function() {
         },
         progress_bar: {
             in: [
-                "practice",
                 "main"
             ],
             style: "default",
-            width: 150
+            width: 100
         }
     });
 });
@@ -216,6 +228,8 @@ $("document").ready(function() {
 
 
 #### Creating your own views
+
+!!!
 
 You can also create your own views. Here is what you need to know:
 
@@ -236,8 +250,6 @@ Sample custom view:
 
 ```
 // your_js_file.js
-
-import { babeInit } from './link_to_your_libraries/babe-project/babe-init.js';
 
 const sayHello = function(info) {
     const sayHello = {
@@ -291,7 +303,7 @@ const mySayHello = sayHello({
 });
 
 $("document").ready(function() {
-    babeInit({
+    _babeInit({
         ...
         views_seq: [
             ...
@@ -315,7 +327,7 @@ The deploy config has the following properties:
 
 ### Progress Bar
 
-\_babe provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `babeInit`.
+\_babe provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `_babeInit`.
 
 You can use one of the following 3 styles (include pictues)
 
@@ -329,7 +341,7 @@ Sample progress bar
 
 ```
 $("document").ready(function() {
-    babeInit({
+    _babeInit({
         ...
         progress_bar: {
             in: [
