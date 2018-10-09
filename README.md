@@ -14,8 +14,8 @@ basic architecture for browser-based experiments
     experiment/
         + libraries/
             + babe-babe-master
-                + \_babe.full.min.js
-                + \_babe.min.js
+                + _babe.full.min.js
+                + _babe.min.js
                 + ...
                 + ...
 
@@ -52,7 +52,7 @@ Dependencies:
  + Mustache
  + csv-js
 
-Include \_babe in your main .html file:
+Include \_babe in your main `.html` file:
 
 ```
 <link rel="stylesheet" type="text/css"  href="node_modules/babe-project/_babe-styles.css">
@@ -71,9 +71,9 @@ Use `_babeInit()` to create a \_babe experiment.
 
 `_babeInit` takes an object as a parameter with the following properties:
 
-* `views_seq` - a list of view objects in the sequence you want them to appear in your experiment
-* `deploy` - an object with information about the deploy methods of your experiment 
-* `progress_bar` - an object with information about the progress bars in the views of your experiment
+* `views_seq` - a list of view objects in the sequence you want them to appear in your experiment. [more info](https://github.com/babe-project/babe-base#views-in-_babe)
+* `deploy` - an object with information about the deploy methods of your experiment. [more info](https://github.com/babe-project/babe-base#deploy-configuration)
+* `progress_bar` - an object with information about the progress bars in the views of your experiment. [more info](https://github.com/babe-project/babe-base#progress-bar)
 
 
 Sample `_babeInit` call:
@@ -139,7 +139,7 @@ Sample `index.html`
 ```
 
 
-#### \_babe's ready-made views
+#### \_babe's views
 
 \_babe provides several ready-made views which you can access form the `_babeViews` object.
 
@@ -238,13 +238,13 @@ $("document").ready(function() {
 
 You can also create your own views.
 
-The viewa are functions that return an object with the following properties:
+The views are functions that return an object with the following properties:
 
 * `trials: number` - the number of trials this view appears
 * `CT: 0` - current trial, always starts from 0
 * `name: string` - the name of the view (the progress bar uses the name)
 * `render: function` - a function that renders the view
-    * pass `CT` and `_babe` as a parameter to render()
+    * pass `CT` and `_babe` as parameters to render()
 
 Add the data gathered from your custom trial type views to `_babe.trial_data`
 
