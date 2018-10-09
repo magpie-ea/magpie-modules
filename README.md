@@ -3,7 +3,7 @@ basic architecture for browser-based experiments
 
 ## Creating a \_babe experiment with \_babe
 
-#### Option 1: Download the \_babe project package
+### Option 1: Download the \_babe project package
 
 1. Download the [\_babe .zip](https://github.com/babe-project/babe-base)
 
@@ -14,8 +14,8 @@ basic architecture for browser-based experiments
     experiment/
         + libraries/
             + babe-babe-master
-                + _babe.full.min.js
-                + _babe.min.js
+                + \_babe.full.min.js
+                + \_babe.min.js
                 + ...
                 + ...
 
@@ -37,7 +37,7 @@ basic architecture for browser-based experiments
 
  `<link rel="stylesheet" type="text/css" href="libraries/babe-base-master/_babe-styles.css">`
 
-#### Option 2: Install with npm
+### Option 2: Install with npm
 
 You need npm installed on your machine. Here is more information on how to [install npm](https://www.npmjs.com/get-npm)
 
@@ -138,7 +138,7 @@ Sample `index.html`
 ```
 
 
-#### \_babe's views
+#### \_babe views
 
 \_babe provides several ready-made views which you can access form the `_babeViews` object.
 
