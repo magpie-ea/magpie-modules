@@ -481,7 +481,7 @@ Mac OS and Linux
 
 Windows
 
-...
+`uglifyjs src\babe-errors.js src\babe-init.js src\babe-progress-bar.js src\babe-submit.js src\babe-utils.js src\babe-views.js -o _babe.min.js`
 
 #### create \_babe.full.min.js
 
@@ -491,7 +491,7 @@ Mac OS and Linux
 
 Windows
 
-...
+`uglifyjs _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/mustache/mustache.min.js node_modules/csv-js/csv.js -o _babe.min.js`
 
 
 
