@@ -1,19 +1,22 @@
 # \_babe project
 basic architecture for browser-based experiments
 
+**_version 0.0.11_**
+
 **Table of contents**
 
 - [Create an experiment with \_babe](#create-an-experiment-with-_babe)
     - [Install \_babe](#install-_babe)
-    - [How to use \_babe](#usage)
-        - [Experiment Initialisation](#experiment-initialisation-with-babeInit)
-            - [Views](#views-in-_babe)
-            - [Deploy configuraton](#deploy-configuration)
-            - [Progress bar](#progress-bar)
+    - [Experiment Initialisation](#experiment-initialisation)
+    - [Views](#views-in-_babe)
+    - [Deploy configuraton](#deploy-configuration)
+    - [Progress bar](#progress-bar)
 - [Sample experiment](#sample-experiment)
+- [Development](#development)
 
 
-## Creating an experiment with \_babe
+
+## Create an experiment with \_babe
 
 ### Install \_babe
 
@@ -26,11 +29,11 @@ basic architecture for browser-based experiments
 
  Your experiment's structure should look like this:
 
- - experiment/
-    -libraries/
-        - `_babe.full.min.js`
-        - `_babe-styles.css`
-        - `_babe.min.js`
+- experiment/
+    - libraries/
+        - _babe.full.min.js
+        - _babe-styles.css
+        - _babe.min.js
 
  `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js). There is no need to install and import jQuery, Mustache and csv-js.
 
@@ -62,10 +65,10 @@ cd babe-project
 
 # install the dependencies with npm
 
-`npm install babe-project --save`
+npm install babe-project --save
 ```
 
-You need to have npm installed in your machine. [install npm](https://www.npmjs.com/get-npm).
+You need to have npm installed in your machine. [Install npm](https://www.npmjs.com/get-npm).
 
 \_babe dependencies:
 
@@ -80,15 +83,15 @@ Once you have installed \_babe, you can start using \_babe funcitons to create y
 You can use:
 
 * babeInit({..}) - to initialize the experiment
-* babeViews._view_ - to create an instance of a \_babe view 
+* babeViews._view_ - to create an instance of a \_babe view
 
-### Experiment initialisation with babeInit
+### Experiment initialisation
 
 Use `babeInit({..})` to create a \_babe experiment.
 
 `babeInit` takes an object as a parameter with the following properties:
 
-* `views_seq` - a list of view objects in the sequence you want them to appear in your experiment. [more info](https://github.com/babe-project/babe-base#views-in-_babe)
+* `views_seq` - an array of view objects in the sequence you want them to appear in your experiment. [more info](https://github.com/babe-project/babe-base#views-in-_babe)
 * `deploy` - an object with information about the deploy methods of your experiment. [more info](https://github.com/babe-project/babe-base#deploy-configuration)
 * `progress_bar` - an object with information about the progress bars in the views of your experiment. [more info](https://github.com/babe-project/babe-base#progress-bar)
 
@@ -394,7 +397,7 @@ prolificURL is only needed if the experiment runs on Prolific.
 
 ### Progress Bar
 
-\_babe provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `babeInit`.
+\_babe provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `babeInit`. Use the names of the views in `progress_bar.in`.
 
 You can use one of the following 3 styles (include pictues)
 
@@ -445,14 +448,14 @@ To get the development version of the \_babe package, clone this repository and 
 
 You can find the development files in the `src/` folder
 
--src/
+- src/
     - babe-errors.js
     - babe-init.js
     - babe-progress-bar.js
     - babe-submit.js
     - babe-utils.js
     - babe-views.js
-    - \_babe-styles.css
+    - _babe-styles.css
 
 **Code format**
 
@@ -461,6 +464,7 @@ You can find the development files in the `src/` folder
 ### Create \_babe.min.js and \_babe.full.min.js
 
 `\_babe.min.js` includes only the babe project package
+
 `_babe.full.min.js` includes the babe project package + jQuery, Mustache and csv-js
 
 #### install uglify-es with npm
@@ -471,20 +475,22 @@ You can use [uglify-es](https://www.npmjs.com/package/uglify-es) to minify the f
 
 #### create \_babe.min.js
 
-**Mac OS and Linux**
+Mac OS and Linux
 
 `cat src/babe-errors.js src/babe-init.js src/babe-progress-bar.js src/babe-submit.js src/babe-utils.js src/babe-views.js | uglifyjs -o _babe.min.js`
 
-**Windows**
+Windows
+
 ...
 
 #### create \_babe.full.min.js
 
-**Mac OS and Linux**
+Mac OS and Linux
 
 `cat _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/mustache/mustache.min.js node_modules/csv-js/csv.js | uglifyjs -o _babe.full.min.js`
 
-**Windows**
+Windows
+
 ...
 
 
