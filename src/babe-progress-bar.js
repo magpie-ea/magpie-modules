@@ -1,4 +1,4 @@
-function _babeProgress(_babe) {
+const babeProgress = function(babe) {
     let totalProgressParts = 0;
     let progressTrials = 0;
     // customize.progress_bar_style is "chunks" or "separate" {
@@ -6,12 +6,12 @@ function _babeProgress(_babe) {
     let filledChunks = 0;
     let fillChunk = false;
 
-    const _progress = {
-        // // adds progress bar(s) to the views specified experiment.js
+    const progress = {
+        // adds progress bar(s) to the views specified experiment.js
         add: function() {
-            _babe.views_seq.map((view) => {
-                for (let j = 0; j < _babe.progress_bar.in.length; j++) {
-                    if (view.name === _babe.progress_bar.in[j]) {
+            babe.views_seq.map(view => {
+                for (let j = 0; j < babe.progress_bar.in.length; j++) {
+                    if (view.name === babe.progress_bar.in[j]) {
                         totalProgressChunks++;
                         totalProgressParts += view.trials;
                         view.hasProgressBar = true;
@@ -20,27 +20,26 @@ function _babeProgress(_babe) {
             });
         },
 
-
         // updates the progress of the progress bar
         // creates a new progress bar(s) for each view that has it and updates it
         update: function() {
             try {
                 addToDOM();
-            } catch(e) {
+            } catch (e) {
                 console.error(e.message);
             }
 
             const progressBars = $(".progress-bar");
             let div, filledPart;
 
-            if (_babe.progress_bar.style === "default") {
+            if (babe.progress_bar.style === "default") {
                 div = $(".progress-bar").width() / totalProgressParts;
                 filledPart = progressTrials * div;
             } else {
                 div =
                     $(".progress-bar").width() /
-                    _babe.views_seq[_babe.currentViewCounter].trials;
-                filledPart = (_babe.currentTrialInViewCounter - 1) * div;
+                    babe.views_seq[babe.currentViewCounter].trials;
+                filledPart = (babe.currentTrialInViewCounter - 1) * div;
             }
 
             const filledElem = jQuery("<span/>", {
@@ -50,7 +49,7 @@ function _babeProgress(_babe) {
             $("#filled").css("width", filledPart);
             progressTrials++;
 
-            if (_babe.progress_bar.style === "chunks") {
+            if (babe.progress_bar.style === "chunks") {
                 if (fillChunk === true) {
                     filledChunks++;
                     fillChunk = false;
@@ -68,11 +67,11 @@ function _babeProgress(_babe) {
     };
 
     // creates progress bar element(s) and add(s) it(them) to the view
-    function addToDOM() {
+    const addToDOM = function() {
         var bar;
         var i;
         var view = $(".view");
-        var barWidth = _babe.progress_bar.width;
+        var barWidth = babe.progress_bar.width;
         var clearfix = jQuery("<div/>", {
             class: "clearfix"
         });
@@ -83,7 +82,7 @@ function _babeProgress(_babe) {
         view.prepend(clearfix);
         view.prepend(container);
 
-        if (_babe.progress_bar.style === "chunks") {
+        if (babe.progress_bar.style === "chunks") {
             for (i = 0; i < totalProgressChunks; i++) {
                 bar = jQuery("<div/>", {
                     class: "progress-bar"
@@ -91,22 +90,24 @@ function _babeProgress(_babe) {
                 bar.css("width", barWidth);
                 container.append(bar);
             }
-        } else if (_babe.progress_bar.style === "separate") {
+        } else if (babe.progress_bar.style === "separate") {
             bar = jQuery("<div/>", {
                 class: "progress-bar"
             });
             bar.css("width", barWidth);
             container.append(bar);
-        } else if (_babe.progress_bar.style === "default") {
+        } else if (babe.progress_bar.style === "default") {
             bar = jQuery("<div/>", {
                 class: "progress-bar"
             });
             bar.css("width", barWidth);
             container.append(bar);
         } else {
-            throw new Error('Progress_bar.style can be set to "default", "separate" or "chunks" in experiment.js');
+            throw new Error(
+                'Progress_bar.style can be set to "default", "separate" or "chunks" in experiment.js'
+            );
         }
     };
 
-    return _progress;
+    return progress;
 };

@@ -1,18 +1,20 @@
 {
   "name": "babe-project",
-  "version": "0.0.9",
-  "description": "Basic Architecture for Browser-based experiments (https://github.com/babe-project)",
-  "main": "babe-main.js",
+  "version": "0.0.11",
+  "description": "Basic Architecture for Browser-based experiments (https://github.com/babe-project/babe-project)",
+  "main": "_babe.min.js",
   "dependencies": {
     "csv-js": "^1.0.0",
     "jquery": "^3.3.1",
-    "mustache": "^3.0.0",
-    "uglify-es": "^3.3.9"
+    "mustache": "^3.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^5.6.1",
+    "prettier": "^1.14.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }

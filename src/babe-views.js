@@ -1,14 +1,13 @@
-const _babeViews = {
+const babeViews = {
     intro: function(config) {
-        paramsChecker(config, 'intro');
-        const _intro = {
+        paramsChecker(config, "intro");
+        const intro = {
             name: config.name,
             title: config.title,
             text: config.text,
             buttonText: config.buttonText,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class='view'>
+            render: function(CT, babe) {
+                const viewTemplate = `<div class='view'>
                     {{# title }}
                     <h1 class="title">{{ title }}</h1>
                     {{/ title }}
@@ -49,7 +48,7 @@ const _babeViews = {
                     }
                 }
 
-                if (_babe.deploy.deployMethod !== "Prolific") {
+                if (babe.deploy.deployMethod !== "Prolific") {
                     IDform.addClass("nodisplay");
                     next.removeClass("nodisplay");
                 }
@@ -64,11 +63,11 @@ const _babeViews = {
 
                 // moves to the next view
                 next.on("click", function() {
-                    if (_babe.deploy.deployMethod === "Prolific") {
-                        _babe.global_data.prolific_id = prolificId.val().trim();
+                    if (babe.deploy.deployMethod === "Prolific") {
+                        babe.global_data.prolific_id = prolificId.val().trim();
                     }
 
-                    _babe.findNextView();
+                    babe.findNextView();
                 });
             },
             CT: 0,
@@ -76,19 +75,18 @@ const _babeViews = {
             trials: config.trials
         };
 
-        return _intro;
+        return intro;
     },
 
     instructions: function(config) {
-        paramsChecker(config, 'instructions');
-        const _instructions = {
+        paramsChecker(config, "instructions");
+        const instructions = {
             name: config.name,
             title: config.title,
             text: config.text,
             buttonText: config.buttonText,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     {{# title }}
                     <h1>{{ title }}</h1>
                     {{/ title }}
@@ -112,25 +110,24 @@ const _babeViews = {
 
                 // moves to the next view
                 $("#next").on("click", function() {
-                    _babe.findNextView();
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _instructions;
+        return instructions;
     },
 
     begin: function(config) {
-        paramsChecker(config, 'begin experiment');
-        const _begin = {
+        paramsChecker(config, "begin experiment");
+        const begin = {
             name: config.name,
-            "text": config.text,
+            text: config.text,
             // render function renders the view
-            render: function(CT, _babe) {
-                const viewTemplate = 
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     {{# text }}
                     <section class="text-container">
                         <p class="text">{{ text }}</p>
@@ -139,32 +136,32 @@ const _babeViews = {
                     <button id="next">Begin Experiment</button>
                 </div>`;
 
-                $('#main').html(Mustache.render(viewTemplate, {
-                    title: this.title,
-                    text: this.text
-                }));
+                $("#main").html(
+                    Mustache.render(viewTemplate, {
+                        title: this.title,
+                        text: this.text
+                    })
+                );
 
                 // moves to the next view
-                $('#next').on('click', function (e) {
-                    _babe.findNextView();
+                $("#next").on("click", function(e) {
+                    babe.findNextView();
                 });
-
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _begin;
+        return begin;
     },
 
     forcedChoice: function(config) {
-        checkTrialView(config, 'forced choice');
-        paramsChecker(config, 'forced choice');
-        const _forcedChoice = {
+        checkTrialView(config, "forced choice");
+        paramsChecker(config, "forced choice");
+        const forcedChoice = {
             name: config.name,
-            render: function(CT, _babe) {
-                const viewTemplate = 
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     <div class="picture", align = "center">
                         <img src={{picture}} alt="a picture" height="100" width="100">
                     </div>
@@ -183,14 +180,10 @@ const _babeViews = {
 
                 $("#main").html(
                     Mustache.render(viewTemplate, {
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
-                        picture:
-                            config.data[CT].picture
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
+                        picture: config.data[CT].picture
                     })
                 );
 
@@ -205,34 +198,30 @@ const _babeViews = {
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
                         option_chosen: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
-                    _babe.trial_data.push(trial_data);
-                    _babe.findNextView();
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _forcedChoice;
+        return forcedChoice;
     },
 
     sliderRating: function(config) {
-        checkTrialView(config, 'slider rating');
-        paramsChecker(config, 'slider rating');
-        const _sliderRating = {
+        checkTrialView(config, "slider rating");
+        paramsChecker(config, "slider rating");
+        const sliderRating = {
             name: config.name,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     <div class="picture", align = "center">
                         <img src={{ picture }} alt="a picture" height="100" width="100">
                     </div>
@@ -252,14 +241,10 @@ const _babeViews = {
                 let response;
                 $("#main").html(
                     Mustache.render(viewTemplate, {
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
-                        picture:
-                            config.data[CT].picture
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
+                        picture: config.data[CT].picture
                     })
                 );
                 const startingTime = Date.now();
@@ -278,34 +263,30 @@ const _babeViews = {
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
                         rating_slider: response.val(),
                         RT: RT
                     };
-                    _babe.trial_data.push(trial_data);
-                    _babe.findNextView();
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _sliderRating;
+        return sliderRating;
     },
 
     textboxInput: function(config) {
-        checkTrialView(config, 'textbox input');
-        paramsChecker(config, 'textbox input');
-        const _textboxInput = {
+        checkTrialView(config, "textbox input");
+        paramsChecker(config, "textbox input");
+        const textboxInput = {
             name: config.name,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     <p class="question">
                     {{# question }}
                     {{/ question }}
@@ -324,8 +305,7 @@ const _babeViews = {
 
                 $("#main").html(
                     Mustache.render(viewTemplate, {
-                        question:
-                            config.data[CT].question,
+                        question: config.data[CT].question,
                         picture: config.data[CT].picture
                     })
                 );
@@ -350,30 +330,28 @@ const _babeViews = {
                     var trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question:
-                            config.data[CT].question,
+                        question: config.data[CT].question,
                         text_input: textInput.val().trim(),
                         RT: RT
                     };
-                    _babe.trial_data.push(trial_data);
-                    _babe.findNextView();
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _textboxInput;
+        return textboxInput;
     },
 
     dropdownChoice: function(config) {
-        checkTrialView(config, 'dropdown choice');
-        paramsChecker(config, 'dropdown choice');
-        const _dropdownChoice = {
+        checkTrialView(config, "dropdown choice");
+        paramsChecker(config, "dropdown choice");
+        const dropdownChoice = {
             name: config.name,
-            render: function(CT, _babe) {
-                const viewTemplate = 
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     <div class="picture", align = "center">
                         <img src={{ picture }} alt="a picture" height="100" width="100">
                     </div>
@@ -410,18 +388,11 @@ const _babeViews = {
                 let response;
                 $("#main").html(
                     Mustache.render(viewTemplate, {
-                        question:
-                            config.data[CT].question,
-                        questionLeftPart:
-                            config.data[CT]
-                                .questionLeftPart,
-                        questionRightPart:
-                            config.data[CT]
-                                .questionRightPart,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
+                        question: config.data[CT].question,
+                        questionLeftPart: config.data[CT].questionLeftPart,
+                        questionRightPart: config.data[CT].questionRightPart,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
                         picture: config.data[CT].picture
                     })
                 );
@@ -437,34 +408,30 @@ const _babeViews = {
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
                         dropdown_choice: $(response).val(),
                         RT: RT
                     };
-                    _babe.trial_data.push(trial_data);
-                    _babe.findNextView();
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _dropdownChoice;
+        return dropdownChoice;
     },
 
     ratingScale: function(config) {
-        checkTrialView(config, 'rating scale');
-        paramsChecker(config, 'rating scale');
-        const _ratingScale = {
+        checkTrialView(config, "rating scale");
+        paramsChecker(config, "rating scale");
+        const ratingScale = {
             name: config.name,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     {{# picture }}
                     <div class="picture", align = "center">
                         <img src={{ picture }} alt="picture" height="100" width="100">
@@ -521,25 +488,24 @@ const _babeViews = {
                         option_chosen: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
-                    _babe.trial_data.push(trial_data);
-                    _babe.findNextView();
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _ratingScale;
+        return ratingScale;
     },
 
     sentenceChoice: function(config) {
-        checkTrialView(config, 'sentence choice');
-        paramsChecker(config, 'sentence choice');
-        const _sentenceChoice = {
+        checkTrialView(config, "sentence choice");
+        paramsChecker(config, "sentence choice");
+        const sentenceChoice = {
             name: config.name,
-            render: function(CT, _babe) {
-                var viewTemplate = 
-                `<div class="view">
+            render: function(CT, babe) {
+                var viewTemplate = `<div class="view">
                     {{# picture }}
                     <div class="picture" align = "center">
                         <img src={{ picture }} alt="picture" height="100" width="100">
@@ -562,12 +528,9 @@ const _babeViews = {
 
                 $("#main").html(
                     Mustache.render(viewTemplate, {
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
                         picture: config.data[CT].picture
                     })
                 );
@@ -578,34 +541,30 @@ const _babeViews = {
                     var trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
                         option_chosen: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
-                    _babe.trial_data.push(trial_data);
-                    _babe.findNextView();
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _sentenceChoice;
+        return sentenceChoice;
     },
 
     imageSelection: function(config) {
-        checkTrialView(config, 'image selection');
-        paramsChecker(config, 'image selection');
-        const _imageSelection = {
+        checkTrialView(config, "image selection");
+        paramsChecker(config, "image selection");
+        const imageSelection = {
             name: config.name,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     <p class="question">
                     {{# question }}
                     {{ question }}
@@ -622,16 +581,11 @@ const _babeViews = {
 
                 $("#main").html(
                     Mustache.render(viewTemplate, {
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
-                        picture1:
-                            config.data[CT].picture1,
-                        picture2:
-                            config.data[CT].picture2
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
+                        picture1: config.data[CT].picture1,
+                        picture2: config.data[CT].picture2
                     })
                 );
                 const startingTime = Date.now();
@@ -641,38 +595,32 @@ const _babeViews = {
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question:
-                            config.data[CT].question,
-                        option1:
-                            config.data[CT].option1,
-                        option2:
-                            config.data[CT].option2,
-                        picture1:
-                            config.data[CT].picture1,
-                        picture2:
-                            config.data[CT].picture2,
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
+                        picture1: config.data[CT].picture1,
+                        picture2: config.data[CT].picture2,
                         image_selected: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
-                    _babe.trial_data.push(trial_data);
-                    _babe.findNextView();
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
-     
-        return _imageSelection;   
+
+        return imageSelection;
     },
 
     keyPress: function(config) {
-        checkTrialView(config, 'key press');
-        paramsChecker(config, 'key press');
-        const _keyPress = {
+        checkTrialView(config, "key press");
+        paramsChecker(config, "key press");
+        const keyPress = {
             name: config.name,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class="view">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view">
                     <h3>{{ key1 }} = {{ value1 }}, {{ key2 }} = {{ value2 }}</h3>
                     <p class="question">
                     {{# question }}
@@ -702,7 +650,9 @@ const _babeViews = {
                 const startingTime = Date.now();
 
                 function handleKeyPress(e) {
-                    const keyPressed = String.fromCharCode(e.which).toLowerCase();
+                    const keyPressed = String.fromCharCode(
+                        e.which
+                    ).toLowerCase();
 
                     if (keyPressed === key1 || keyPressed === key2) {
                         let correctness;
@@ -710,9 +660,7 @@ const _babeViews = {
 
                         if (
                             config.data[CT].expected ===
-                            config.data[CT][
-                                keyPressed.toLowerCase()
-                            ]
+                            config.data[CT][keyPressed.toLowerCase()]
                         ) {
                             correctness = "correct";
                         } else {
@@ -722,40 +670,28 @@ const _babeViews = {
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question:
-                                config.data[CT].question,
-                            expected:
-                                config.data[CT].expected,
+                            question: config.data[CT].question,
+                            expected: config.data[CT].expected,
                             key_pressed: keyPressed,
                             correctness: correctness,
                             RT: RT
                         };
 
-                        trial_data["key1"] =
-                            config.data[CT][key1];
-                        trial_data["key2"] =
-                            config.data[CT][key2];
+                        trial_data["key1"] = config.data[CT][key1];
+                        trial_data["key2"] = config.data[CT][key2];
 
                         // question or/and picture are optional
-                        if (
-                            config.data[CT].picture !==
-                            undefined
-                        ) {
-                            trial_data["picture"] =
-                                config.data[CT].picture;
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data["picture"] = config.data[CT].picture;
                         }
 
-                        if (
-                            config.data[CT].question !==
-                            undefined
-                        ) {
-                            trial_data["question"] =
-                                config.data[CT].question;
+                        if (config.data[CT].question !== undefined) {
+                            trial_data["question"] = config.data[CT].question;
                         }
 
-                        _babe.trial_data.push(trial_data);
+                        babe.trial_data.push(trial_data);
                         $("body").off("keydown", handleKeyPress);
-                        _babe.findNextView();
+                        babe.findNextView();
                     }
                 }
 
@@ -765,19 +701,18 @@ const _babeViews = {
             trials: config.trials
         };
 
-        return _keyPress;
+        return keyPress;
     },
 
     postTest: function(config) {
-        paramsChecker(config, 'post test');
-        const _postTest = {
+        paramsChecker(config, "post test");
+        const postTest = {
             name: config.name,
             title: config.title,
             text: config.text,
             buttonText: config.buttonText,
-            render: function(CT, _babe) {
-                const viewTemplate =
-                `<div class="view post-test-templ">
+            render: function(CT, babe) {
+                const viewTemplate = `<div class="view post-test-templ">
                     {{# title }}
                     <h1>{{ title }}</h1>
                     {{/ title }}
@@ -840,37 +775,37 @@ const _babeViews = {
                     e.preventDefault();
 
                     // records the post test info
-                    _babe.global_data.age = $("#age").val();
-                    _babe.global_data.gender = $("#gender").val();
-                    _babe.global_data.education = $("#education").val();
-                    _babe.global_data.languages = $("#languages").val();
-                    _babe.global_data.comments = $("#comments")
+                    babe.global_data.age = $("#age").val();
+                    babe.global_data.gender = $("#gender").val();
+                    babe.global_data.education = $("#education").val();
+                    babe.global_data.languages = $("#languages").val();
+                    babe.global_data.comments = $("#comments")
                         .val()
                         .trim();
-                    _babe.global_data.endTime = Date.now();
-                    _babe.global_data.timeSpent =
-                        (_babe.global_data.endTime - _babe.global_data.startTime) /
+                    babe.global_data.endTime = Date.now();
+                    babe.global_data.timeSpent =
+                        (babe.global_data.endTime -
+                            babe.global_data.startTime) /
                         60000;
 
                     // moves to the next view
-                    _babe.findNextView();
+                    babe.findNextView();
                 });
             },
             CT: 0,
             trials: config.trials
         };
 
-        return _postTest;
+        return postTest;
     },
 
     thanks: function(config) {
-        paramsChecker(config, 'thanks');
-        const _thanks = {
+        paramsChecker(config, "thanks");
+        const thanks = {
             name: config.name,
             message: config.title,
-            render: function(CT, _babe) {
-                var viewTemplate =
-                `<div class="view thanks-templ">
+            render: function(CT, babe) {
+                var viewTemplate = `<div class="view thanks-templ">
                     <h4 class="warning-message">submitting the data
                         <div class="loader"></div>
                     </h4>
@@ -888,8 +823,8 @@ const _babeViews = {
                 // what is seen on the screen depends on the used deploy method
                 //    normally, you do not need to modify this
                 if (
-                    _babe.deploy.is_MTurk ||
-                    _babe.deploy.deployMethod === "directLink"
+                    babe.deploy.is_MTurk ||
+                    babe.deploy.deployMethod === "directLink"
                 ) {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
@@ -897,59 +832,59 @@ const _babeViews = {
                             thanksMessage: this.message
                         })
                     );
-                } else if (_babe.deploy.deployMethod === "Prolific") {
+                } else if (babe.deploy.deployMethod === "Prolific") {
                     $("main").html(
                         Mustache.render(viewTemplate, {
                             thanksMessage: this.message,
                             extraMessage: "Please press the button below to confirm that you completed the experiment with Prolific<br />".concat(
                                 "<a href=",
-                                _babe.deploy.prolificURL,
+                                babe.deploy.prolificURL,
                                 ' class="prolific-url">Confirm</a>'
                             )
                         })
                     );
-                } else if (_babe.deploy.deployMethod === "debug") {
+                } else if (babe.deploy.deployMethod === "debug") {
                     $("main").html(Mustache.render(viewTemplate, {}));
                 } else {
-                    console.log("no such _babe.deploy.deployMethod");
+                    console.log("no such babe.deploy.deployMethod");
                 }
 
-                _babe.submission.submit(_babe);
+                babe.submission.submit(babe);
             },
             CT: 0,
             trials: 1
         };
-        
-        return _thanks;
+
+        return thanks;
     }
 };
 
 function paramsChecker(config, view) {
-    if (config.trials === undefined || config.trials === '') {
-        throw new Error (errors.noTrials.concat(findFile(view)));
+    if (config.trials === undefined || config.trials === "") {
+        throw new Error(errors.noTrials.concat(findFile(view)));
     }
 
-    if (config.name === undefined || config.name === '') {
-        throw new Error (errors.noName.concat(findFile(view)));
+    if (config.name === undefined || config.name === "") {
+        throw new Error(errors.noName.concat(findFile(view)));
     }
-};
+}
 
 function checkTrialView(config, view) {
     if (config.data === undefined || config.data === null) {
-        throw new Error (errors.noData.concat(findFile(view)));
+        throw new Error(errors.noData.concat(findFile(view)));
     }
 
     if (config.data instanceof Array === false) {
-        throw new Error (errors.notAnArray.concat(findFile(view)));
+        throw new Error(errors.notAnArray.concat(findFile(view)));
     }
 
-    if (config.trial_type === undefined || config.trial_type === '') {
-        throw new Error (errors.noTrialType.concat(findFile(view)));
+    if (config.trial_type === undefined || config.trial_type === "") {
+        throw new Error(errors.noTrialType.concat(findFile(view)));
     }
-};
+}
 
 function findFile(view) {
     return `
 
 The problem is in ${view} view.`;
-};
+}

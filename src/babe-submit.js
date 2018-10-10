@@ -1,22 +1,22 @@
-function _babeSubmit(_babe) {
-    const _submit = {
+function babeSubmit(babe) {
+    const submit = {
         // submits the data
         // trials - the data collected from the experiment
         // global_data - other data (start date, user agent, etc.)
         // config - information about the deploy method and URLs
-        submit: function(_babe) {
+        submit: function(babe) {
             // construct data object for output
             let data = {
-                experiment_id: _babe.deploy.experimentID,
-                trials: addEmptyColumns(_babe.trial_data)
+                experiment_id: babe.deploy.experimentID,
+                trials: addEmptyColumns(babe.trial_data)
             };
 
             // merge in global_data accummulated so far
             // this could be unsafe if 'global_data' contains keys used in 'trials'!!
-            data = _.merge(_babe.global_data, data);
+            data = _.merge(babe.global_data, data);
 
             // add more fields depending on the deploy method
-            if (_babe.deploy.is_MTurk) {
+            if (babe.deploy.is_MTurk) {
                 try {
                     const HITData = getHITData();
                     data["assignment_id"] = HITData["assignmentId"];
@@ -40,24 +40,23 @@ function _babeSubmit(_babe) {
                         name: "assignmentId",
                         value: HITData["assignmentId"]
                     }).appendTo(form);
-                } catch(e) {
+                } catch (e) {
                     console.error(e);
                 }
-
             }
 
             // if the experiment is set to live (see config liveExperiment)
             // the results are sent to the server
             // if it is set to false
             // the results are displayed on the thanks slide
-            if (_babe.deploy.liveExperiment) {
+            if (babe.deploy.liveExperiment) {
                 console.log("submits");
                 //submitResults(config_deploy.contact_email, config_deploy.submissionURL, data);
                 submitResults(
-                    _babe.deploy.contact_email,
-                    _babe.deploy.submissionURL,
+                    babe.deploy.contact_email,
+                    babe.deploy.submissionURL,
                     flattenData(data),
-                    _babe.deploy
+                    babe.deploy
                 );
             } else {
                 const flattenedData = flattenData(data);
@@ -73,7 +72,6 @@ function _babeSubmit(_babe) {
             }
         }
     };
-
 
     // submits data to the server and MTurk's server if the experiment runs on MTurk
     function submitResults(contactEmail, submissionURL, data, config) {
@@ -133,17 +131,17 @@ function _babeSubmit(_babe) {
                 }
             }
         });
-    };
+    }
 
     // submits to MTurk's servers
     // and the correct url is given in config.MTurk_server
-    function submitToMTurk() {
+    const submitToMTurk = function() {
         var form = $("#mturk-submission-form");
         form.submit();
     };
 
     // adds columns with NA values
-    function addEmptyColumns(trialData) {
+    const addEmptyColumns = function(trialData) {
         var columns = [];
 
         for (var i = 0; i < trialData.length; i++) {
@@ -169,7 +167,7 @@ function _babeSubmit(_babe) {
     };
 
     // prepare the data form debug mode
-    function formatDebugData(flattenedData) {
+    const formatDebugData = function(flattenedData) {
         var output = "<table id='debugresults'>";
 
         var t = flattenedData[0];
@@ -205,7 +203,7 @@ function _babeSubmit(_babe) {
         return output;
     };
 
-    function createCSVForDownload(flattenedData) {
+    const createCSVForDownload = function(flattenedData) {
         var csvOutput = "";
 
         var t = flattenedData[0];
@@ -241,7 +239,7 @@ function _babeSubmit(_babe) {
         }
     };
 
-    function flattenData(data) {
+    const flattenData = function(data) {
         var trials = data.trials;
         delete data.trials;
 
@@ -267,13 +265,15 @@ function _babeSubmit(_babe) {
     };
 
     // parses the url to get the assignmentId and workerId
-    function getHITData() {
+    const getHITData = function() {
         const url = window.location.href;
         const qArray = url.split("?");
         const HITData = {};
 
         if (qArray[1] === undefined) {
-            throw new Error("Cannot get participant' s assignmentId from the URL (happens if the experiment does NOT run on MTurk or MTurkSandbox).");
+            throw new Error(
+                "Cannot get participant' s assignmentId from the URL (happens if the experiment does NOT run on MTurk or MTurkSandbox)."
+            );
         } else {
             qArray = qArray[1].split("&");
 
@@ -285,5 +285,5 @@ function _babeSubmit(_babe) {
         return HITData;
     };
 
-    return _submit;
-};
+    return submit;
+}

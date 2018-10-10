@@ -3,18 +3,17 @@ basic architecture for browser-based experiments
 
 **Table of contents**
 
-* [Create an experiment with \_babe](#creating-a-_babe-experiment)
-    * [Install \_babe](#install-_babe)
-    * [How to use \_babe](#usage)
-        * [Experiment Initialisation](#experiment-initialisation-with-_babeInit)
-            * [Views](#views-in-_babe)
-            * [Deploy configuraton](#deploy-configuration)
-            * [Progress bar](#progress-bar)
+- [Create an experiment with \_babe](#create-an-experiment-with-_babe)
+    - [Install \_babe](#install-_babe)
+    - [How to use \_babe](#usage)
+        - [Experiment Initialisation](#experiment-initialisation-with-babeInit)
+            - [Views](#views-in-_babe)
+            - [Deploy configuraton](#deploy-configuration)
+            - [Progress bar](#progress-bar)
+- [Sample experiment](#sample-experiment)
 
-* [Sample experiment](https://github.com/babe-project/MinimalTemplate/tree/modularized)
 
-
-## Creating a \_babe experiment
+## Creating an experiment with \_babe
 
 ### Install \_babe
 
@@ -23,25 +22,21 @@ basic architecture for browser-based experiments
 
 1. Download the .zip from this repository
 
-
 2. Unzip and move `_babe.full.min.js`, `_babe.min.js` and `_babe-styles.css` in the `libraries/` folder of your experiment.
 
  Your experiment's structure should look like this:
 
- experiment/
-
-    + libraries/
-
-        + `_babe.full.min.js`
-        + `_babe.min.js`
-        + `_babe-styles.css`
+ - experiment/
+    -libraries/
+        - `_babe.full.min.js`
+        - `_babe-styles.css`
+        - `_babe.min.js`
 
  `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js). There is no need to install and import jQuery, Mustache and csv-js.
 
  `_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
 
  `_babe-styles.css` includes styles for \_babe experiments.
-
 
 3. Import \_babe in your `index.html`
 
@@ -54,17 +49,29 @@ basic architecture for browser-based experiments
  `<link rel="stylesheet" type="text/css" href="libraries/_babe-styles.css">`
 
 
-#### Option 2: Install with npm
+#### Option 2: Install with git and npm
 
-You need npm installed on your machine. Here is more information on how to [install npm](https://www.npmjs.com/get-npm). If you have npm installed, run the following command from your experiment's directory:
+```
+# clone the repo
+
+git clone https://github.com/babe-project/babe-project.git
+
+# move to the project's folder
+
+cd babe-project
+
+# install the dependencies with npm
 
 `npm install babe-project --save`
+```
 
-Dependencies:
+You need to have npm installed in your machine. [install npm](https://www.npmjs.com/get-npm).
 
- + jQuery
- + Mustache
- + csv-js
+\_babe dependencies:
+
+ - jQuery
+ - Mustache
+ - csv-js
 
 
 ## Usage
@@ -72,25 +79,25 @@ Dependencies:
 Once you have installed \_babe, you can start using \_babe funcitons to create your experiment.
 You can use:
 
-* \_babeInint({..}) - to initialize the experiment
-* \_babeViews._view_ - to create an instace of a \_babe view 
+* babeInit({..}) - to initialize the experiment
+* babeViews._view_ - to create an instance of a \_babe view 
 
-### Experiment initialisation with \_babeInit
+### Experiment initialisation with babeInit
 
-Use `_babeInit({..})` to create a \_babe experiment.
+Use `babeInit({..})` to create a \_babe experiment.
 
-`_babeInit` takes an object as a parameter with the following properties:
+`babeInit` takes an object as a parameter with the following properties:
 
 * `views_seq` - a list of view objects in the sequence you want them to appear in your experiment. [more info](https://github.com/babe-project/babe-base#views-in-_babe)
 * `deploy` - an object with information about the deploy methods of your experiment. [more info](https://github.com/babe-project/babe-base#deploy-configuration)
 * `progress_bar` - an object with information about the progress bars in the views of your experiment. [more info](https://github.com/babe-project/babe-base#progress-bar)
 
 
-Sample `_babeInit` call:
+Sample `babeInit` call:
 
 ```
 $("document").ready(function() {
-    _babeInit({
+    babeInit({
         views_seq: [
             intro,
             instructions,
@@ -119,7 +126,7 @@ $("document").ready(function() {
 
 ### Views in \_babe
 
-\_babe views get inserted in an html element with id `main`, you need to have an html tag (preferrably `div` or `main`)
+\_babe views get inserted in a html element with id `main`, you need to have an html tag (preferrably `div` or `main`)
 with `id="main"`
 
 Sample `index.html`
@@ -151,24 +158,24 @@ Sample `index.html`
 
 #### Included views
 
-\_babe provides several ready-made views which you can access form the `_babeViews` object.
+\_babe provides several ready-made views which you can access form the `babeViews` object.
 
 * trial type views:
-    * `_babeViews.forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
-    * `_babeViews.sliderRating` - [slider rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#slider-rating-task)
-    * `_babeViews.textboxInput` [textbox input task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#textbox-input-task)
-    * `_babeViews.dropdownMenu` - [dropdown menu task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#dropdown-choice-task)
-    * `_babeViews.ratingScale` - [Likert-scale rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#rating-scale-task)
-    * `_babeViews.sentenceSelection` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
-    * `_babeViews.imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
-    * `_babeViews.keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
+    * `babeViews.forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
+    * `babeViews.sliderRating` - [slider rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#slider-rating-task)
+    * `babeViews.textboxInput` [textbox input task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#textbox-input-task)
+    * `babeViews.dropdownMenu` - [dropdown menu task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#dropdown-choice-task)
+    * `babeViews.ratingScale` - [Likert-scale rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#rating-scale-task)
+    * `babeViews.sentenceSelection` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
+    * `babeViews.imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
+    * `babeViews.keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
 
 * other views:
-    * `_babeViews.intro`  - introduction view 
-    * `_babeViews.instructions`-  instructions view
-    * `_babeViews.begin` - begin experiment view; can be used between the practice and the main view
-    * `_babeViews.postTest` - post-experiment questionnaire
-    * `_babeViews.thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
+    * `babeViews.intro`  - introduction view 
+    * `babeViews.instructions`-  instructions view
+    * `babeViews.begin` - begin experiment view; can be used between the practice and the main view
+    * `babeViews.postTest` - post-experiment questionnaire
+    * `babeViews.thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
 
 
 Each \_babe view function takes an object as a parameter with the following properties:
@@ -192,33 +199,33 @@ Sample use of \_babe views:
 ```
 // your_js_file.js
 
-const intro = _babeViews.intro({
+const intro = babeViews.intro({
     title: 'Welcome!',
     text: 'This is an experiment!',
     buttonText: 'Begin the experiment',
     trials: 1
 });
 
-const instructions = _babeViews.instructions({
+const instructions = babeViews.instructions({
     title: 'Instructions',
     text: 'Choose an answer',
     buttonText: 'Next',
     trials: 1
 });
 
-const main = _babeViews.forcedChoice({
+const main = babeViews.forcedChoice({
     trial_type: 'main',
     data: main_trials,
     trials: 4
 });
 
-const thanks = _babeViews.thanks({
+const thanks = babeViews.thanks({
     title: 'Thank you for taking part in this experiment!',
     trials: 1
 });
 
 $("document").ready(function() {
-    _babeInit({
+    babeInit({
         views_seq: [
             intro,
             instructions,
@@ -263,7 +270,7 @@ Add the data gathered from your custom trial type views to `_babe.trial_data`
 Sample custom trial type view:
 
 ```
-_babeViews.pressTheButton = function(config) {
+babeViews.pressTheButton = function(config) {
     const _pressTheButton = {
         name: config.name,
         title: config.title,
@@ -300,7 +307,7 @@ _babeViews.pressTheButton = function(config) {
     return _pressTheButton;
 };
 
-const mainTrial = _babeViews.pressTheButton({
+const mainTrial = babeViews.pressTheButton({
     name: 'buttonPress',
     title: 'How quickly can you press this button?',
     trial_type: 'main',
@@ -308,7 +315,7 @@ const mainTrial = _babeViews.pressTheButton({
 });
 
 $("document").ready(function() {
-    _babeInit({
+    babeInit({
         ...
         views_seq: [
             ...
@@ -323,7 +330,7 @@ $("document").ready(function() {
 Sample custom info view:
 
 ```
-_babeViews.sayHello = function(config) {
+babeViews.sayHello = function(config) {
     const _sayHello = {
         name: config.name,
         title: config.title,
@@ -353,14 +360,14 @@ _babeViews.sayHello = function(config) {
     return _sayHello;
 };
 
-const hello = _babeViews.sayHello({
+const hello = babeViews.sayHello({
     name: 'buttonPress',
     title: 'Hello!?',
     trials: 1
 });
 
 $("document").ready(function() {
-    _babeInit({
+    babeInit({
         ...
         views_seq: [
             ...
@@ -387,7 +394,7 @@ prolificURL is only needed if the experiment runs on Prolific.
 
 ### Progress Bar
 
-\_babe provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `_babeInit`.
+\_babe provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `babeInit`.
 
 You can use one of the following 3 styles (include pictues)
 
@@ -401,7 +408,7 @@ Sample progress bar
 
 ```
 $("document").ready(function() {
-    _babeInit({
+    babeInit({
         ...
         progress_bar: {
             in: [
@@ -417,7 +424,71 @@ $("document").ready(function() {
 
 ## Sample experiment
 
-[Here](https://github.com/babe-project/MinimalTemplate/tree/modularized) you can find a sample experiment created with \_babe.
+[Here](https://github.com/babe-project/MinimalTemplate/tree/modularized) you can find a sample forced-choice experiment created with \_babe.
+
+## Development
+
+To get the development version of the \_babe package, clone this repository and install the dependencies by running `npm install` in the terminal
+
+**Dependencies**
+
+- [jQuery](https://www.npmjs.com/package/jquery)
+- [Mustache templates](https://www.npmjs.com/package/mustache)
+- [csv-js](https://www.npmjs.com/package/csv-js)
+
+**Development dependencies**
+
+- [prettier](https://www.npmjs.com/package/prettier)
+- [eslint](https://www.npmjs.com/package/eslint)
+
+### Make changes to the files
+
+You can find the development files in the `src/` folder
+
+-src/
+    - babe-errors.js
+    - babe-init.js
+    - babe-progress-bar.js
+    - babe-submit.js
+    - babe-utils.js
+    - babe-views.js
+    - \_babe-styles.css
+
+**Code format**
+
+...
+
+### Create \_babe.min.js and \_babe.full.min.js
+
+`\_babe.min.js` includes only the babe project package
+`_babe.full.min.js` includes the babe project package + jQuery, Mustache and csv-js
+
+#### install uglify-es with npm
+
+You can use [uglify-es](https://www.npmjs.com/package/uglify-es) to minify the files.
+
+`npm install -g uglify-es`
+
+#### create \_babe.min.js
+
+**Mac OS and Linux**
+
+`cat src/babe-errors.js src/babe-init.js src/babe-progress-bar.js src/babe-submit.js src/babe-utils.js src/babe-views.js | uglifyjs -o _babe.min.js`
+
+**Windows**
+...
+
+#### create \_babe.full.min.js
+
+**Mac OS and Linux**
+
+`cat _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/mustache/mustache.min.js node_modules/csv-js/csv.js | uglifyjs -o _babe.full.min.js`
+
+**Windows**
+...
+
+
+
 
 
 
