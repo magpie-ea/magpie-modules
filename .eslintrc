@@ -70,11 +70,6 @@
             "error",
             "never"
         ],
-        "func-style": [
-            "error",
-            "expression"
-        ],
-        "function-paren-newline": "error",
         "generator-star-spacing": "error",
         "global-require": "error",
         "guard-for-in": "error",
@@ -103,7 +98,6 @@
         "max-lines": "off",
         "max-lines-per-function": "off",
         "max-nested-callbacks": "error",
-        "max-params": "error",
         "max-statements": "off",
         "max-statements-per-line": "error",
         "multiline-comment-style": "off",
@@ -227,10 +221,6 @@
             "error",
             "always"
         ],
-        "operator-linebreak": [
-            "error",
-            "after"
-        ],
         "padded-blocks": "off",
         "padding-line-between-statements": "error",
         "prefer-arrow-callback": "off",
@@ -247,7 +237,6 @@
         "quotes": "off",
         "radix": "error",
         "require-await": "error",
-        "require-jsdoc": "error",
         "rest-spread-spacing": "error",
         "semi": "off",
         "semi-spacing": [
@@ -287,7 +276,6 @@
         ],
         "valid-jsdoc": "error",
         "vars-on-top": "off",
-        "wrap-iife": "error",
         "wrap-regex": "error",
         "yield-star-spacing": "error",
         "yoda": [
