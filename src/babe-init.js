@@ -37,6 +37,13 @@ const babeInit = function(config) {
               babe.deploy.experimentID
             : babe.deploy.serverAppURL + babe.deploy.experimentID;
 
+    // This is not ideal. Should have specified the "serverAppURL" as the base URL, instead of the full URL including "submit_experiment". That naming can be misleading.
+    const regex = "/submit_experiment/";
+    babe.deploy.checkExperimentURL = babe.deploy.submissionURL.replace(
+        regex,
+        "/check_experiment/"
+    );
+
     // adds progress bars to the views
     babe.progress = babeProgress(babe);
     babe.submission = babeSubmit(babe);
@@ -152,9 +159,36 @@ You can find more information at https://github.com/babe-project/babe-base`
         }
     })();
 
-    // adds progress bars
-    babe.progress.add();
+    // Checks whether the experiment is valid and reachable on the server before proceeding.
 
-    // renders the first view
-    babe.findNextView();
+    if (babe.deploy.deployMethod !== "debug") {
+        $.ajax({
+            type: "GET",
+            url: babe.deploy.checkExperimentURL,
+            crossDomain: true,
+            success: function(responseData, textStatus, jqXHR) {
+                // adds progress bars
+                babe.progress.add();
+
+                // renders the first view
+                babe.findNextView();
+            },
+            error: function(jqXHR, textStatus, error) {
+                console.log(babe.deploy.checkExperimentURL);
+                alert(
+                    `Sorry, there is an error communicating with our server and the experiment cannot proceed. Please return the HIT immediately and contact the author at ${
+                        babe.deploy.contact_email
+                    }. Please include the following error message: "${
+                        jqXHR.responseText
+                    }". Thank you for your understanding.`
+                );
+            }
+        });
+    } else {
+        // adds progress bars
+        babe.progress.add();
+
+        // renders the first view
+        babe.findNextView();
+    }
 };
