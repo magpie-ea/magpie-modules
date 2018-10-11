@@ -225,7 +225,7 @@ button:focus {
 .slider-container input[type=range]::-webkit-slider-runnable-track {
     background: #cbcbcb;
     border: none;
-    outine: none;
+    outline: none;
     border-radius: 10px;
     cursor: pointer;
     height: 6px;
@@ -374,7 +374,7 @@ button:focus {
     color: white;
     display: inline-block;
     background: #E74D10;
-    border-radous: 3px;
+    border-radius: 3px;
     padding: 10px;
     margin: 8px 4px;
     text-decoration: none;
@@ -426,6 +426,7 @@ button:focus {
     -webkit-animation: load7 1.3s infinite ease-in-out;
     animation: load7 1.3s infinite ease-in-out;
 }
+
 .loader {
     color: #5187BA;
     font-size: 10px;
@@ -438,36 +439,45 @@ button:focus {
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
 }
+
 .loader:before,
 .loader:after {
     content: '';
     position: absolute;
     top: 0;
 }
+
 .loader:before {
     left: -3.5em;
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
 }
+
 .loader:after {
     left: 3.5em;
 }
+
 @-webkit-keyframes load7 {
+
     0%,
     80%,
     100% {
         box-shadow: 0 2.5em 0 -1.3em;
     }
+
     40% {
         box-shadow: 0 2.5em 0 0;
     }
 }
+
 @keyframes load7 {
+
     0%,
     80%,
     100% {
         box-shadow: 0 2.5em 0 -1.3em;
     }
+
     40% {
         box-shadow: 0 2.5em 0 0;
     }
