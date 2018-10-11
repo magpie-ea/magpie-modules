@@ -131,11 +131,11 @@ The results will be submitted to ${babe.deploy.submissionURL}`
 
 The results will be displayed in a table at the end of the experiment and available to download in CSV format.`
             );
-        } else {
+        } else if (babe.deploy.deployMethod !== "localServer") {
             throw new Error(
                 `There is no such deployMethod.
 
-Please use 'debug', 'directLink', 'Mturk', 'MTurkSandbox' or 'Prolific'.
+Please use 'debug', 'directLink', 'Mturk', 'MTurkSandbox', 'localServer' or 'Prolific'.
 
 The deploy method you provided is '${babe.deploy.deployMethod}'.
 
