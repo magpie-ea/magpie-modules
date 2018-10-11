@@ -113,7 +113,7 @@ $("document").ready(function() {
             "serverAppURL": "https://babe-demo.herokuapp.com/api/submit_experiment/",
             "deployMethod": "debug",
             "contact_email": "YOUREMAIL@wherelifeisgreat.you",
-            "prolificURL": "https://app.prolific.ac/submissions/complete?cc=ABCD1234" 
+            "prolificURL": "https://app.prolific.ac/submissions/complete?cc=ABCD1234"
         },
         progress_bar: {
             in: [
@@ -174,7 +174,7 @@ Sample `index.html`
     * `babeViews.keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
 
 * other views:
-    * `babeViews.intro`  - introduction view 
+    * `babeViews.intro`  - introduction view
     * `babeViews.instructions`-  instructions view
     * `babeViews.begin` - begin experiment view; can be used between the practice and the main view
     * `babeViews.postTest` - post-experiment questionnaire
@@ -407,7 +407,7 @@ You can use one of the following 3 styles (include pictues)
 
 Use `progress_bar.width` to set the width (in pixels) of the progress bar or chunk
 
-Sample progress bar 
+Sample progress bar
 
 ```
 $("document").ready(function() {
@@ -473,6 +473,8 @@ You can use [uglify-es](https://www.npmjs.com/package/uglify-es) to minify the f
 
 `npm install -g uglify-es`
 
+Instead of running the below commands manually, you can also just run `npm run uglify` to produce those two files.
+
 #### create \_babe.min.js
 
 Mac OS and Linux
@@ -491,10 +493,4 @@ Mac OS and Linux
 
 Windows
 
-`uglifyjs _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/mustache/mustache.min.js node_modules/csv-js/csv.js -o _babe.min.js`
-
-
-
-
-
-
+`uglifyjs _babe.min.js node_modules\jquery\dist\jquery.min.js node_modules\mustache\mustache.min.js node_modules\csv-js\csv.js -o _babe.full.min.js`

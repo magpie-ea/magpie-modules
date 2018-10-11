@@ -1,20 +1,21 @@
 {
-  "name": "babe-project",
-  "version": "0.0.11",
-  "description": "Basic Architecture for Browser-based experiments (https://github.com/babe-project/babe-project)",
-  "main": "_babe.min.js",
-  "dependencies": {
-    "csv-js": "^1.0.0",
-    "jquery": "^3.3.1",
-    "mustache": "^3.0.0"
-  },
-  "devDependencies": {
-    "eslint": "^5.6.1",
-    "prettier": "^1.14.3"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "MIT"
+    "name": "babe-project",
+    "version": "0.0.11",
+    "description": "Basic Architecture for Browser-based experiments (https://github.com/babe-project/babe-project)",
+    "main": "_babe.min.js",
+    "dependencies": {
+        "csv-js": "^1.0.0",
+        "jquery": "^3.3.1",
+        "mustache": "^3.0.0"
+    },
+    "devDependencies": {
+        "eslint": "^5.6.1",
+        "prettier": "^1.14.3"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "uglify": "uglifyjs src/babe-errors.js src/babe-init.js src/babe-progress-bar.js src/babe-submit.js src/babe-utils.js src/babe-views.js -o _babe.min.js && uglifyjs _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/mustache/mustache.min.js node_modules/csv-js/csv.js -o _babe.full.min.js"
+    },
+    "author": "",
+    "license": "MIT"
 }
