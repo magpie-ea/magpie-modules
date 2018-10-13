@@ -1,40 +1,34 @@
+function setTitle(title, dflt) {
+    return (title === undefined || title === '') ? dflt : title;
+};
+
+function setButtonText(buttonText) {
+    return (buttonText === undefined || buttonText === '') ? 'Next' : buttonText;
+};
+
 const babeViews = {
     intro: function(config) {
         paramsChecker(config, "intro");
         const intro = {
             name: config.name,
-            title: config.title,
+            title: setTitle(config.title, 'Welcome!'),
             text: config.text,
-            buttonText: config.buttonText,
+            button: setButtonText(config.buttonText),
             render: function(CT, babe) {
-                const viewTemplate = `<div class='view'>
-                    {{# title }}
-                    <h1 class="title">{{ title }}</h1>
-                    {{/ title }}
-                    {{# text }}
-                    <section class="text-container">
-                    <p class="text">{{{ text }}}</p>
+                const viewTemplate =
+                `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
+                    <section class="babe-text-container">
+                    <p class="babe-view-text">${this.text}</p>
                     </section>
-                    {{/ text }}
                     <p id="prolific-id-form">
                         <label for="prolific-id">Please, enter your Prolific ID</label>
                         <input type="text" id="prolific-id" />
                     </p>
-                    {{# button }}
-                    <button id="next" class="nodisplay">{{ button }}</button>
-                    {{/ button }}
-                    {{^ button }}
-                    <button id="next" class="nodisplay">Begin Experiment</button>
-                    {{/ button }}
+                    <button id="next" class='babe-view-button' class="babe-nodisplay">${this.button}</button>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        title: this.title,
-                        text: this.text,
-                        button: this.buttonText
-                    })
-                );
+                $("#main").html(viewTemplate);
 
                 const prolificId = $("#prolific-id");
                 const IDform = $("#prolific-id-form");
@@ -42,15 +36,15 @@ const babeViews = {
 
                 function showNextBtn() {
                     if (prolificId.val().trim() !== "") {
-                        next.removeClass("nodisplay");
+                        next.removeClass("babe-nodisplay");
                     } else {
-                        next.addClass("nodisplay");
+                        next.addClass("babe-nodisplay");
                     }
                 }
 
                 if (babe.deploy.deployMethod !== "Prolific") {
-                    IDform.addClass("nodisplay");
-                    next.removeClass("nodisplay");
+                    IDform.addClass("babe-nodisplay");
+                    next.removeClass("babe-nodisplay");
                 }
 
                 prolificId.on("keyup", function() {
@@ -82,31 +76,20 @@ const babeViews = {
         paramsChecker(config, "instructions");
         const instructions = {
             name: config.name,
-            title: config.title,
+            title: setTitle(config.title, 'Instructions'),
             text: config.text,
-            buttonText: config.buttonText,
+            button: setButtonText(config.buttonText),
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    {{# title }}
-                    <h1>{{ title }}</h1>
-                    {{/ title }}
-                    {{# text }}
-                    <section class="text-container">
-                        <p class="text">{{ text }}</p>
+                const viewTemplate =
+                `<div class="babe-view">
+                    <h1 class='babe-view-title'>${this.title}</h1>
+                    <section class="babe-text-container">
+                        <p class="babe-view-text">${this.text}</p>
                     </section>
-                    {{/ text }}
-                    {{# button }}
-                    <button id="next">{{ button }}</button>
-                    {{/ button }}
+                    <button id="next" class='babe-view-button'>${this.button}</button>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        title: this.title,
-                        text: this.text,
-                        button: this.buttonText
-                    })
-                );
+                $("#main").html(viewTemplate);
 
                 // moves to the next view
                 $("#next").on("click", function() {
@@ -124,24 +107,21 @@ const babeViews = {
         paramsChecker(config, "begin experiment");
         const begin = {
             name: config.name,
+            title: setTitle(config.title, 'Begin'),
             text: config.text,
+            button: setButtonText(config.buttonText),
             // render function renders the view
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    {{# text }}
-                    <section class="text-container">
-                        <p class="text">{{ text }}</p>
+                const viewTemplate =
+                `<div class="babe-view">
+                    <h1 class='babe-view-title'>${this.title}</h1>
+                    <section class='babe-text-container'>
+                        <p class='babe-view-text'>${this.text}</p>
                     </section>
-                    {{/ text }}
-                    <button id="next">Begin Experiment</button>
+                    <button id='next' class='babe-view-button'>${this.button}</button>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        title: this.title,
-                        text: this.text
-                    })
-                );
+                $("#main").html(viewTemplate);
 
                 // moves to the next view
                 $("#next").on("click", function(e) {
@@ -161,31 +141,25 @@ const babeViews = {
         const forcedChoice = {
             name: config.name,
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    <div class="picture", align = "center">
-                        <img src={{picture}} alt="a picture" height="100" width="100">
+                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                const viewTemplate =
+                `<div class='babe-view'>
+                    <div class='babe-view-picture'>
+                        <img src=${picture} alt='a picture'>
                     </div>
-                    <p class="question">
-                    {{# question }}
-                    {{ question }}
-                    {{/ question }}
-                    </p>
-                    <p class="answer-container buttons-container">
-                        <label for="yes" class="button-answer">{{ option1 }}</label>
-                        <input type="radio" name="answer" id="yes" value={{ option1 }} />
-                        <input type="radio" name="answer" id="no" value={{ option2 }} />
-                        <label for="no" class="button-answer">{{option2}}</label>
+                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-view-answer-container'>
+                        <label for='o1' class='babe-response-buttons'>${option1}</label>
+                        <input type='radio' name='answer' id='o1' value=${option1} />
+                        <input type='radio' name='answer' id='o2' value=${option2} />
+                        <label for='o2' class='babe-response-buttons'>${option2}</label>
                     </p>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        picture: config.data[CT].picture
-                    })
-                );
+                $("#main").html(viewTemplate);
 
                 const startingTime = Date.now();
 
@@ -199,9 +173,10 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
+                        picture: config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
-                        option_chosen: $("input[name=answer]:checked").val(),
+                        response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
                     babe.trial_data.push(trial_data);
@@ -221,44 +196,39 @@ const babeViews = {
         const sliderRating = {
             name: config.name,
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    <div class="picture", align = "center">
-                        <img src={{ picture }} alt="a picture" height="100" width="100">
+                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                let response;
+                const viewTemplate =
+                `<div class='babe-view'>
+                    <div class='babe-view-picture'>
+                        <img src=${picture} alt='a picture'>
                     </div>
-                    <p class="question">
-                    {{# question }}
-                    {{ question }}
-                    {{/ question }}
+                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-view-answer-container'>
+                        <span class='babe-response-slider-option'>${option1}</span>
+                        <input type='range' id='response' class='babe-response-slider' min='0' max='100' value='50'/>
+                        <span class='babe-response-slider-option'>${option2}</span>
                     </p>
-                    <p class="answer-container slider-container">
-                        <span class="unnatural">{{ option1 }}</span>
-                        <input type="range" id="response" class="slider-response" min="0" max="100" value="50"/>
-                        <span class="natural">{{ option2 }}</span>
-                    </p>
-                    <button id="next" class="nodisplay">Next</button>
+                    <button id="next" class='babe-view-button babe-nodisplay'>Next</button>
                 </div>`;
 
-                let response;
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        picture: config.data[CT].picture
-                    })
-                );
+                $('#main').html(viewTemplate);
+
                 const startingTime = Date.now();
-                response = $("#response");
+                response = $('#response');
 
                 // checks if the slider has been changed
-                response.on("change", function() {
-                    $("#next").removeClass("nodisplay");
+                response.on('change', function() {
+                    $('#next').removeClass('babe-nodisplay');
                 });
-                response.on("click", function() {
-                    $("#next").removeClass("nodisplay");
+                response.on('click', function() {
+                    $('#next').removeClass('babe-nodisplay');
                 });
 
-                $("#next").on("click", function() {
+                $('#next').on('click', function() {
                     const RT = Date.now() - startingTime; // measure RT before anything else
                     const trial_data = {
                         trial_type: config.trial_type,
@@ -266,7 +236,8 @@ const babeViews = {
                         question: config.data[CT].question,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
-                        rating_slider: response.val(),
+                        picture: config.data[CT].picture,
+                        response: response.val(),
                         RT: RT
                     };
                     babe.trial_data.push(trial_data);
@@ -286,41 +257,34 @@ const babeViews = {
         const textboxInput = {
             name: config.name,
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    <p class="question">
-                    {{# question }}
-                    {{/ question }}
-                    {{ question }}
-                    </p>
-                    {{# picture }}
-                    <div class="picture", align = "center">
-                        <img src={{ picture }} alt="picture" height="100" width="100">
+                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const minChars = (config.data[CT].minChars === undefined) ? 10 : config.data[CT].minChars;
+                const viewTemplate =
+                `<div class='babe-view'>
+                    <div class='babe-view-picture'>
+                        <img src=${picture} alt='picture'>
                     </div>
-                    {{/ picture }}
-                    <p class="answer-container">
-                        <textarea name="textbox-input" rows=10 cols=50 class="textbox-input" />
+                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-view-answer-container'>
+                        <textarea name='textbox-input' rows=10 cols=50 class='babe-response-text' />
                     </p>
-                    <button id="next" class="nodisplay">next</button>
+                    <button id='next' class='babe-view-button babe-nodisplay'>next</button>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        picture: config.data[CT].picture
-                    })
-                );
-                const next = $("#next");
-                const textInput = $("textarea");
+                $("#main").html(viewTemplate);
+                const next = $('#next');
+                const textInput = $('textarea');
                 const startingTime = Date.now();
 
                 // attaches an event listener to the textbox input
-                textInput.on("keyup", function() {
+                textInput.on('keyup', function() {
                     // if the text is longer than (in this case) 10 characters without the spaces
                     // the 'next' button appears
-                    if (textInput.val().trim().length > 10) {
-                        next.removeClass("nodisplay");
+                    if (textInput.val().trim().length > minChars) {
+                        next.removeClass('babe-nodisplay');
                     } else {
-                        next.addClass("nodisplay");
+                        next.addClass('babe-nodisplay');
                     }
                 });
 
@@ -331,7 +295,9 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        text_input: textInput.val().trim(),
+                        picture: config.data[CT].picture,
+                        minimum_characters = config.data[CT].minChars,
+                        response: textInput.val().trim(),
                         RT: RT
                     };
                     babe.trial_data.push(trial_data);
@@ -351,67 +317,48 @@ const babeViews = {
         const dropdownChoice = {
             name: config.name,
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    <div class="picture", align = "center">
-                        <img src={{ picture }} alt="a picture" height="100" width="100">
+                let response;
+                const question_left_part = config.data[CT].question_left_part;
+                const question_right_part = (config.data[CT].question_right_part === undefined) ? '' : config.data[CT].question_right_part;
+                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                const viewTemplate =
+                `<div class='babe-view'>
+                    <div class='babe-view-picture'>
+                        <img src=${picture} alt='a picture'>
                     </div>
-
-                    {{# question }}
-                    <p class="answer-container dropdown-container">
-                        <p class="question">
-                        {{ question }}
-                        <select id="response" name="answer">
+                    <p class='babe-view-answer-container babe-response-dropdown'>
+                        ${question_left_part}
+                        <select id='response' name='answer'>
                             <option disabled selected></option>
-                            <option value={{ option1 }}>{{ option1 }}</option>
-                            <option value={{ option2 }}>{{ option2 }}</option>
+                            <option value=${option1}>${option1}</option>
+                            <option value=${option2}>${option2}</option>
                         </select>
+                        ${question_right_part}
                         </p>
-                        <button id="next" class="nodisplay">Next</button>
+                        <button id='next' class='babe-view-button babe-nodisplay'>Next</button>
                     </p>
-                    {{/ question }}
-                    {{# questionLeftPart }}
-                    <p class="answer-container dropdown-container">
-                        <p class="question">
-                        {{ questionLeftPart }}
-                        <select id="response" name="answer">
-                            <option disabled selected></option>
-                            <option value={{ option1 }}>{{ option1 }}</option>
-                            <option value={{ option2 }}>{{ option2 }}</option>
-                        </select>
-                        {{ questionRightPart }}
-                        </p>
-                        <button id="next" class="nodisplay">Next</button>
-                    </p>
-                    {{/ questionLeftPart }}
                 </div>`;
 
-                let response;
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        questionLeftPart: config.data[CT].questionLeftPart,
-                        questionRightPart: config.data[CT].questionRightPart,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        picture: config.data[CT].picture
-                    })
-                );
+                $("#main").html(viewTemplate);
                 const startingTime = Date.now();
                 response = $("#response");
 
-                response.on("change", function() {
-                    $("#next").removeClass("nodisplay");
+                response.on('change', function() {
+                    $('#next').removeClass('babe-nodisplay');
                 });
 
-                $("#next").on("click", function() {
+                $('#next').on('click', function() {
                     const RT = Date.now() - startingTime; // measure RT before anything else
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question: config.data[CT].question,
+                        question: question_left_part.concat('...answer here...').concat(question_right_part),
+                        picture: config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
-                        dropdown_choice: $(response).val(),
+                        response: $(response).val(),
                         RT: RT
                     };
                     babe.trial_data.push(trial_data);
@@ -431,46 +378,36 @@ const babeViews = {
         const ratingScale = {
             name: config.name,
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    {{# picture }}
-                    <div class="picture", align = "center">
-                        <img src={{ picture }} alt="picture" height="100" width="100">
+                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                const viewTemplate =
+                `<div class='babe-view'>
+                    <div class='babe-view-picture'>
+                        <img src=${picture} alt='a picture'>
                     </div>
-                    {{/ picture }}
-
-                    <p class="question">
-                    {{# question }}
-                    {{ question }}
-                    {{/ question }}
-                    </p>
-
-                    <p class="answer-container buttons-container">
-                        <strong>{{ option1 }}</strong>
-                        <label for="1" class="rating-answer">1</label>
+                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-view-answer-container'>
+                        <strong class='babe-response-rating-option babe-view-text'>${option1}</strong>
+                        <label for="1" class='babe-response-rating'>1</label>
                         <input type="radio" name="answer" id="1" value="1" />
-                        <label for="2" class="rating-answer">2</label>
+                        <label for="2" class='babe-response-rating'>2</label>
                         <input type="radio" name="answer" id="2" value="2" />
-                        <label for="3" class="rating-answer">3</label>
+                        <label for="3" class='babe-response-rating'>3</label>
                         <input type="radio" name="answer" id="3" value="3" />
-                        <label for="4" class="rating-answer">4</label>
+                        <label for="4" class='babe-response-rating'>4</label>
                         <input type="radio" name="answer" id="4" value="4" />
-                        <label for="5" class="rating-answer">5</label>
+                        <label for="5" class='babe-response-rating'>5</label>
                         <input type="radio" name="answer" id="5" value="5" />
-                        <label for="6" class="rating-answer">6</label>
+                        <label for="6" class='babe-response-rating'>6</label>
                         <input type="radio" name="answer" id="6" value="6" />
-                        <label for="7" class="rating-answer">7</label>
+                        <label for="7" class='babe-response-rating'>7</label>
                         <input type="radio" name="answer" id="7" value="7" />
-                        <strong>{{ option2 }}</strong>
+                        <strong class='babe-response-rating-option babe-view-text'>${option2}</strong>
                     </p>
                 </div>`;
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        picture: config.data[CT].picture
-                    })
-                );
+                $("#main").html(viewTemplate);
                 const startingTime = Date.now();
 
                 // attaches an event listener to the yes / no radio inputs
@@ -483,9 +420,10 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
+                        picture: config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
-                        option_chosen: $("input[name=answer]:checked").val(),
+                        response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
                     babe.trial_data.push(trial_data);
@@ -505,35 +443,25 @@ const babeViews = {
         const sentenceChoice = {
             name: config.name,
             render: function(CT, babe) {
-                var viewTemplate = `<div class="view">
-                    {{# picture }}
-                    <div class="picture" align = "center">
-                        <img src={{ picture }} alt="picture" height="100" width="100">
+                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                const viewTemplate =
+                `<div class='babe-view'>
+                    <div class='babe-view-picture'>
+                        <img src=${picture} alt='a picture'>
                     </div>
-                    {{/ picture }}
-
-                    <p class="question">
-                    {{# question }}
-                    {{ question }}
-                    {{/ question }}
-                    </p>
-
-                    <p class="answer-container buttons-container">
-                        <label for="1" class="sentence-selection">{{ option1 }}</label>
-                        <input type="radio" name="answer" id="1" value="{{ option1 }}"/>
-                        <label for="2" class="sentence-selection">{{ option2 }}</label>
-                        <input type="radio" name="answer" id="2" value="{{ option2 }}"/>
+                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-view-answer-container'>
+                        <label for='s1' class='babe-response-sentence'>${option1}</label>
+                        <input type='radio' name='answer' id='s1' value=${option1}'/>
+                        <label for='s2' class='babe-response-sentence'>${option2}</label>
+                        <input type='radio' name='answer' id='s2' value=${option2}"/>
                     </p>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        picture: config.data[CT].picture
-                    })
-                );
+                $("#main").html(viewTemplate);
                 var startingTime = Date.now();
 
                 $("input[name=answer]").on("change", function() {
@@ -542,9 +470,10 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
+                        picture: config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
-                        option_chosen: $("input[name=answer]:checked").val(),
+                        response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
                     babe.trial_data.push(trial_data);
@@ -564,30 +493,23 @@ const babeViews = {
         const imageSelection = {
             name: config.name,
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    <p class="question">
-                    {{# question }}
-                    {{ question }}
-                    {{/ question }}
-                    </p>
-
-                    <p class="answer-container imgs-container">
-                        <label for="img1" class="img-answer"><img src={{ picture1 }} alt="picture" height="100" width="100"></label>
-                        <input type="radio" name="answer" id="img1" value={{  option1 }} />
-                        <input type="radio" name="answer" id="img2" value={{ option2 }} />
-                        <label for="img2" class="img-answer"><img src={{ picture2 }} alt="picture" height="100" width="100"></label>
+                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const picture1 = config.data[CT].picture1;
+                const picture2 = config.data[CT].picture2;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                const viewTemplate =
+                `<div class="view">
+                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-view-answer-container'>
+                        <label for="img1" class='babe-view-picture babe-response-picture'><img src=${picture1}></label>
+                        <input type="radio" name="answer" id="img1" value=${option1} />
+                        <input type="radio" name="answer" id="img2" value=${option2} />
+                        <label for="img2" class='babe-view-picture babe-response-picture'><img src=${picture2}></label>
                     </p>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        picture1: config.data[CT].picture1,
-                        picture2: config.data[CT].picture2
-                    })
-                );
+                $("#main").html(viewTemplate);
                 const startingTime = Date.now();
 
                 $("input[name=answer]").on("change", function() {
@@ -600,7 +522,7 @@ const babeViews = {
                         option2: config.data[CT].option2,
                         picture1: config.data[CT].picture1,
                         picture2: config.data[CT].picture2,
-                        image_selected: $("input[name=answer]:checked").val(),
+                        response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
                     babe.trial_data.push(trial_data);
@@ -620,33 +542,23 @@ const babeViews = {
         const keyPress = {
             name: config.name,
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view">
-                    <h3>{{ key1 }} = {{ value1 }}, {{ key2 }} = {{ value2 }}</h3>
-                    <p class="question">
-                    {{# question }}
-                    {{/ question }}
-                    {{ question }}
-                    </p>
-                    {{# picture }}
-                    <div class="picture", align = "center">
-                        <img src={{ picture }} alt="picture" height="100" width="100">
-                    </div>
-                    {{/ picture }}
-                </div>`;
-
+                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
                 const key1 = config.data[CT].key1;
                 const key2 = config.data[CT].key2;
+                const value1 = config.data[CT][key1];
+                const value2 = config.data[CT][key2];
+                const viewTemplate =
+                `<div class="view">
+                    <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
+                    <p class='babe-view-question'>${question}</p>
+                    <div class='babe-view-picture'>
+                        <img src=${picture} alt='a picture'>
+                    </div>
+                </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        question: config.data[CT].question,
-                        picture: config.data[CT].picture,
-                        key1: key1,
-                        key2: key2,
-                        value1: config.data[CT][key1],
-                        value2: config.data[CT][key2]
-                    })
-                );
+
+                $("#main").html(viewTemplate);
                 const startingTime = Date.now();
 
                 function handleKeyPress(e) {
@@ -708,25 +620,21 @@ const babeViews = {
         paramsChecker(config, "post test");
         const postTest = {
             name: config.name,
-            title: config.title,
+            title: setTitle(config.title, 'Additional Information'),
             text: config.text,
-            buttonText: config.buttonText,
+            button: setButtonText(config.buttonText),
             render: function(CT, babe) {
-                const viewTemplate = `<div class="view post-test-templ">
-                    {{# title }}
-                    <h1>{{ title }}</h1>
-                    {{/ title }}
-                    {{# text }}
-                    <section class="text-container">
-                        <p class="text">{{ text }}</p>
+                const viewTemplate = `<div class='babe-view babe-post-test-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
+                    <section class='babe-text-container'>
+                        <p class='babe-view-text'>${this.text}</p>
                     </section>
-                    {{/ text }}
                     <form>
-                        <p>
+                        <p class='babe-view-text'>
                             <label for="age">Age:</label>
                             <input type="number" name="age" min="18" max="110" id="age" />
                         </p>
-                        <p>
+                        <p class='babe-view-text'>
                             <label for="gender">Gender:</label>
                             <select id="gender" name="gender">
                                 <option></option>
@@ -735,7 +643,7 @@ const babeViews = {
                                 <option value="other">other</option>
                             </select>
                         </p>
-                        <p>
+                        <p class='babe-view-text'>
                             <label for="education">Level of Education:</label>
                             <select id="education" name="education">
                                 <option></option>
@@ -744,31 +652,20 @@ const babeViews = {
                                 <option value="higher_degree">Higher Degree</option>
                             </select>
                         </p>
-                        <p>
+                        <p class='babe-view-text'>
                             <label for="languages" name="languages">Native Languages: <br /><span>(i.e. the language(s) spoken at home when you were a child)</</span></label>
                             <input type="text" id="languages"/>
                         </p>
-                        <p class="comment-sect">
+                        <p class="babe-view-text">
                             <label for="comments">Further comments</label>
                             <textarea name="comments" id="comments"
                             rows="6" cols="40"></textarea>
                         </p>
-                        {{# buttonText }}
-                        <button id="next">{{ buttonText }}</button>
-                        {{/ buttonText }}
-                        {{^ buttonText }}
-                        <button id="next">Next</button>
-                        {{/ buttonText }}
+                        <button id="next" class='babe-view-button'>${this.button}</button>
                     </form>
                 </div>`;
 
-                $("#main").html(
-                    Mustache.render(viewTemplate, {
-                        title: this.title,
-                        text: this.text,
-                        buttonText: this.buttonText
-                    })
-                );
+                $("#main").html(viewTemplate);
 
                 $("#next").on("click", function(e) {
                     // prevents the form from submitting
@@ -803,50 +700,40 @@ const babeViews = {
         paramsChecker(config, "thanks");
         const thanks = {
             name: config.name,
-            message: config.title,
+            title: setTitle(config.title, 'Thank you for taking part in this experiment!'),
             render: function(CT, babe) {
-                var viewTemplate = `<div class="view thanks-templ">
-                    <h4 class="warning-message">submitting the data
-                        <div class="loader"></div>
-                    </h4>
-                    {{# thanksMessage }}
-                    <h1 class="thanks-message nodisplay">{{ thanksMessage }}</h1>
-                    {{/ thanksMessage }}
-                    {{^ thanksMessage }}
-                    <h1 class="thanks-message nodisplay">Thank you for taking part in this experiment!</h1>
-                    {{/ thanksMessage }}
-                    {{# extraMessage }}
-                    <h2 class="extra-message nodisplay">{{{ extraMessage }}}</h2>
-                    {{/ extraMessage }}
-                </div>`;
 
                 // what is seen on the screen depends on the used deploy method
-                //    normally, you do not need to modify this
+                // normally, you do not need to modify this
                 if (
                     babe.deploy.is_MTurk ||
                     babe.deploy.deployMethod === "directLink"
                 ) {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
-                        Mustache.render(viewTemplate, {
-                            thanksMessage: this.message
-                        })
-                    );
+                        `<div class='babe-view babe-thanks-view'>
+                            <h4 id='warning-message' class='babe-warning-message'>submitting the data
+                                <div class='babe-loader'></div>
+                            </h4>
+                            <h1 id='thanks-message' class='babe-nodisplay'>${this.title}</h1>
+                        </div>`
+                        );
                 } else if (babe.deploy.deployMethod === "Prolific") {
                     $("main").html(
-                        Mustache.render(viewTemplate, {
-                            thanksMessage: this.message,
-                            extraMessage: "Please press the button below to confirm that you completed the experiment with Prolific<br />".concat(
-                                "<a href=",
-                                babe.deploy.prolificURL,
-                                ' class="prolific-url">Confirm</a>'
-                            )
-                        })
-                    );
+                        `<div class='babe-view babe-thanks-view'>
+                            <h4 class='babe-warning-message'>submitting the data
+                                <div class='babe-loader'></div>
+                            </h4>
+                            <h1 id='thanks-message' class='babe-nodisplay'>${this.title}</h1>
+                            <h2 id='extra-message' class='babe-nodisplay'>${extraMessage}</h2>
+                        </div>`
+                        );
                 } else if (babe.deploy.deployMethod === "debug") {
-                    $("main").html(Mustache.render(viewTemplate, {}));
+                    $("main").html(
+                        `<div id='babe-debug-table-container' class='babe-view babe-thanks-view'></div>`
+                        );
                 } else {
-                    console.log("no such babe.deploy.deployMethod");
+                    console.error("No such babe.deploy.deployMethod");
                 }
 
                 babe.submission.submit(babe);

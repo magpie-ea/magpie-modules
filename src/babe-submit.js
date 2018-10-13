@@ -27,7 +27,7 @@ function babeSubmit(babe) {
                     var form = jQuery("<form/>", {
                         id: "mturk-submission-form",
                         action: config_deploy.MTurk_server
-                    }).appendTo(".thanks-templ");
+                    }).appendTo(".babe-thanks-view");
                     jQuery("<input/>", {
                         type: "hidden",
                         name: "data",
@@ -60,14 +60,14 @@ function babeSubmit(babe) {
                 );
             } else {
                 const flattenedData = flattenData(data);
-                $(".warning-message").addClass("nodisplay");
+                $("#warning-message").addClass("babe-nodisplay");
                 jQuery("<h3/>", {
                     text: "Debug Mode"
-                }).appendTo($(".view"));
+                }).appendTo($("#babe-debug-table-container"));
                 jQuery("<div/>", {
-                    class: "debug-results",
+                    class: "babe-debug-results",
                     html: formatDebugData(flattenedData)
-                }).appendTo($(".view"));
+                }).appendTo($("#babe-debug-table-container"));
                 createCSVForDownload(flattenedData);
             }
         }
@@ -88,9 +88,9 @@ function babeSubmit(babe) {
             success: function(responseData, textStatus, jqXHR) {
                 console.log(textStatus);
 
-                $(".warning-message").addClass("nodisplay");
-                $(".thanks-message").removeClass("nodisplay");
-                $(".extra-message").removeClass("nodisplay");
+                $("#warning-message").addClass("babe-nodisplay");
+                $("#thanks-message").removeClass("babe-nodisplay");
+                $("#extra-message").removeClass("babe-nodisplay");
 
                 if (config.is_MTurk) {
                     // submits to MTurk's server if isMTurk = true
@@ -110,7 +110,7 @@ function babeSubmit(babe) {
                     submitToMTurk(data);
 
                     // shows a thanks message after the submission
-                    $(".thanks-message").removeClass("nodisplay");
+                    $("#thanks-message").removeClass("babe-nodisplay");
                 } else {
                     // It seems that this timeout (waiting for the server) is implemented as a default value in many browsers, e.g. Chrome. However it is really long (1 min) so timing out shouldn't be such a concern.
                     if (textStatus == "timeout") {
@@ -168,7 +168,7 @@ function babeSubmit(babe) {
 
     // prepare the data form debug mode
     const formatDebugData = function(flattenedData) {
-        var output = "<table id='debugresults'>";
+        var output = "<table id='babe-debug-table'>";
 
         var t = flattenedData[0];
 
@@ -231,7 +231,7 @@ function babeSubmit(babe) {
             window.navigator.msSaveBlob(blob, "results.csv");
         } else {
             jQuery("<a/>", {
-                class: "button download-btn",
+                class: "babe-button",
                 html: "Download the results as CSV",
                 href: window.URL.createObjectURL(blob),
                 download: "results.csv"
