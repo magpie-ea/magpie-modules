@@ -60,10 +60,6 @@ function babeSubmit(babe) {
                 );
             } else {
                 const flattenedData = flattenData(data);
-                $("#warning-message").addClass("babe-nodisplay");
-                jQuery("<h3/>", {
-                    text: "Debug Mode"
-                }).appendTo($("#babe-debug-table-container"));
                 jQuery("<div/>", {
                     class: "babe-debug-results",
                     html: formatDebugData(flattenedData)

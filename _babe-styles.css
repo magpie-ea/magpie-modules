@@ -8,7 +8,7 @@ body {
 
 /* GENERAL ELEMENT STYLES
 
-   view
+    view
     button
     text
     title
@@ -16,25 +16,21 @@ body {
     picture
 
 */
-
 .babe-view-container {
     min-height: 100%;
 }
-
 .babe-view {
     box-sizing: border-box;
     max-width: 960px;
     margin: 0 auto;
     padding: 50px 0;
 }
-
 .babe-view-title {
     color: rgba(0, 0, 0, 0.87);
     font-family: "Playfair Display", "Noto Serif", serif;
     font-size: 34px;
     text-align: center;
 }
-
 .babe-view-text {
     color: rgba(0, 0, 0, 0.87);
     font-size: 17px;
@@ -43,7 +39,6 @@ body {
     margin: 0 auto;
     max-width: 550px;
 }
-
 .babe-view-button {
     background-color: #5187BA;
     border: none;
@@ -60,12 +55,10 @@ body {
     padding: 5px 10px;
     text-transform: uppercase;
 }
-
 .babe-view-button:hover,
 .babe-view-button:focus {
     background-color: #324D93;
 }
-
 .babe-view-question {
     color: rgba(0, 0, 0, 0.87);
     font-size: 17px;
@@ -75,18 +68,15 @@ body {
     max-width: 550px;
     text-align: center;
 }
-
 .babe-view-picture {
     height: 200px;
     margin: 0 auto;
     width: 200px;
 }
-
 .babe-view-picture img {
     height: 100%;
     width: 100%;
 }
-
 .babe-view-answer-container {
     text-align: center;
     margin: 30px auto;
@@ -96,9 +86,7 @@ body {
     RESPONSE TYPE STYLES
 */
 
-/* 
-    hides the input box for the input response types
-*/
+/* hides the actual input for the input response types */
 input[name=answer] {
     display: none;
 }
@@ -112,7 +100,6 @@ input[name=answer] {
 .babe-response-buttons:hover {
     background-color: #324D93;
 }
-
 .babe-response-buttons {
     background-color: #5187BA;
     border: none;
@@ -304,7 +291,15 @@ input[name=answer] {
     max-width: 550px;
 }
 
-/* POST TEST STYLES */
+/* 
+    POST TEST
+    
+    age
+    education
+    languages
+    comments
+
+*/
 .babe-post-test-view form {
     padding: 30px 0;
     max-width: 550px;
@@ -337,13 +332,17 @@ input[name=answer] {
     margin: 5px 0 0 0;
 }
 
-/* THANKS STYLES */
+/* 
+    THANKS VIEW
 
-/* submission loader
-   
-   thanks to https://projects.lukehaas.me/css-loaders/
+    submission loader
+    thanks message
+    warning message
+    follow-the-link (Prolific) message
 
- */
+*/
+
+/* submission loader: thanks to https://projects.lukehaas.me/css-loaders/ */
 .babe-loader,
 .babe-loader:before,
 .babe-loader:after {
@@ -405,29 +404,36 @@ input[name=answer] {
     margin: 0 20px;
     max-width: auto;
 }
-.babe-thanks-view .babe-warining-message {
-    margin: 40px 10px;
+/* submitting the data */
+.babe-thanks-view .babe-thanks {
+    margin: 40px auto;
     text-align: center;
 }
+.babe-thanks-view .babe-warning {
+    margin: 40px auto;
+    text-align: center;
+}
+/* prolific confirmation link */
+.babe-thanks-view .babe-view-button.prolific-url {
+    color: white;
+    display: block;
+    background: #E74D10;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 8px auto;
+    text-decoration: none;
+    width: 65px;
+}
+.babe-thanks-view .babe-view-button.prolific-url:hover {
+    background: #8A2E09;
+}
+/* thank you for taking part in this experiment */
 .babe-thanks-view strong {
     border: 2px solid #25BC82;
     color: #25BC82;
     display: inline-block;
     padding: 10px;
 }
-.babe-thanks-view .babe-success-message {
-    text-align: center;
-}
-.babe-thanks-view .prolific-url {
-    color: white;
-    display: inline-block;
-    background: #E74D10;
-    border-radius: 3px;
-    padding: 10px;
-    margin: 8px 4px;
-    text-decoration: none;
-}
-
 /* DEBUG TABLE */
 .babe-thanks-view .babe-debug-results {
     overflow-x: scroll;
@@ -443,21 +449,21 @@ input[name=answer] {
     line-height: 20px;
     width: 100%;
 }
-
 #babe-debug-table td,
 #babe-debug-table th {
     border: 1px solid #ddd;
     padding: 8px;
 }
-
 #babe-debug-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
-
 #babe-debug-table tr:hover {
     background-color: #ddd;
 }
-
+.babe-thanks-view .babe-view-button {
+    text-decoration: none;
+    width: 221px;
+}
 #babe-debug-table th {
     background-color: #5187BA;
     color: white;

@@ -296,7 +296,7 @@ const babeViews = {
                         trial_number: CT + 1,
                         question: config.data[CT].question,
                         picture: config.data[CT].picture,
-                        minimum_characters = config.data[CT].minChars,
+                        minimum_characters: config.data[CT].minChars,
                         response: textInput.val().trim(),
                         RT: RT
                     };
@@ -712,25 +712,32 @@ const babeViews = {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
                         `<div class='babe-view babe-thanks-view'>
-                            <h4 id='warning-message' class='babe-warning-message'>submitting the data
+                            <h2 id='warning-message' class='babe-warning'>Submitting the data
+                                <p class='babe-view-text'>please do not close the tab</p>
                                 <div class='babe-loader'></div>
-                            </h4>
-                            <h1 id='thanks-message' class='babe-nodisplay'>${this.title}</h1>
+                            </h2>
+                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${this.title}</h1>
                         </div>`
                         );
                 } else if (babe.deploy.deployMethod === "Prolific") {
-                    $("main").html(
+                    $("#main").html(
                         `<div class='babe-view babe-thanks-view'>
-                            <h4 class='babe-warning-message'>submitting the data
+                            <h2 id='warning-message' class='babe-warning'>Submitting the data
+                                <p class='babe-view-text'>please do not close the tab</p>
                                 <div class='babe-loader'></div>
-                            </h4>
-                            <h1 id='thanks-message' class='babe-nodisplay'>${this.title}</h1>
-                            <h2 id='extra-message' class='babe-nodisplay'>${extraMessage}</h2>
+                            </h2>
+                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${this.title}</h1>
+                            <p id='extra-message' class='babe-view-text babe-nodisplay'>
+                                Please press the button below to confirm that you completed the experiment with Prolific
+                                <a href="babe.deploy.prolificURL" class="babe-view-button prolific-url">Confirm</a>
+                            </p>
                         </div>`
                         );
                 } else if (babe.deploy.deployMethod === "debug") {
                     $("main").html(
-                        `<div id='babe-debug-table-container' class='babe-view babe-thanks-view'></div>`
+                        `<div id='babe-debug-table-container' class='babe-view babe-thanks-view'>
+                            <h1 class='babe-view-title'>Debug Mode</h1>
+                        </div>`
                         );
                 } else {
                     console.error("No such babe.deploy.deployMethod");
