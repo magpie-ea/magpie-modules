@@ -1,9 +1,20 @@
-function setTitle(title, dflt) {
+// sets a default title for the views that are not given a title
+const setTitle = function(title, dflt) {
     return (title === undefined || title === '') ? dflt : title;
 };
 
-function setButtonText(buttonText) {
+// sets default button text for the views that are not given button text
+const setButtonText = function(buttonText) {
     return (buttonText === undefined || buttonText === '') ? 'Next' : buttonText;
+};
+
+const checkQuestion = function(question) {
+    if (question === undefined || question === '') {
+        console.warn("this trial has no 'question'");
+        return '';
+    } else {
+        return question;
+    }
 };
 
 const babeViews = {
@@ -141,15 +152,12 @@ const babeViews = {
         const forcedChoice = {
             name: config.name,
             render: function(CT, babe) {
-                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
-                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const question = checkQuestion(config.data[CT].question);
+                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate =
                 `<div class='babe-view'>
-                    <div class='babe-view-picture'>
-                        <img src=${picture} alt='a picture'>
-                    </div>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <label for='o1' class='babe-response-buttons'>${option1}</label>
@@ -157,9 +165,17 @@ const babeViews = {
                         <input type='radio' name='answer' id='o2' value=${option2} />
                         <label for='o2' class='babe-response-buttons'>${option2}</label>
                     </p>
-                </div>`;
+                </div>`
+                ;
 
                 $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $('.babe-view').prepend(
+                    `<div class='babe-view-picture'>
+                        <img src=${picture}>
+                    </div>`)
+                };
 
                 const startingTime = Date.now();
 
@@ -173,7 +189,7 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: config.data[CT].picture,
+                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $("input[name=answer]:checked").val(),
@@ -196,16 +212,13 @@ const babeViews = {
         const sliderRating = {
             name: config.name,
             render: function(CT, babe) {
-                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
-                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const question = checkQuestion(config.data[CT].question);
+                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 let response;
                 const viewTemplate =
                 `<div class='babe-view'>
-                    <div class='babe-view-picture'>
-                        <img src=${picture} alt='a picture'>
-                    </div>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <span class='babe-response-slider-option'>${option1}</span>
@@ -215,7 +228,14 @@ const babeViews = {
                     <button id="next" class='babe-view-button babe-nodisplay'>Next</button>
                 </div>`;
 
-                $('#main').html(viewTemplate);
+                $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $('.babe-view').prepend(
+                    `<div class='babe-view-picture'>
+                        <img src=${picture}>
+                    </div>`)
+                };
 
                 const startingTime = Date.now();
                 response = $('#response');
@@ -236,7 +256,7 @@ const babeViews = {
                         question: config.data[CT].question,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
-                        picture: config.data[CT].picture,
+                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         response: response.val(),
                         RT: RT
                     };
@@ -257,14 +277,11 @@ const babeViews = {
         const textboxInput = {
             name: config.name,
             render: function(CT, babe) {
-                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
-                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const question = checkQuestion(config.data[CT].question);
+                const picture = config.data[CT].picture;
                 const minChars = (config.data[CT].minChars === undefined) ? 10 : config.data[CT].minChars;
-                const viewTemplate =
+                const viewTemplate = 
                 `<div class='babe-view'>
-                    <div class='babe-view-picture'>
-                        <img src=${picture} alt='picture'>
-                    </div>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <textarea name='textbox-input' rows=10 cols=50 class='babe-response-text' />
@@ -273,6 +290,14 @@ const babeViews = {
                 </div>`;
 
                 $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $('.babe-view').prepend(
+                    `<div class='babe-view-picture'>
+                        <img src=${picture}>
+                    </div>`)
+                };
+
                 const next = $('#next');
                 const textInput = $('textarea');
                 const startingTime = Date.now();
@@ -295,7 +320,7 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: config.data[CT].picture,
+                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         minimum_characters: config.data[CT].minChars,
                         response: textInput.val().trim(),
                         RT: RT
@@ -320,14 +345,11 @@ const babeViews = {
                 let response;
                 const question_left_part = config.data[CT].question_left_part;
                 const question_right_part = (config.data[CT].question_right_part === undefined) ? '' : config.data[CT].question_right_part;
-                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate =
+                const viewTemplate = 
                 `<div class='babe-view'>
-                    <div class='babe-view-picture'>
-                        <img src=${picture} alt='a picture'>
-                    </div>
                     <p class='babe-view-answer-container babe-response-dropdown'>
                         ${question_left_part}
                         <select id='response' name='answer'>
@@ -342,6 +364,14 @@ const babeViews = {
                 </div>`;
 
                 $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $('.babe-view').prepend(
+                    `<div class='babe-view-picture'>
+                        <img src=${picture}>
+                    </div>`)
+                };
+
                 const startingTime = Date.now();
                 response = $("#response");
 
@@ -355,7 +385,7 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: question_left_part.concat('...answer here...').concat(question_right_part),
-                        picture: config.data[CT].picture,
+                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $(response).val(),
@@ -378,15 +408,12 @@ const babeViews = {
         const ratingScale = {
             name: config.name,
             render: function(CT, babe) {
-                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
-                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const question = checkQuestion(config.data[CT].question);
+                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate =
                 `<div class='babe-view'>
-                    <div class='babe-view-picture'>
-                        <img src=${picture} alt='a picture'>
-                    </div>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <strong class='babe-response-rating-option babe-view-text'>${option1}</strong>
@@ -407,7 +434,16 @@ const babeViews = {
                         <strong class='babe-response-rating-option babe-view-text'>${option2}</strong>
                     </p>
                 </div>`;
+
                 $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $('.babe-view').prepend(
+                    `<div class='babe-view-picture'>
+                        <img src=${picture}>
+                    </div>`)
+                };
+
                 const startingTime = Date.now();
 
                 // attaches an event listener to the yes / no radio inputs
@@ -420,7 +456,7 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: config.data[CT].picture,
+                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $("input[name=answer]:checked").val(),
@@ -443,15 +479,12 @@ const babeViews = {
         const sentenceChoice = {
             name: config.name,
             render: function(CT, babe) {
-                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
-                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const question = checkQuestion(config.data[CT].question);
+                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate =
                 `<div class='babe-view'>
-                    <div class='babe-view-picture'>
-                        <img src=${picture} alt='a picture'>
-                    </div>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <label for='s1' class='babe-response-sentence'>${option1}</label>
@@ -462,6 +495,14 @@ const babeViews = {
                 </div>`;
 
                 $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $('.babe-view').prepend(
+                    `<div class='babe-view-picture'>
+                        <img src=${picture}>
+                    </div>`)
+                };
+
                 var startingTime = Date.now();
 
                 $("input[name=answer]").on("change", function() {
@@ -470,7 +511,7 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: config.data[CT].picture,
+                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $("input[name=answer]:checked").val(),
@@ -493,7 +534,7 @@ const babeViews = {
         const imageSelection = {
             name: config.name,
             render: function(CT, babe) {
-                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
+                const question = checkQuestion(config.data[CT].question);
                 const picture1 = config.data[CT].picture1;
                 const picture2 = config.data[CT].picture2;
                 const option1 = config.data[CT].option1;
@@ -510,6 +551,7 @@ const babeViews = {
                 </div>`;
 
                 $("#main").html(viewTemplate);
+
                 const startingTime = Date.now();
 
                 $("input[name=answer]").on("change", function() {
@@ -542,8 +584,8 @@ const babeViews = {
         const keyPress = {
             name: config.name,
             render: function(CT, babe) {
-                const question = (config.data[CT].question === undefined) ? '' : config.data[CT].question;
-                const picture = (config.data[CT].picture === undefined) ? '' : config.data[CT].picture;
+                const question = checkQuestion(config.data[CT].question);
+                const picture = config.data[CT].picture;
                 const key1 = config.data[CT].key1;
                 const key2 = config.data[CT].key2;
                 const value1 = config.data[CT][key1];
@@ -552,13 +594,17 @@ const babeViews = {
                 `<div class="view">
                     <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
                     <p class='babe-view-question'>${question}</p>
-                    <div class='babe-view-picture'>
-                        <img src=${picture} alt='a picture'>
-                    </div>
                 </div>`;
 
-
                 $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $('.babe-view').append(
+                    `<div class='babe-view-picture'>
+                        <img src=${picture}>
+                    </div>`)
+                };
+
                 const startingTime = Date.now();
 
                 function handleKeyPress(e) {
@@ -583,23 +629,15 @@ const babeViews = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
                             question: config.data[CT].question,
+                            picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                             expected: config.data[CT].expected,
                             key_pressed: keyPressed,
                             correctness: correctness,
                             RT: RT
                         };
 
-                        trial_data["key1"] = config.data[CT][key1];
-                        trial_data["key2"] = config.data[CT][key2];
-
-                        // question or/and picture are optional
-                        if (config.data[CT].picture !== undefined) {
-                            trial_data["picture"] = config.data[CT].picture;
-                        }
-
-                        if (config.data[CT].question !== undefined) {
-                            trial_data["question"] = config.data[CT].question;
-                        }
+                        trial_data[config.data[CT].key1] = config.data[CT][key1];
+                        trial_data[config.data[CT].key2] = config.data[CT][key2];
 
                         babe.trial_data.push(trial_data);
                         $("body").off("keydown", handleKeyPress);
@@ -703,12 +741,7 @@ const babeViews = {
             title: setTitle(config.title, 'Thank you for taking part in this experiment!'),
             render: function(CT, babe) {
 
-                // what is seen on the screen depends on the used deploy method
-                // normally, you do not need to modify this
-                if (
-                    babe.deploy.is_MTurk ||
-                    babe.deploy.deployMethod === "directLink"
-                ) {
+                if (babe.deploy.is_MTurk || babe.deploy.deployMethod === "directLink") {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
                         `<div class='babe-view babe-thanks-view'>
