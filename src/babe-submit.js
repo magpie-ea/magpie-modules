@@ -227,11 +227,11 @@ function babeSubmit(babe) {
             window.navigator.msSaveBlob(blob, "results.csv");
         } else {
             jQuery("<a/>", {
-                class: "babe-button",
+                class: "babe-view-button",
                 html: "Download the results as CSV",
                 href: window.URL.createObjectURL(blob),
                 download: "results.csv"
-            }).appendTo($(".view"));
+            }).appendTo($(".babe-thanks-view"));
         }
     };
 
