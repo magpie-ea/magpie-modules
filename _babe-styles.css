@@ -470,6 +470,11 @@ input[name=answer] {
     padding: 15px 8px;
     text-align: left;
 }
+canvas {
+    display: block;
+    margin: 0 auto;
+}
+
 
 /* STYLES USED BY JS */
 .babe-nodisplay {
