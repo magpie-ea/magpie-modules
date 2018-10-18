@@ -73,6 +73,10 @@ body {
     margin: 0 auto;
     width: 200px;
 }
+.babe-view-canvas {
+    display: block;
+    margin: 20px auto 30px auto;
+}
 .babe-view-picture img {
     height: 100%;
     width: 100%;
