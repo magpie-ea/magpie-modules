@@ -152,6 +152,7 @@ const babeViews = {
         const forcedChoice = {
             name: config.name,
             render: function(CT, babe) {
+                let startingTime;
                 const question = checkQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
@@ -175,26 +176,42 @@ const babeViews = {
                     `<div class='babe-view-picture'>
                         <img src=${picture}>
                     </div>`)
-                };
+                }
 
-                const startingTime = Date.now();
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
 
                 // attaches an event listener to the yes / no radio inputs
                 // when an input is selected a response property with a value equal
                 // to the answer is added to the trial object
                 // as well as a readingTimes property with value
                 $("input[name=answer]").on("change", function() {
-                    const RT = Date.now() - startingTime; // measure RT before anything else
+                    const RT = Date.now() - startingTime;
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
+
+                    if (config.data[CT].picture !== undefined) {
+                        trial_data.picture = config.data[CT].picture;
+                    }
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
@@ -212,6 +229,7 @@ const babeViews = {
         const sliderRating = {
             name: config.name,
             render: function(CT, babe) {
+                let startingTime;
                 const question = checkQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
@@ -235,9 +253,13 @@ const babeViews = {
                     `<div class='babe-view-picture'>
                         <img src=${picture}>
                     </div>`)
-                };
+                }
 
-                const startingTime = Date.now();
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
                 response = $('#response');
 
                 // checks if the slider has been changed
@@ -256,10 +278,22 @@ const babeViews = {
                         question: config.data[CT].question,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
-                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         response: response.val(),
                         RT: RT
                     };
+
+                    if (config.data[CT].picture !== undefined) {
+                        trial_data.picture = config.data[CT].picture;
+                    }
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
@@ -277,6 +311,7 @@ const babeViews = {
         const textboxInput = {
             name: config.name,
             render: function(CT, babe) {
+                let startingTime;
                 const question = checkQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const minChars = (config.data[CT].minChars === undefined) ? 10 : config.data[CT].minChars;
@@ -296,11 +331,15 @@ const babeViews = {
                     `<div class='babe-view-picture'>
                         <img src=${picture}>
                     </div>`)
-                };
+                }
 
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
                 const next = $('#next');
                 const textInput = $('textarea');
-                const startingTime = Date.now();
 
                 // attaches an event listener to the textbox input
                 textInput.on('keyup', function() {
@@ -320,11 +359,23 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         minimum_characters: config.data[CT].minChars,
                         response: textInput.val().trim(),
                         RT: RT
                     };
+
+                    if (config.data[CT].picture !== undefined) {
+                        trial_data.picture = config.data[CT].picture;
+                    }
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
@@ -343,6 +394,7 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let response;
+                let startingTime;
                 const question_left_part = config.data[CT].question_left_part;
                 const question_right_part = (config.data[CT].question_right_part === undefined) ? '' : config.data[CT].question_right_part;
                 const picture = config.data[CT].picture;
@@ -370,9 +422,13 @@ const babeViews = {
                     `<div class='babe-view-picture'>
                         <img src=${picture}>
                     </div>`)
-                };
+                }
 
-                const startingTime = Date.now();
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
                 response = $("#response");
 
                 response.on('change', function() {
@@ -385,12 +441,24 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: question_left_part.concat('...answer here...').concat(question_right_part),
-                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $(response).val(),
                         RT: RT
                     };
+
+                    if (config.data[CT].picture !== undefined) {
+                        trial_data.picture = config.data[CT].picture;
+                    }
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
@@ -408,6 +476,7 @@ const babeViews = {
         const ratingScale = {
             name: config.name,
             render: function(CT, babe) {
+                let startingTime;
                 const question = checkQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
@@ -442,9 +511,13 @@ const babeViews = {
                     `<div class='babe-view-picture'>
                         <img src=${picture}>
                     </div>`)
-                };
+                }
 
-                const startingTime = Date.now();
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
 
                 // attaches an event listener to the yes / no radio inputs
                 // when an input is selected a response property with a value equal
@@ -456,12 +529,24 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
+
+                    if (config.data[CT].picture !== undefined) {
+                        trial_data.picture = config.data[CT].picture;
+                    }
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
@@ -479,6 +564,7 @@ const babeViews = {
         const sentenceChoice = {
             name: config.name,
             render: function(CT, babe) {
+                let startingTime;
                 const question = checkQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
@@ -501,9 +587,13 @@ const babeViews = {
                     `<div class='babe-view-picture'>
                         <img src=${picture}>
                     </div>`)
-                };
+                }
 
-                var startingTime = Date.now();
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
 
                 $("input[name=answer]").on("change", function() {
                     var RT = Date.now() - startingTime; // measure RT before anything else
@@ -511,12 +601,24 @@ const babeViews = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
                         question: config.data[CT].question,
-                        picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
+
+                    if (config.data[CT].picture !== undefined) {
+                        trial_data.picture = config.data[CT].picture;
+                    }
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
@@ -534,13 +636,14 @@ const babeViews = {
         const imageSelection = {
             name: config.name,
             render: function(CT, babe) {
+                let startingTime;
                 const question = checkQuestion(config.data[CT].question);
                 const picture1 = config.data[CT].picture1;
                 const picture2 = config.data[CT].picture2;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate =
-                `<div class="view">
+                `<div class="babe-view">
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <label for="img1" class='babe-view-picture babe-response-picture'><img src=${picture1}></label>
@@ -552,7 +655,11 @@ const babeViews = {
 
                 $("#main").html(viewTemplate);
 
-                const startingTime = Date.now();
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
 
                 $("input[name=answer]").on("change", function() {
                     const RT = Date.now() - startingTime; // measure RT before anything else
@@ -567,6 +674,15 @@ const babeViews = {
                         response: $("input[name=answer]:checked").val(),
                         RT: RT
                     };
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
@@ -584,6 +700,7 @@ const babeViews = {
         const keyPress = {
             name: config.name,
             render: function(CT, babe) {
+                let startingTime;
                 const question = checkQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const key1 = config.data[CT].key1;
@@ -591,7 +708,7 @@ const babeViews = {
                 const value1 = config.data[CT][key1];
                 const value2 = config.data[CT][key2];
                 const viewTemplate =
-                `<div class="view">
+                `<div class="babe-view">
                     <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
                     <p class='babe-view-question'>${question}</p>
                 </div>`;
@@ -599,13 +716,17 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').append(
+                    $('.babe-view').prepend(
                     `<div class='babe-view-picture'>
                         <img src=${picture}>
                     </div>`)
-                };
+                }
 
-                const startingTime = Date.now();
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas)
+                }
+
+                startingTime = Date.now();
 
                 function handleKeyPress(e) {
                     const keyPressed = String.fromCharCode(
@@ -629,7 +750,6 @@ const babeViews = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
                             question: config.data[CT].question,
-                            picture: (config.data[CT].picture === undefined) ? 'NA' : config.data[CT].picture,
                             expected: config.data[CT].expected,
                             key_pressed: keyPressed,
                             correctness: correctness,
@@ -638,6 +758,18 @@ const babeViews = {
 
                         trial_data[config.data[CT].key1] = config.data[CT][key1];
                         trial_data[config.data[CT].key2] = config.data[CT][key2];
+
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
+
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
+                                }
+                            }
+                        }
 
                         babe.trial_data.push(trial_data);
                         $("body").off("keydown", handleKeyPress);

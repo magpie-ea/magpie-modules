@@ -1,6 +1,6 @@
 {
     "name": "babe-project",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "description": "Basic Architecture for Browser-based experiments (https://github.com/babe-project/babe-project)",
     "main": "_babe.min.js",
     "dependencies": {
@@ -13,7 +13,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "uglify": "uglifyjs src/babe-errors.js src/babe-init.js src/babe-progress-bar.js src/babe-submit.js src/babe-utils.js src/babe-views.js -o _babe.min.js && uglifyjs _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/csv-js/csv.js -o _babe.full.min.js"
+        "uglify": "uglifyjs src/babe-errors.js src/babe-init.js src/babe-progress-bar.js src/babe-submit.js src/babe-utils.js src/babe-views.js src/babe-canvas.js -o _babe.min.js && uglifyjs _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/csv-js/csv.js -o _babe.full.min.js"
     },
     "author": "",
     "license": "MIT"

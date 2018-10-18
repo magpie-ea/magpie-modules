@@ -34,7 +34,7 @@ babeInit({
 
 for example:
 
-var introView = intro({
+const introView = intro({
     ...
     trials: 1,
     ...
@@ -47,7 +47,7 @@ You can find more information at https://github.com/babe-project/babe-base#views
 
 for example:
 
-var introView = intro({
+const introView = intro({
     ...
     name: 'introView',
     ...
@@ -60,7 +60,7 @@ You can find more information at https://github.com/babe-project/babe-base#views
 
 for example:
 
-var mainTrials = forcedChoice({
+const mainTrials = forcedChoice({
     ...
     data: my_main_trials,
     ...
@@ -83,7 +83,7 @@ You can find more information at https://github.com/babe-project/babe-base#views
 
 for example:
 
-var mainTrials = forcedChoice({
+const mainTrials = forcedChoice({
     ...
     trial_type: 'main trials',
     ...
@@ -98,7 +98,7 @@ You can find more information at https://github.com/babe-project/babe-base#views
 
 for example:
 
-var mainTrials = forcedChoice({
+const mainTrials = forcedChoice({
     ...
     data: [
         {
@@ -117,13 +117,13 @@ var mainTrials = forcedChoice({
 
 for example:
 
-var mainView = forcedChoice({
+const mainView = forcedChoice({
     ...
     name: 'myMainView',
     ...
 });
 
-var introView = intro({
+const introView = intro({
     ...
     name: 'intro',
     ...
@@ -140,5 +140,44 @@ babeInit({
     },
     ...
 });
-`
+`,
+    canvasSort:
+`No such 'canvas.sort' value. canvas.sort can be 'grid', 'split_grid' or 'random'.
+
+for example:
+
+const myTrials = [
+    {
+        question: 'Are there circles on the picture',
+        option1: 'yes',
+        option2: 'yes',
+        canvas: {
+            ...
+            sort: 'split_grid'
+            ...
+        }
+    }
+];`,
+    canvasTooSmall:
+`The canvas is too small and the shapes don't fit. Make your canvas bigger.
+
+For example:
+
+const myTrials = [
+    ...
+    {
+        question: 'Are there circles on the picture',
+        option1: 'yes',
+        option2: 'yes',
+        canvas: {
+            ...
+            canvasSize: {
+                height: int,
+                width: int
+            },
+            ...
+        }
+    },
+    ...
+];`
 };

@@ -189,7 +189,7 @@ Each \_babe view function takes an object as a parameter with the following prop
      * trial type views also have:
 
         * `trial_type: string` - the name of the trial type that will be in the final data (for example 'main binary choice');
-        * `data: array` - an array of trial objects
+        * `data: array` - an array of trial objects. see [the data format](docs/views.md)
 
     * other views also have:
 
@@ -203,6 +203,7 @@ Sample use of \_babe views:
 // your_js_file.js
 
 const intro = babeViews.intro({
+    name: 'intro',
     title: 'Welcome!',
     text: 'This is an experiment!',
     buttonText: 'Begin the experiment',
@@ -210,19 +211,29 @@ const intro = babeViews.intro({
 });
 
 const instructions = babeViews.instructions({
+    name: 'instuctions',
     title: 'Instructions',
     text: 'Choose an answer',
     buttonText: 'Next',
     trials: 1
 });
 
+const practice = babeViews.forcedChoice({
+    name: 'practice',
+    trial_type: 'practice',
+    data: practice_trials,
+    trials: 2
+});
+
 const main = babeViews.forcedChoice({
+    name: 'main',
     trial_type: 'main',
     data: main_trials,
     trials: 4
 });
 
 const thanks = babeViews.thanks({
+    name: 'thanks'
     title: 'Thank you for taking part in this experiment!',
     trials: 1
 });
@@ -236,24 +247,27 @@ $("document").ready(function() {
             thanks
         ],
         deploy: {
-            "experimentID": "4",
-            "serverAppURL": "https://babe-demo.herokuapp.com/api/submit_experiment/",
-            "deployMethod": "debug",
-            "contact_email": "YOUREMAIL@wherelifeisgreat.you",
-            "prolificURL": "https://app.prolific.ac/submissions/complete?cc=ABCD1234"
+            'experimentID': '4',
+            'serverAppURL': 'https://babe-demo.herokuapp.com/api/submit_experiment/',
+            'deployMethod': 'debug',
+            'contact_email": 'YOUREMAIL@wherelifeisgreat.you',
+            'prolificURL": 'https://app.prolific.ac/submissions/complete?cc=ABCD1234'
 
         },
         progress_bar: {
             in: [
-                "main"
+                'practice',
+                'main'
             ],
-            style: "default",
+            style: 'default',
             width: 100
         }
     });
 });
 ```
+##### Canvas
 
+If you want to generate a picture with shapes on your trials, you can use babe's [canvas api](docs/canvas.md)
 
 #### Custom views
 
@@ -261,9 +275,9 @@ You can also create your own views.
 
 The views are functions that return an object with the following properties:
 
+* `name: string` - the name of the view (the progress bar uses the name)
 * `trials: number` - the number of trials this view appears
 * `CT: 0` - current trial, always starts from 0
-* `name: string` - the name of the view (the progress bar uses the name)
 * `render: function` - a function that renders the view
     * pass `CT` and `_babe` as parameters to render()
 

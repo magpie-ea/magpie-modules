@@ -7,7 +7,7 @@
 ### Data properties
 
 * `picture` (link) - *optional*
-* `question` (string) - *optional*
+* `question` (string) - **obligatory**
 * `option1` (string) -  **obligatory**
 * `option2` (string) -  **obligatory**
 
@@ -15,11 +15,6 @@
 
 ```
 const forced_choice_trials = [
-    {
-        picture: 'path/to/picture.jpg',
-        option1: 'yes',
-        option2: 'no'
-    },
     {
         picture: 'path/to/picture_of_bread.jpg',
         question: 'What\'s on the bread?',
@@ -67,7 +62,7 @@ const textbox_input_trials = [
 ### Data properties
 
 * `picture` (link) - *optional*
-* `question` (string) - *optional*
+* `question` (string) - **obligatory**
 * `option1` (string) -  **obligatory**
 * `option2` (string) -  **obligatory**
 
@@ -75,11 +70,6 @@ const textbox_input_trials = [
 
 ```
 const slider_rating_trials = [
-    {
-        picture: 'path/to/picture.jpg',
-        option1: 'yes',
-        option2: 'no'
-    },
     {
         picture: 'path/to/picture_of_bread.jpg',
         question: 'What\'s on the bread?',
@@ -101,7 +91,7 @@ const slider_rating_trials = [
 ### Data properties
 
 * `picture` (link) - *optional*
-* `question` (string) - *optional*
+* `question` (string) - **obligatory**
 * `option1` (string) -  **obligatory**
 * `option2` (string) -  **obligatory**
 
@@ -109,11 +99,6 @@ const slider_rating_trials = [
 
 ```
 const dropdown_choice_trials = [
-    {
-        picture: 'path/to/picture.jpg',
-        option1: 'yes',
-        option2: 'no'
-    },
     {
         picture: 'path/to/picture_of_bread.jpg',
         question: 'What\'s on the bread?',
@@ -135,7 +120,7 @@ const dropdown_choice_trials = [
 ### Data properties
 
 * `picture` (link) - *optional*
-* `question` (string) - *optional*
+* `question` (string) - **obligatory**
 * `option1` (string) -  **obligatory**
 * `option2` (string) -  **obligatory**
 
@@ -143,11 +128,6 @@ const dropdown_choice_trials = [
 
 ```
 const rating_scale_trials = [
-    {
-        picture: 'path/to/picture.jpg',
-        option1: 'yes',
-        option2: 'no'
-    },
     {
         picture: 'path/to/picture_of_bread.jpg',
         question: 'What\'s on the bread?',
@@ -169,7 +149,7 @@ const rating_scale_trials = [
 ### Data properties
 
 * `picture` (link) - *optional*
-* `question` (string) - *optional*
+* `question` (string) - **obligatory**
 * `option1` (string) -  **obligatory**
 * `option2` (string) -  **obligatory**
 
@@ -177,11 +157,6 @@ const rating_scale_trials = [
 
 ```
 const sentence_selection_trials = [
-    {
-        picture: 'path/to/picture.jpg',
-        option1: 'yes',
-        option2: 'no'
-    },
     {
         picture: 'path/to/picture_of_bread.jpg',
         question: 'What\'s on the bread?',
@@ -235,7 +210,7 @@ const image_selection_trials = [
 ### Data properties
 
 * `picture` (link) - *optional*
-* `question` (string) - *optional*
+* `question` (string) - **obligatory**
 * `key1` (string) - **obligatory**
 * `key2` (string) - **obligatory**
 * `f` (string) -  **obligatory**
@@ -246,14 +221,6 @@ const image_selection_trials = [
 
 ```
 const key_press_trials = [
-    {
-        picture: 'path/to/picture.jpg',
-        key1: 'f',
-        key2: 'j',
-        f: "fine",
-        j: 'great',
-        expected: 'great'
-    },
     {
         question: 'What\'s the weather like?',
         key1: 'f',
