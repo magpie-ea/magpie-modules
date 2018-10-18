@@ -6,15 +6,15 @@ babe provides three types of element plcement:
 
 1. **random placement**
 
-![](images/canvas_samples/random.png)
+<img src='images/canvas_samples/random.png' alt='random placement example' height='auto' width='600' />
 
 2. **grid placement**
 
-![](images/canvas_samples/grid.png)
+<img src='images/canvas_samples/grid.png' alt='grid placement example' height='auto' width='600' />
 
 3. **split grid placement**
 
-![](images/canvas_samples/split_grid.png)
+<img src='images/canvas_samples/split_grid.png' alt='split grid placement example' height='auto' width='600' />
 
 
 ## How to use babe canvas
@@ -23,7 +23,9 @@ To generate a picture of shapes, all you need is to have `canvas` object with so
 
 For example:
 
+```
 let trials = [
+    ...,
     {
         question: "Are there any blue squares on the screen?",
         option1: 'yes',
@@ -38,8 +40,10 @@ let trials = [
             elemSize: 30,
             total: 40
         }
-    }
-]
+    },
+    ...
+];
+```
 
 ## Data format
 
@@ -47,11 +51,11 @@ let trials = [
 
 - `sort` - the way the elements are arranged on the canvas.
 
- - `sort: 'random'` - randomly placed on the canvas. `start_with` does not have an effect with this arrangement method;
+    - `sort: 'random'` - randomly placed on the canvas. `start_with` does not have an effect with this arrangement method;
 
- - `sort: 'grid'` - the elements are placed in a grid. Uses `canvas.canvas.rows`;
+    - `sort: 'grid'` - the elements are placed in a grid. Uses `canvas.canvas.rows`;
 
- - `sort: 'split_grid'` - the elements are places in a grid that is split in the middle.
+    - `sort: 'split_grid'` - the elements are places in a grid that is split in the middle.
 
 - `elemSize` - the size of the element's shapes (in pixels).
 
@@ -78,11 +82,11 @@ The number of the other elements is total - focal.number
 
 - `start_with` - the `grid` and `split_grid` coordinates are generated from left to right. By default first the focal elements are placed on the canvas so they always appear on the left unless `start_with` is set to `'other'`
 
- - `start_with: 'focal'`: places the focal shapes first (from left to right)
+    - `start_with: 'focal'`: places the focal shapes first (from left to right)
 
- - not set `start_with` places the focal shapes first (from left to right)
+    - not set `start_with` places the focal shapes first (from left to right)
 
- - `start_with: 'other'`: places the other shapes first (from left to right)
+    - `start_with: 'other'`: places the other shapes first (from left to right)
 
 #### Split Grid extra properties
 
@@ -90,11 +94,11 @@ The number of the other elements is total - focal.number
 
 - `direction` - the direction in which the elements are placed. Set to `'row'` if not given.
 
- - `'row'` - in a row, starting from left to right, ignoring the gap between the two sides;
+    - `'row'` - in a row, starting from left to right, ignoring the gap between the two sides;
 
- - `'side_row'` - in a row starting from left to right, not ignoring the gap, i.e. first finishes with the left side and then moves to the right;
+    - `'side_row'` - in a row starting from left to right, not ignoring the gap, i.e. first finishes with the left side and then moves to the right;
 
- - `'column'` - in a column, starting from top left.
+    - `'column'` - in a column, starting from top left.
 
 ### canvas element settings
 
@@ -121,8 +125,8 @@ canvas: {
 ```
 
 If not passed the canvas's
-- height is 300px
-- width is 500px
+- height is 300 (300px)
+- width is 500 (500px)
 - background is 'white'
 
 ## Samples
