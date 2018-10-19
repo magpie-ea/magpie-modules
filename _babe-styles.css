@@ -86,6 +86,33 @@ body {
     margin: 30px auto;
 }
 
+/* 
+    PROGRESS BAR
+*/
+.progress-bar-container {
+    float: right;
+    margin: 0 10px 60px 10px;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.progress-bar {
+    border: 1px solid #5187BA;
+    border-radius: 3px;
+    display: inline-block;
+    height: 14px;
+    margin: 5px;
+    width: 60px;
+}
+
+.progress-bar #filled {
+    background-color: #5187BA;
+    display: block;
+    height: 14px;
+}
+
 /*
     RESPONSE TYPE STYLES
 */
@@ -474,11 +501,6 @@ input[name=answer] {
     padding: 15px 8px;
     text-align: left;
 }
-canvas {
-    display: block;
-    margin: 0 auto;
-}
-
 
 /* STYLES USED BY JS */
 .babe-nodisplay {
