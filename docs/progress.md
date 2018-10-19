@@ -1,6 +1,6 @@
 # \_babe progress bar
 
-<img src='images/progress_samples/default.png' alt='progress bar sample' height='auto' width='500' />
+<img src='images/progress_samples/pb_default.png' alt='progress bar sample' height='auto' width='700' />
 
 ```
 progress_bar: {
@@ -10,14 +10,14 @@ progress_bar: {
         'slider_rating', 	// 4 trials
     ],
     style: "default",
-    width: 120				// 120 pixels
+    width: 120			// 120 pixels
 }
 
 
 // 20 trials overall, each trial fills 10 pixels (120/20) part of the progress bar
 ```
 
-<img src='images/progress_samples/separate.png' alt='progress bar sample' height='auto' width='500' />
+<img src='images/progress_samples/pb_separate.png' alt='progress bar sample' height='auto' width='700' />
 
 ```
 progress_bar: {
@@ -27,14 +27,14 @@ progress_bar: {
         'slider_rating', 	// 4 trials
     ],
     style: "default",
-    width: 120				// 120 pixels
+    width: 120			// 120 pixels
 }
 
 
 // 20 trials overall, each trial fills (120/total trials) pixels part of the progress bar. Each type of view has a separate progress bar.
 ```
 
-<img src='images/progress_samples/chunks.png' alt='progress bar sample' height='auto' width='500' />
+<img src='images/progress_samples/pb_chunks.png' alt='progress bar sample' height='auto' width='700' />
 
 ```
 progress_bar: {
@@ -44,7 +44,7 @@ progress_bar: {
         'slider_rating', 	// 4 trials
     ],
     style: "default",
-    width: 60				// 60 pixels
+    width: 60			// 60 pixels
 }
 
 
