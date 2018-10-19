@@ -131,6 +131,7 @@ If not passed the canvas's
 
 ## Samples
 
+### 1
 <img src='images/canvas_samples/samples_1.png' alt='sample' height='auto' width='500' />
 
 ```
@@ -154,6 +155,7 @@ canvas: {
 // start_with is default (focal elem)
 ```
 
+### 2
 <img src='images/canvas_samples/samples_2.png' alt='sample' height='auto' width='500' />
 
 ```
@@ -175,6 +177,7 @@ canvas: {
 // the canvas size is increased to fit 100 elements
 ```
 
+### 3
 <img src='images/canvas_samples/samples_3.png' alt='sample' height='auto' width='500' />
 
 ```
@@ -190,6 +193,7 @@ canvas: {
 }
 ```
 
+### 4
 <img src='images/canvas_samples/samples_4.png' alt='sample' height='auto' width='500' />
 
 ```
@@ -208,6 +212,7 @@ canvas: {
 }
 ```
 
+### 5
 <img src='images/canvas_samples/samples_5.png' alt='sample' height='auto' width='500' />
 
 ```
@@ -227,6 +232,7 @@ canvas: {
 // the default direction is 'row'
 ```
 
+### 6
 <img src='images/canvas_samples/samples_6.png' alt='sample' height='auto' width='500' />
 
 ```
@@ -248,6 +254,7 @@ canvas: {
 // start_with is default (focal elem)
 ```
 
+### 7
 <img src='images/canvas_samples/samples_7.png' alt='sample' height='auto' width='500' />
 
 ```
