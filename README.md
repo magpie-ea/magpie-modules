@@ -35,7 +35,7 @@ basic architecture for browser-based experiments
         - _babe-styles.css
         - _babe.min.js
 
- `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, Mustache and csv-js). There is no need to install and import jQuery, Mustache and csv-js.
+ `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, and csv-js). There is no need to install and import jQuery, and csv-js.
 
  `_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
 
@@ -161,7 +161,7 @@ Sample `index.html`
 
 #### Included views
 
-\_babe provides several ready-made views which you can access form the `babeViews` object.
+\_babe provides several ready-made views which you can access form the `babeViews` object. The views use [js template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
 
 * trial type views:
     * `babeViews.forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
@@ -219,14 +219,14 @@ const instructions = babeViews.instructions({
 });
 
 const practice = babeViews.forcedChoice({
-    name: 'practice',
+    name: 'practice_forced_choice',
     trial_type: 'practice',
     data: practice_trials,
     trials: 2
 });
 
 const main = babeViews.forcedChoice({
-    name: 'main',
+    name: 'main_forced_choice',
     trial_type: 'main',
     data: main_trials,
     trials: 4
@@ -256,8 +256,8 @@ $("document").ready(function() {
         },
         progress_bar: {
             in: [
-                'practice',
-                'main'
+                'practice_forced_choice',
+                'main_forced_choice'
             ],
             style: 'default',
             width: 100
@@ -265,9 +265,6 @@ $("document").ready(function() {
     });
 });
 ```
-##### Canvas
-
-If you want to generate a picture with shapes on your trials, you can use babe's [canvas api](docs/canvas.md)
 
 #### Custom views
 
@@ -279,34 +276,30 @@ The views are functions that return an object with the following properties:
 * `trials: number` - the number of trials this view appears
 * `CT: 0` - current trial, always starts from 0
 * `render: function` - a function that renders the view
-    * pass `CT` and `_babe` as parameters to render()
+    * pass `CT` and `babe` as parameters to render()
 
-Add the data gathered from your custom trial type views to `_babe.trial_data`
-
+Add the data gathered from your custom trial type views to `babe.trial_data`
 
 Sample custom trial type view:
+
+*The templates use [js template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)*
 
 ```
 babeViews.pressTheButton = function(config) {
     const _pressTheButton = {
         name: config.name,
-        title: config.title,
-        render(CT, _babe) {
+        title: config.title, // 
+        buttonText: config.buttonText,
+        render(CT, babe) {
             let startTime = Date.now();
 
             const viewTemplate =
             `<div class='view'>
-                {{# title }}
-                <h1 class="title">{{ title }}</h1>
-                {{/ title }}
-                <button id="the-button">Press me!</button>
+                <h1 class="title">${title}</h1>
+                <button id="the-button">${button}</button>
             </div>`;
 
-            $("#main").html(
-                Mustache.render(viewTemplate, {
-                    title: this.title
-                })
-            );
+            $("#main").html(viewTemplate);
 
             $('#the-button').on('click', function(e) {
                 _babe.trial_data.push({
@@ -327,6 +320,7 @@ babeViews.pressTheButton = function(config) {
 const mainTrial = babeViews.pressTheButton({
     name: 'buttonPress',
     title: 'How quickly can you press this button?',
+    buttonText: 'Press me!',
     trial_type: 'main',
     trials: 1
 });
@@ -351,20 +345,14 @@ babeViews.sayHello = function(config) {
     const _sayHello = {
         name: config.name,
         title: config.title,
-        render(CT, _babe) {
+        render(CT, babe) {
             const viewTemplate =
             `<div class='view'>
-                {{# title }}
-                <h1 class="title">{{ title }}</h1>
-                {{/ title }}
+                <h1 class="title">${title}</h1>
                 <button id="hello-button">Hello back!</button>
             </div>`;
 
-            $("#main").html(
-                Mustache.render(viewTemplate, {
-                    title: this.title
-                })
-            );
+            $("#main").html(viewTemplate);
 
             $('#hello-button').on('click', function(e) {
                 _babe.findNextView();
@@ -395,6 +383,16 @@ $("document").ready(function() {
     });
 });
 ```
+
+##### Canvas
+
+babe also includes a small library to create simple shapes as a picture for your experiment.
+
+<img src='docs/images/canvas_samples/random.png' alt='random placement example' height='auto' width='400' />
+
+<img src='docs/images/canvas_samples/split_grid.png' alt='random placement example' height='auto' width='400' />
+
+Check the [canvas api](docs/canvas.md) for more information.
 
 ### Deploy configuration
 
@@ -445,12 +443,11 @@ $("document").ready(function() {
 
 ## Development
 
-To get the development version of the \_babe package, clone this repository and install the dependencies by running `npm install` in the terminal
+To get the development version of the \_babe package, clone this repository and install the dependencies by running `npm install` in the terminal. This will install:
 
 **Dependencies**
 
 - [jQuery](https://www.npmjs.com/package/jquery)
-- [Mustache templates](https://www.npmjs.com/package/mustache)
 - [csv-js](https://www.npmjs.com/package/csv-js)
 
 **Development dependencies**
@@ -479,32 +476,16 @@ You can find the development files in the `src/` folder
 
 `\_babe.min.js` includes only the babe project package
 
-`_babe.full.min.js` includes the babe project package + jQuery, Mustache and csv-js
-
-#### install uglify-es with npm
+`_babe.full.min.js` includes the babe project package + jQuery and csv-js
 
 You can use [uglify-es](https://www.npmjs.com/package/uglify-es) to minify the files.
 
-`npm install -g uglify-es`
+```
+#install uglify-es with npm
 
-Instead of running the below commands manually, you can also just run `npm run uglify` to produce those two files.
+npm install -g uglify-es
 
-#### create \_babe.min.js
+#minify the files
 
-Mac OS and Linux
-
-`uglifyjs src/babe-errors.js src/babe-init.js src/babe-progress-bar.js src/babe-submit.js src/babe-utils.js src/babe-views.js -o _babe.min.js`
-
-Windows
-
-`uglifyjs src\babe-errors.js src\babe-init.js src\babe-progress-bar.js src\babe-submit.js src\babe-utils.js src\babe-views.js -o _babe.min.js`
-
-#### create \_babe.full.min.js
-
-Mac OS and Linux
-
-`uglifyjs _babe.min.js node_modules/jquery/dist/jquery.min.js node_modules/mustache/mustache.min.js node_modules/csv-js/csv.js -o _babe.full.min.js`
-
-Windows
-
-`uglifyjs _babe.min.js node_modules\jquery\dist\jquery.min.js node_modules\mustache\mustache.min.js node_modules\csv-js\csv.js -o _babe.full.min.js`
+npm run uglify
+```
