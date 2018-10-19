@@ -437,7 +437,7 @@ $("document").ready(function() {
 });
 ```
 
-[samples](docs/progress/md)
+[samples](docs/progress.md)
 
 ## Sample experiment
 
