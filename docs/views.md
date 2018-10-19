@@ -2,7 +2,7 @@
 
 ## Forced-choice (binary choice) task
 
-<img src='images/forcedChoice.png' alt='random placement example' height='auto' width='500' />
+<img src='images/views_samples/view_fc.png' alt='view sample' height='auto' width='500' />
 
 ### Data properties
 
@@ -31,7 +31,7 @@ const forced_choice_trials = [
 
 ## Textbox Input task
 
-![](images/textboxInput.png)
+<img src='images/views_samples/view_ti.png' alt='view sample' height='auto' width='500' />
 
 ### Data properties
 
@@ -57,7 +57,7 @@ const textbox_input_trials = [
 
 ## Slider Rating task
 
-![slider rating](images/sliderRating.png)
+<img src='images/views_samples/view_sr.png' alt='view sample' height='auto' width='500' />
 
 ### Data properties
 
@@ -86,7 +86,8 @@ const slider_rating_trials = [
 
 ## Dropdown Choice task
 
-![dropdown choice task sample](images/dropdownChoice.png)
+<img src='images/views_samples/view_dc.png' alt='view sample' height='auto' width='500' />
+
 
 ### Data properties
 
@@ -115,7 +116,7 @@ const dropdown_choice_trials = [
 
 ## Rating Scale task
 
-![rating scale task sample](images/dropdownChoice.png)
+<img src='images/views_samples/view_rc.png' alt='view sample' height='auto' width='500' />
 
 ### Data properties
 
@@ -144,7 +145,8 @@ const rating_scale_trials = [
 
 ## Sentence Selection task
 
-![sentence selection task sample](images/sentenceSelection.png)
+<img src='images/views_samples/view_ss.png' alt='view sample' height='auto' width='500' />
+
 
 ### Data properties
 
@@ -173,7 +175,8 @@ const sentence_selection_trials = [
 
 ## Image Selection task
 
-![image selection task sample](images/imageSelection.png)
+<img src='images/views_samples/view_is.png' alt='view sample' height='auto' width='500' />
+
 
 ### Data properties
 
@@ -205,7 +208,8 @@ const image_selection_trials = [
 
 ## Key Press task
 
-![key press task sample](images/keyPress.png)
+<img src='images/views_samples/view_kp.png' alt='view sample' height='auto' width='500' />
+
 
 ### Data properties
 
