@@ -2,7 +2,7 @@
 
 ## Forced-choice (binary choice) task
 
-![](images/forcedChoice.png)
+<img src='images/forcedChoice.png' alt='random placement example' height='auto' width='500' />
 
 ### Data properties
 

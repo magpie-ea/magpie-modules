@@ -90,7 +90,7 @@ The number of the other elements is total - focal.number
 
 #### Split Grid extra properties
 
-- `gap` - the gap between the two sides
+- `gap` - the gap between the two sides. The default `gap` is 1.5 * `elemSize`
 
 - `direction` - the direction in which the elements are placed. Set to `'row'` if not given.
 
@@ -130,3 +130,138 @@ If not passed the canvas's
 - background is 'white'
 
 ## Samples
+
+<img src='images/canvas_samples/samples_1.png' alt='sample' height='auto' width='500' />
+
+```
+canvas: {
+    canvasSettings: {
+        background: 'grey'
+    },
+    focalColor: 'black',
+    focalShape: 'circle',
+    focalNumber: 4,
+    otherShape: 'circle',
+    otherColor: 'white',
+    sort: 'split_grid',
+    rows: 4,
+    direction: 'side_row',
+    elemSize: 30,
+    total: 10
+}
+
+// gap is default (1.5 * elemSize)
+// start_with is default (focal elem)
+```
+
+<img src='images/canvas_samples/samples_2.png' alt='sample' height='auto' width='500' />
+
+```
+canvas: {
+    canvasSettings: {
+        height: 500,
+        width: 700
+    },
+    focalColor: 'blue',
+    focalShape: 'circle',
+    focalNumber: 25,
+    otherShape: 'circle',
+    otherColor: 'green',
+    sort: 'random',
+    elemSize: 10,
+    total: 100
+}
+
+// the canvas size is increased to fit 100 elements
+```
+
+<img src='images/canvas_samples/samples_3.png' alt='sample' height='auto' width='500' />
+
+```
+canvas: {
+    focalColor: 'red',
+    focalShape: 'circle',
+    focalNumber: 1,
+    otherShape: 'triangle',
+    otherColor: 'green',
+    sort: 'random',
+    elemSize: 30,
+    total: 10
+}
+```
+
+<img src='images/canvas_samples/samples_4.png' alt='sample' height='auto' width='500' />
+
+```
+canvas: {
+    focalColor: 'red',
+    focalShape: 'circle',
+    focalNumber: 8,
+    otherShape: 'triangle',
+    otherColor: 'blue',
+    sort: 'split_grid',
+    start_with: 'other',
+    rows: 2,
+    direction: 'side_row',
+    elemSize: 30,
+    total: 16
+}
+```
+
+<img src='images/canvas_samples/samples_5.png' alt='sample' height='auto' width='500' />
+
+```
+canvas: {
+    focalColor: 'red',
+    focalShape: 'circle',
+    focalNumber: 8,
+    otherShape: 'triangle',
+    otherColor: 'blue',
+    sort: 'split_grid',
+    rows: 4,
+    gap: 200,
+    elemSize: 30,
+    total: 16
+}
+
+// the default direction is 'row'
+```
+
+<img src='images/canvas_samples/samples_6.png' alt='sample' height='auto' width='500' />
+
+```
+canvas: {
+    focalColor: 'red',
+    focalShape: 'circle',
+    focalNumber: 10,
+    otherShape: 'triangle',
+    otherColor: 'blue',
+    sort: 'split_grid',
+    rows: 4,
+    gap: 200,
+    direction: 'column'
+    elemSize: 30,
+    total: 16
+}
+
+// direction is default ('row')
+// start_with is default (focal elem)
+```
+
+<img src='images/canvas_samples/samples_7.png' alt='sample' height='auto' width='500' />
+
+```
+canvas: {
+    focalColor: 'grey',
+    focalShape: 'circle',
+    focalNumber: 6,
+    otherShape: 'square',
+    otherColor: 'blue',
+    sort: 'grid',
+    rows: 3,
+    elemSize: 30,
+    total: 18
+}
+
+// start_with is default (focal elem)
+```
