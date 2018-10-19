@@ -429,13 +429,15 @@ $("document").ready(function() {
             in: [
                 "practice",
                 "main"
-            ], // only the practice and the main view will have progress bars in this experiment
-            style: "chunks", // there will be two chunks - one for the practice and one for the main view
-            width: 100 // each one of the two chunks will be 100 pixels long
+            ],                  // only the practice and the main view will have progress bars in this experiment
+            style: "chunks",    // there will be two chunks - one for the practice and one for the main view
+            width: 100          // each one of the two chunks will be 100 pixels long
         }
     });
 });
 ```
+
+[samples](docs/progress/md)
 
 ## Sample experiment
 
