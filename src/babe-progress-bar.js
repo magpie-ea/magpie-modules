@@ -36,10 +36,8 @@ const babeProgress = function(babe) {
                 div = $(".progress-bar").width() / totalProgressParts;
                 filledPart = progressTrials * div;
             } else {
-                div =
-                    $(".progress-bar").width() /
-                    babe.views_seq[babe.currentViewCounter].trials;
-                filledPart = (babe.currentTrialInViewCounter - 1) * div;
+                div = $(".progress-bar").width() / babe.views_seq[babe.currentViewCounter].trials;
+                filledPart = ((babe.currentTrialInViewCounter - 1) * div).toFixed(4);
             }
 
             const filledElem = jQuery("<span/>", {
@@ -55,7 +53,7 @@ const babeProgress = function(babe) {
                     fillChunk = false;
                 }
 
-                if (filledElem.width() === $(".progress-bar").width() - div) {
+                if (filledElem.width().toFixed(4) === ($(".progress-bar").width() - div).toFixed(4)) {
                     fillChunk = true;
                 }
 
@@ -70,7 +68,7 @@ const babeProgress = function(babe) {
     const addToDOM = function() {
         var bar;
         var i;
-        var view = $(".view");
+        var view = $(".babe-view");
         var barWidth = babe.progress_bar.width;
         var clearfix = jQuery("<div/>", {
             class: "clearfix"
