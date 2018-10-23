@@ -149,17 +149,50 @@ const babeDrawShapes = function(trialInfo) {
         canvas.getRandomCoords = function(number, size) {
             let coords = [];
             const margin = size / 2;
-            let recursionCounter = 0;
 
+            // increases the canvas if to small to fit all the elems
+            (function() {
+                let times;
+                const area = canvasElem.height * canvasElem.width;
+                const minArea = size * size * number * 3;
+
+                if (area < minArea) {
+                    times = Math.ceil(minArea / area)
+                    canvasElem.height = canvasElem.height * times;
+                    canvasElem.width = canvasElem.width * times;
+                    console.info(info.canvasTooSmall);
+                } else {
+                    canvasElem.height = canvasElem.height;
+                    canvasElem.width = canvasElem.width;
+                }
+            })();
+
+            // generates random x and y coordinates in the canvas
             const generateCoords = function() {
-                var maxWidth = canvasElem.width - size;
-                var maxHeight = canvasElem.height - size;
-                var xPos = Math.floor(Math.random() * (maxWidth - size)) + size;
-                var yPos = Math.floor(Math.random() * (maxHeight - size)) + size;
+                const maxWidth = canvasElem.width - size;
+                const maxHeight = canvasElem.height - size;
+                const xPos = Math.floor(Math.random() * (maxWidth - size)) + size;
+                const yPos = Math.floor(Math.random() * (maxHeight - size)) + size;
                 
                 return {x: xPos, y: yPos};
             };
 
+            const adjustCanvas = function() {
+                const area = canvasElem.height * canvasElem.width;
+                console.log('area ' + area);
+                const minArea = size * size * number * 2.5;
+                console.log('min area ' + minArea);
+
+                if (area < minArea) {
+                    canvasElem.height = (canvasElem.height * minArea) / canvasElem.width;
+                    canvasElem.width = (canvasElem.width * minArea) / canvasElem.height;
+                } else {
+                    canvasElem.height = canvasElem.height;
+                    canvasElem.width = canvasElem.width;
+                }
+            };
+
+            // ensures no elements overlap
             const checkCoords = function(xPos, yPos) {
                 for (var i=0; i<coords.length; i++) {
                     if (((xPos + size + margin) > coords[i]["x"])
@@ -172,17 +205,20 @@ const babeDrawShapes = function(trialInfo) {
                 return true;
             };
 
-            const generatePositions = function() {
-                var tempCoords = generateCoords();
+            // generates x and y positions on the canvas for one element
+            // checks whether the coord is valid
+            const findValidCoords = function() {
+                let tempCoords = generateCoords();
                 if (checkCoords(tempCoords.x, tempCoords.y)) {
                     coords.push(tempCoords);
                 } else {
-                    generatePositions();
+                    findValidCoords();
                 }
             };
 
+            // finds valid coordinates for each element
             for (i=0; i<number; i++) {
-                generatePositions();
+                findValidCoords();             
             }
 
             return coords;

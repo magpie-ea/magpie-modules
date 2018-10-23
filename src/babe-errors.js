@@ -157,9 +157,14 @@ const myTrials = [
             ...
         }
     }
-];`,
-    canvasTooSmall:
-`The canvas is too small and the shapes don't fit. Make your canvas bigger.
+];`
+};
+
+const info = {
+     canvasTooSmall:
+`The canvas size was increased because the default canvas size was too small to fit all the elements.
+Btw, you can manually change the canvas size by passing 'canvasSettings' to the canvas object,
+however, your canvas settings might be overridden if needed. 
 
 For example:
 
@@ -168,10 +173,9 @@ const myTrials = [
     {
         question: 'Are there circles on the picture',
         option1: 'yes',
-        option2: 'yes',
+        option2: 'no',
         canvas: {
-            ...
-            canvasSize: {
+            canvasSettings: {
                 height: int,
                 width: int
             },
@@ -179,5 +183,8 @@ const myTrials = [
         }
     },
     ...
-];`
-};
+];
+
+See https://github.com/babe-project/babe-project/blob/master/docs/canvas.md for more information.
+`
+}
