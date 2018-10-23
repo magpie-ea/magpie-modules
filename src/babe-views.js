@@ -1,20 +1,53 @@
 // sets a default title for the views that are not given a title
 const setTitle = function(title, dflt) {
-    return (title === undefined || title === '') ? dflt : title;
+    return title === undefined || title === "" ? dflt : title;
 };
 
 // sets default button text for the views that are not given button text
 const setButtonText = function(buttonText) {
-    return (buttonText === undefined || buttonText === '') ? 'Next' : buttonText;
+    return buttonText === undefined || buttonText === "" ? "Next" : buttonText;
 };
 
-const checkQuestion = function(question) {
-    if (question === undefined || question === '') {
+const setQuestion = function(question) {
+    if (question === undefined || question === "") {
         console.warn("this trial has no 'question'");
-        return '';
+        return "";
     } else {
         return question;
     }
+};
+
+// checks whether name and trials are present
+const paramsChecker = function(config, view) {
+    if (config.trials === undefined || config.trials === "") {
+        throw new Error(errors.noTrials.concat(findFile(view)));
+    }
+
+    if (config.name === undefined || config.name === "") {
+        throw new Error(errors.noName.concat(findFile(view)));
+    }
+};
+
+// checks whether data is passed and is array
+const checkTrialView = function(config, view) {
+    if (config.data === undefined || config.data === null) {
+        throw new Error(errors.noData.concat(findFile(view)));
+    }
+
+    if (config.data instanceof Array === false) {
+        throw new Error(errors.notAnArray.concat(findFile(view)));
+    }
+
+    if (config.trial_type === undefined || config.trial_type === "") {
+        throw new Error(errors.noTrialType.concat(findFile(view)));
+    }
+};
+
+// finds in which type of view the error occurs
+function findFile(view) {
+    return `
+
+The problem is in ${view} view type.`;
 };
 
 const babeViews = {
@@ -22,12 +55,11 @@ const babeViews = {
         paramsChecker(config, "intro");
         const intro = {
             name: config.name,
-            title: setTitle(config.title, 'Welcome!'),
+            title: setTitle(config.title, "Welcome!"),
             text: config.text,
             button: setButtonText(config.buttonText),
             render: function(CT, babe) {
-                const viewTemplate =
-                `<div class='babe-view'>
+                const viewTemplate = `<div class='babe-view'>
                     <h1 class='babe-view-title'>${this.title}</h1>
                     <section class="babe-text-container">
                     <p class="babe-view-text">${this.text}</p>
@@ -36,7 +68,9 @@ const babeViews = {
                         <label for="prolific-id">Please, enter your Prolific ID</label>
                         <input type="text" id="prolific-id" />
                     </p>
-                    <button id="next" class='babe-view-button' class="babe-nodisplay">${this.button}</button>
+                    <button id="next" class='babe-view-button' class="babe-nodisplay">${
+                        this.button
+                    }</button>
                 </div>`;
 
                 $("#main").html(viewTemplate);
@@ -87,17 +121,18 @@ const babeViews = {
         paramsChecker(config, "instructions");
         const instructions = {
             name: config.name,
-            title: setTitle(config.title, 'Instructions'),
+            title: setTitle(config.title, "Instructions"),
             text: config.text,
             button: setButtonText(config.buttonText),
             render: function(CT, babe) {
-                const viewTemplate =
-                `<div class="babe-view">
+                const viewTemplate = `<div class="babe-view">
                     <h1 class='babe-view-title'>${this.title}</h1>
                     <section class="babe-text-container">
                         <p class="babe-view-text">${this.text}</p>
                     </section>
-                    <button id="next" class='babe-view-button'>${this.button}</button>
+                    <button id="next" class='babe-view-button'>${
+                        this.button
+                    }</button>
                 </div>`;
 
                 $("#main").html(viewTemplate);
@@ -118,24 +153,25 @@ const babeViews = {
         paramsChecker(config, "begin experiment");
         const begin = {
             name: config.name,
-            title: setTitle(config.title, 'Begin'),
+            title: setTitle(config.title, "Begin"),
             text: config.text,
             button: setButtonText(config.buttonText),
             // render function renders the view
             render: function(CT, babe) {
-                const viewTemplate =
-                `<div class="babe-view">
+                const viewTemplate = `<div class="babe-view">
                     <h1 class='babe-view-title'>${this.title}</h1>
                     <section class='babe-text-container'>
                         <p class='babe-view-text'>${this.text}</p>
                     </section>
-                    <button id='next' class='babe-view-button'>${this.button}</button>
+                    <button id='next' class='babe-view-button'>${
+                        this.button
+                    }</button>
                 </div>`;
 
                 $("#main").html(viewTemplate);
 
                 // moves to the next view
-                $("#next").on("click", function(e) {
+                $("#next").on("click", function() {
                     babe.findNextView();
                 });
             },
@@ -153,12 +189,11 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = checkQuestion(config.data[CT].question);
+                const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate =
-                `<div class='babe-view'>
+                const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <label for='o1' class='babe-response-buttons'>${option1}</label>
@@ -166,20 +201,20 @@ const babeViews = {
                         <input type='radio' name='answer' id='o2' value=${option2} />
                         <label for='o2' class='babe-response-buttons'>${option2}</label>
                     </p>
-                </div>`
-                ;
+                </div>`;
 
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').prepend(
-                    `<div class='babe-view-picture'>
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-picture'>
                         <img src=${picture}>
-                    </div>`)
+                    </div>`
+                    );
                 }
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
@@ -230,13 +265,12 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = checkQuestion(config.data[CT].question);
+                const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 let response;
-                const viewTemplate =
-                `<div class='babe-view'>
+                const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <span class='babe-response-slider-option'>${option1}</span>
@@ -249,28 +283,29 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').prepend(
-                    `<div class='babe-view-picture'>
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-picture'>
                         <img src=${picture}>
-                    </div>`)
+                    </div>`
+                    );
                 }
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
-                response = $('#response');
+                response = $("#response");
 
                 // checks if the slider has been changed
-                response.on('change', function() {
-                    $('#next').removeClass('babe-nodisplay');
+                response.on("change", function() {
+                    $("#next").removeClass("babe-nodisplay");
                 });
-                response.on('click', function() {
-                    $('#next').removeClass('babe-nodisplay');
+                response.on("click", function() {
+                    $("#next").removeClass("babe-nodisplay");
                 });
 
-                $('#next').on('click', function() {
+                $("#next").on("click", function() {
                     const RT = Date.now() - startingTime; // measure RT before anything else
                     const trial_data = {
                         trial_type: config.trial_type,
@@ -312,11 +347,13 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = checkQuestion(config.data[CT].question);
+                const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
-                const minChars = (config.data[CT].minChars === undefined) ? 10 : config.data[CT].minChars;
-                const viewTemplate = 
-                `<div class='babe-view'>
+                const minChars =
+                    config.data[CT].minChars === undefined
+                        ? 10
+                        : config.data[CT].minChars;
+                const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <textarea name='textbox-input' rows=10 cols=50 class='babe-response-text' />
@@ -327,28 +364,29 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').prepend(
-                    `<div class='babe-view-picture'>
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-picture'>
                         <img src=${picture}>
-                    </div>`)
+                    </div>`
+                    );
                 }
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
-                const next = $('#next');
-                const textInput = $('textarea');
+                const next = $("#next");
+                const textInput = $("textarea");
 
                 // attaches an event listener to the textbox input
-                textInput.on('keyup', function() {
+                textInput.on("keyup", function() {
                     // if the text is longer than (in this case) 10 characters without the spaces
                     // the 'next' button appears
                     if (textInput.val().trim().length > minChars) {
-                        next.removeClass('babe-nodisplay');
+                        next.removeClass("babe-nodisplay");
                     } else {
-                        next.addClass('babe-nodisplay');
+                        next.addClass("babe-nodisplay");
                     }
                 });
 
@@ -396,12 +434,14 @@ const babeViews = {
                 let response;
                 let startingTime;
                 const question_left_part = config.data[CT].question_left_part;
-                const question_right_part = (config.data[CT].question_right_part === undefined) ? '' : config.data[CT].question_right_part;
+                const question_right_part =
+                    config.data[CT].question_right_part === undefined
+                        ? ""
+                        : config.data[CT].question_right_part;
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate = 
-                `<div class='babe-view'>
+                const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-answer-container babe-response-dropdown'>
                         ${question_left_part}
                         <select id='response' name='answer'>
@@ -418,29 +458,32 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').prepend(
-                    `<div class='babe-view-picture'>
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-picture'>
                         <img src=${picture}>
-                    </div>`)
+                    </div>`
+                    );
                 }
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
                 response = $("#response");
 
-                response.on('change', function() {
-                    $('#next').removeClass('babe-nodisplay');
+                response.on("change", function() {
+                    $("#next").removeClass("babe-nodisplay");
                 });
 
-                $('#next').on('click', function() {
+                $("#next").on("click", function() {
                     const RT = Date.now() - startingTime; // measure RT before anything else
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question: question_left_part.concat('...answer here...').concat(question_right_part),
+                        question: question_left_part
+                            .concat("...answer here...")
+                            .concat(question_right_part),
                         option1: config.data[CT].option1,
                         option2: config.data[CT].option2,
                         response: $(response).val(),
@@ -477,12 +520,11 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = checkQuestion(config.data[CT].question);
+                const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate =
-                `<div class='babe-view'>
+                const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <strong class='babe-response-rating-option babe-view-text'>${option1}</strong>
@@ -507,14 +549,15 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').prepend(
-                    `<div class='babe-view-picture'>
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-picture'>
                         <img src=${picture}>
-                    </div>`)
+                    </div>`
+                    );
                 }
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
@@ -565,12 +608,11 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = checkQuestion(config.data[CT].question);
+                const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate =
-                `<div class='babe-view'>
+                const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <label for='s1' class='babe-response-sentence'>${option1}</label>
@@ -583,14 +625,15 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').prepend(
-                    `<div class='babe-view-picture'>
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-picture'>
                         <img src=${picture}>
-                    </div>`)
+                    </div>`
+                    );
                 }
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
@@ -637,13 +680,12 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = checkQuestion(config.data[CT].question);
+                const question = setQuestion(config.data[CT].question);
                 const picture1 = config.data[CT].picture1;
                 const picture2 = config.data[CT].picture2;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate =
-                `<div class="babe-view">
+                const viewTemplate = `<div class="babe-view">
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
                         <label for="img1" class='babe-view-picture babe-response-picture'><img src=${picture1}></label>
@@ -656,7 +698,7 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
@@ -701,14 +743,13 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = checkQuestion(config.data[CT].question);
+                const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const key1 = config.data[CT].key1;
                 const key2 = config.data[CT].key2;
                 const value1 = config.data[CT][key1];
                 const value2 = config.data[CT][key2];
-                const viewTemplate =
-                `<div class="babe-view">
+                const viewTemplate = `<div class="babe-view">
                     <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
                     <p class='babe-view-question'>${question}</p>
                 </div>`;
@@ -716,14 +757,15 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 if (picture !== undefined) {
-                    $('.babe-view').prepend(
-                    `<div class='babe-view-picture'>
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-picture'>
                         <img src=${picture}>
-                    </div>`)
+                    </div>`
+                    );
                 }
 
                 if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas)
+                    babeDrawShapes(config.data[CT].canvas);
                 }
 
                 startingTime = Date.now();
@@ -756,8 +798,10 @@ const babeViews = {
                             RT: RT
                         };
 
-                        trial_data[config.data[CT].key1] = config.data[CT][key1];
-                        trial_data[config.data[CT].key2] = config.data[CT][key2];
+                        trial_data[config.data[CT].key1] =
+                            config.data[CT][key1];
+                        trial_data[config.data[CT].key2] =
+                            config.data[CT][key2];
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;
@@ -765,8 +809,11 @@ const babeViews = {
 
                         if (config.data[CT].canvas !== undefined) {
                             for (let prop in config.data[CT].canvas) {
-                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                    trial_data[prop] = config.data[CT].canvas[prop];
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
                                 }
                             }
                         }
@@ -790,7 +837,7 @@ const babeViews = {
         paramsChecker(config, "post test");
         const postTest = {
             name: config.name,
-            title: setTitle(config.title, 'Additional Information'),
+            title: setTitle(config.title, "Additional Information"),
             text: config.text,
             button: setButtonText(config.buttonText),
             render: function(CT, babe) {
@@ -831,7 +878,9 @@ const babeViews = {
                             <textarea name="comments" id="comments"
                             rows="6" cols="40"></textarea>
                         </p>
-                        <button id="next" class='babe-view-button'>${this.button}</button>
+                        <button id="next" class='babe-view-button'>${
+                            this.button
+                        }</button>
                     </form>
                 </div>`;
 
@@ -870,10 +919,15 @@ const babeViews = {
         paramsChecker(config, "thanks");
         const thanks = {
             name: config.name,
-            title: setTitle(config.title, 'Thank you for taking part in this experiment!'),
+            title: setTitle(
+                config.title,
+                "Thank you for taking part in this experiment!"
+            ),
             render: function(CT, babe) {
-
-                if (babe.deploy.is_MTurk || babe.deploy.deployMethod === "directLink") {
+                if (
+                    babe.deploy.is_MTurk ||
+                    babe.deploy.deployMethod === "directLink"
+                ) {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
                         `<div class='babe-view babe-thanks-view'>
@@ -881,9 +935,11 @@ const babeViews = {
                                 <p class='babe-view-text'>please do not close the tab</p>
                                 <div class='babe-loader'></div>
                             </h2>
-                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${this.title}</h1>
+                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${
+                                this.title
+                            }</h1>
                         </div>`
-                        );
+                    );
                 } else if (babe.deploy.deployMethod === "Prolific") {
                     $("#main").html(
                         `<div class='babe-view babe-thanks-view'>
@@ -891,19 +947,21 @@ const babeViews = {
                                 <p class='babe-view-text'>please do not close the tab</p>
                                 <div class='babe-loader'></div>
                             </h2>
-                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${this.title}</h1>
+                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${
+                                this.title
+                            }</h1>
                             <p id='extra-message' class='babe-view-text babe-nodisplay'>
                                 Please press the button below to confirm that you completed the experiment with Prolific
                                 <a href="babe.deploy.prolificURL" class="babe-view-button prolific-url">Confirm</a>
                             </p>
                         </div>`
-                        );
+                    );
                 } else if (babe.deploy.deployMethod === "debug") {
                     $("main").html(
                         `<div id='babe-debug-table-container' class='babe-view babe-thanks-view'>
                             <h1 class='babe-view-title'>Debug Mode</h1>
                         </div>`
-                        );
+                    );
                 } else {
                     console.error("No such babe.deploy.deployMethod");
                 }
@@ -917,33 +975,3 @@ const babeViews = {
         return thanks;
     }
 };
-
-function paramsChecker(config, view) {
-    if (config.trials === undefined || config.trials === "") {
-        throw new Error(errors.noTrials.concat(findFile(view)));
-    }
-
-    if (config.name === undefined || config.name === "") {
-        throw new Error(errors.noName.concat(findFile(view)));
-    }
-}
-
-function checkTrialView(config, view) {
-    if (config.data === undefined || config.data === null) {
-        throw new Error(errors.noData.concat(findFile(view)));
-    }
-
-    if (config.data instanceof Array === false) {
-        throw new Error(errors.notAnArray.concat(findFile(view)));
-    }
-
-    if (config.trial_type === undefined || config.trial_type === "") {
-        throw new Error(errors.noTrialType.concat(findFile(view)));
-    }
-}
-
-function findFile(view) {
-    return `
-
-The problem is in ${view} view.`;
-}

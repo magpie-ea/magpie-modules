@@ -53,9 +53,9 @@ let trials = [
 
     - `sort: 'random'` - randomly placed on the canvas. `start_with` does not have an effect with this arrangement method;
 
-    - `sort: 'grid'` - the elements are placed in a grid. Uses `canvas.canvas.rows`;
+    - `sort: 'grid'` - placed in a grid. Uses `canvas.canvas.rows`;
 
-    - `sort: 'split_grid'` - the elements are places in a grid that is split in the middle.
+    - `sort: 'split_grid'` - placed in a grid that is split in the middle.
 
 - `elemSize` - the size of the element's shapes (in pixels).
 
