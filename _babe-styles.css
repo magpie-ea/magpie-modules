@@ -322,6 +322,26 @@ input[name=answer] {
     max-width: 550px;
 }
 
+/*
+    self-paced reading task
+    ---
+    sentence and underlines
+*/
+.babe-spr-sentence {
+    text-align: center;
+}
+.babe-spr-sentence .spr-word {
+    border-bottom: 2px solid #5187BA;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: "Lato", "Noto Sans", sans-serif;
+    font-size: 17px;
+    line-height: 27px;
+    margin: 0 4px;
+}
+.babe-spr-sentence .spr-word-hidden  {
+    visibility: hidden;
+}
+
 /* 
     POST TEST
     

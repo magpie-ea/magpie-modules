@@ -48,7 +48,7 @@ function findFile(view) {
     return `
 
 The problem is in ${view} view type.`;
-};
+}
 
 const babeViews = {
     intro: function(config) {
@@ -831,6 +831,135 @@ const babeViews = {
         };
 
         return keyPress;
+    },
+
+    selfPacedReading: function(config) {
+        checkTrialView(config, "self-paced reading");
+        paramsChecker(config, "self-paced reading");
+        const spr = {
+            render: function(CT, babe) {
+                let startingTime;
+                const question = setQuestion(config.data[CT].question);
+                const picture = config.data[CT].picture;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                const sentenceList = config.data[CT].sentence.trim().split(" ");
+                const helpText = config.data[CT].helpText;
+                let spaceCounter = 0;
+                let wordList;
+                let readingTimes = [];
+                const viewTemplate = `<div class='babe-view'>
+                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-help-text babe-nodisplay'>${helpText}</p>
+                    <p class='babe-spr-sentence'></p>
+                    <p class='babe-view-answer-container babe-nodisplay'>
+                        <label for='o1' class='babe-response-buttons'>${option1}</label>
+                        <input type='radio' name='answer' id='o1' value=${option1} />
+                        <input type='radio' name='answer' id='o2' value=${option2} />
+                        <label for='o2' class='babe-response-buttons'>${option2}</label>
+                    </p>
+                </div>`;
+
+                $("#main").html(viewTemplate);
+
+                if (picture !== undefined) {
+                    $(".babe-view").prepend(
+                        `<div class='babe-view-question'>
+                        <img src=${picture}>
+                    </div>`
+                    );
+                }
+
+                if (config.data[CT].canvas) {
+                    babeDrawShapes(config.data[CT].canvas);
+                }
+
+                // adds the sentence to the DOM word by word
+                sentenceList.map(word => {
+                    $(".babe-spr-sentence").append(
+                        `<span class='spr-word spr-word-hidden'>${word}</span>`
+                    );
+                });
+
+                startingTime = Date.now();
+
+                // an array of spr word elements
+                wordList = $(".spr-word").toArray();
+
+                const handleKeyPress = function(e) {
+                    if (e.which === 32 && spaceCounter < wordList.length) {
+                        wordList[spaceCounter].classList.remove(
+                            "spr-word-hidden"
+                        );
+
+                        if (spaceCounter > 0) {
+                            wordList[spaceCounter - 1].classList.add(
+                                "spr-word-hidden"
+                            );
+                        }
+
+                        readingTimes.push(Date.now());
+                        spaceCounter++;
+                    } else if (
+                        e.which === 32 &&
+                        spaceCounter === wordList.length
+                    ) {
+                        wordList[spaceCounter - 1].classList.add(
+                            "spr-word-hidden"
+                        );
+                        $(".babe-view-answer-container").removeClass(
+                            "babe-nodisplay"
+                        );
+
+                        readingTimes.push(Date.now());
+                        spaceCounter++;
+                    } else {
+                        $("body").off("keydown", handleKeyPress);
+                        console.log(readingTimes);
+                    }
+                };
+
+                // attaches an eventListener to the body for space
+                $("body").on("keydown", handleKeyPress);
+
+                $("input[name=answer]").on("change", function() {
+                    const RT = Date.now() - startingTime;
+                    let reactionTimes = readingTimes.reduce(
+                        (result, current, idx) => {
+                            return result.concat(readingTimes[idx+1] - readingTimes[idx]);
+                        }, []).filter(item => isNaN(item) === false);
+                    const trial_data = {
+                        trial_type: config.trial_type,
+                        trial_number: CT + 1,
+                        question: config.data[CT].question,
+                        option1: config.data[CT].option1,
+                        option2: config.data[CT].option2,
+                        sentence: config.data[CT].sentence,
+                        response: $("input[name=answer]:checked").val(),
+                        reactionTimes: reactionTimes
+                    };
+
+                    if (config.data[CT].picture !== undefined) {
+                        trial_data.picture = config.data[CT].picture;
+                    }
+
+                    if (config.data[CT].canvas !== undefined) {
+                        for (let prop in config.data[CT].canvas) {
+                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT].canvas[prop];
+                            }
+                        }
+                    }
+
+                    babe.trial_data.push(trial_data);
+                    babe.findNextView();
+                });
+            },
+            CT: 0,
+            trials: config.trials
+        };
+
+        return spr;
     },
 
     postTest: function(config) {
