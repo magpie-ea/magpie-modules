@@ -1,15 +1,27 @@
 const showResponse = function() {
     return new Promise((res, rej) => {
-         res(() => $(".babe-view-answer-container").removeClass('babe-nodisplay'))
+        res(() => $(".babe-view-answer-container").removeClass('babe-nodisplay'))
     })
 };
 
-const updateDOM = function(fix_duration, stim_duration, data, enableResponse) {
+const updateDOM = function(pause, fix_duration, stim_duration, data, enableResponse) {
     // shows or not a fixation point
     new Promise((resolve, reject) => {
-        if (fix_duration !== undefined &&
-            typeof fix_duration === 'number' &&
-            isNaN(fix_duration) === false) {
+        if (pause !== undefined &&
+            typeof pause === 'number' &&
+            isNaN(pause) === false) {
+            setTimeout(() => {
+                console.log('resolved')
+                resolve()
+            }, pause);
+        } else {
+            resolve();
+        }
+    }).then(() => {
+        return new Promise((resolve, reject) => {
+            if (fix_duration !== undefined &&
+                typeof fix_duration === 'number' &&
+                isNaN(fix_duration) === false) {
                 const fixPoint = jQuery('<div/>', {
                     class: 'babe-view-fix-point'
                 });
@@ -19,10 +31,11 @@ const updateDOM = function(fix_duration, stim_duration, data, enableResponse) {
                     fixPoint.remove()
                     resolve('show fix point')
                 }, fix_duration);
-        } else {
-            resolve();
-        }
-    // then shows a picture or a canvas
+            } else {
+                resolve();
+            }
+        });
+        // then shows a picture or a canvas
     }).then(() => {
         if (data.picture !== undefined) {
             $(".babe-view-stimulus-container").prepend(
@@ -39,7 +52,7 @@ const updateDOM = function(fix_duration, stim_duration, data, enableResponse) {
         return new Promise((resolve, reject) => {
             resolve();
         });
-    // then hides or not the stimulus
+        // then hides or not the stimulus
     }).then(() => {
 
         const spacePressed = function(e) {
@@ -423,9 +436,9 @@ const babeViews = {
                 const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const minChars =
-                    config.data[CT].minChars === undefined
-                        ? 10
-                        : config.data[CT].minChars;
+                    config.data[CT].minChars === undefined ?
+                    10 :
+                    config.data[CT].minChars;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
                     <p class='babe-view-answer-container'>
@@ -508,9 +521,9 @@ const babeViews = {
                 let startingTime;
                 const question_left_part = config.data[CT].question_left_part;
                 const question_right_part =
-                    config.data[CT].question_right_part === undefined
-                        ? ""
-                        : config.data[CT].question_right_part;
+                    config.data[CT].question_right_part === undefined ?
+                    "" :
+                    config.data[CT].question_right_part;
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
@@ -914,14 +927,16 @@ const babeViews = {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
                 const QUD = config.data[CT].QUD;
+                const title = (config.data[CT].title !== undefined) ? config.data[CT].title : '';
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const sentenceList = config.data[CT].sentence.trim().split(" ");
+                const sentenceList = config.data[CT].sentence.trim().split(" | ");
                 let spaceCounter = 0;
                 let wordList;
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'></div>
                     <p class='babe-help-text babe-nodisplay'>Press the SPACE bar to reveal the words</p>
@@ -974,7 +989,6 @@ const babeViews = {
                         spaceCounter++;
                     } else {
                         $("body").off("keydown", handleKeyPress);
-                        console.log(readingTimes);
                     }
                 };
 
@@ -1000,6 +1014,7 @@ const babeViews = {
 
                 // updates the DOM and adds the sentence
                 updateDOM(
+                    config.pause,
                     config.fix_duration,
                     config.stim_duration,
                     config.data[CT],
