@@ -92,7 +92,7 @@ body {
 }
 .babe-view-answer-container {
     text-align: center;
-    margin: 30px auto;
+    margin: 70px auto;
 }
 .babe-view-stimulus-container {
     display: flex;
@@ -102,6 +102,7 @@ body {
 }
 .babe-help-text {
     color: #555;
+    font-size: 17px;
     font-style: italic;
     text-align: center;
 }
@@ -163,7 +164,7 @@ input[name=answer] {
     line-height: 20px;
     font-weight: 700;
     letter-spacing: 0.9px;
-    margin: 40px 5px 20px 5px;
+    margin: 0 5px 20px 5px;
     outline: none;
     padding: 5px 10px;
     text-transform: uppercase;
@@ -353,7 +354,7 @@ input[name=answer] {
 .babe-spr-sentence .spr-word {
     color: rgba(0, 0, 0, 0.87);
     font-family: "Lato", "Noto Sans", sans-serif;
-    font-size: 17px;
+    font-size: 19px;
     line-height: 27px;
     margin: 0 4px;
     position: relative;

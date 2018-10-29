@@ -913,6 +913,7 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
+                const QUD = config.data[CT].QUD;
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
@@ -921,11 +922,12 @@ const babeViews = {
                 let wordList;
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
-                    <p class='babe-view-question'>${question}</p>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'></div>
                     <p class='babe-help-text babe-nodisplay'>Press the SPACE bar to reveal the words</p>
                     <p class='babe-spr-sentence'></p>
                     <div class='babe-view-answer-container babe-nodisplay'>
+                        <p class='babe-view-question'>${question}</p>
                         <label for='o1' class='babe-response-buttons'>${option1}</label>
                         <input type='radio' name='answer' id='o1' value=${option1} />
                         <input type='radio' name='answer' id='o2' value=${option2} />
