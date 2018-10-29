@@ -59,6 +59,14 @@ body {
 .babe-view-button:focus {
     background-color: #324D93;
 }
+.babe-view-fix-point {
+    align-self: center;
+    border-radius: 50%;
+    background: red;
+    height: 50px;
+    width: 50px;
+    margin: 0 auto;
+}
 .babe-view-question {
     color: rgba(0, 0, 0, 0.87);
     font-size: 17px;
@@ -69,6 +77,7 @@ body {
     text-align: center;
 }
 .babe-view-picture {
+    align-self: center;
     height: 200px;
     margin: 0 auto;
     width: 200px;
@@ -84,6 +93,17 @@ body {
 .babe-view-answer-container {
     text-align: center;
     margin: 30px auto;
+}
+.babe-view-stimulus-container {
+    display: flex;
+    height: 400px;
+    margin: 0 auto;
+    width: 400px;
+}
+.babe-help-text {
+    color: #555;
+    font-style: italic;
+    text-align: center;
 }
 
 /* 
@@ -331,12 +351,24 @@ input[name=answer] {
     text-align: center;
 }
 .babe-spr-sentence .spr-word {
-    border-bottom: 2px solid #5187BA;
     color: rgba(0, 0, 0, 0.87);
     font-family: "Lato", "Noto Sans", sans-serif;
     font-size: 17px;
     line-height: 27px;
     margin: 0 4px;
+    position: relative;
+}
+.babe-spr-sentence .spr-word:after {
+    background: #333;
+    content: "";
+    display: inline-block;
+    height: 2px;
+    visibility: visible;
+    width: 100%;
+
+    position: absolute;
+    bottom: -3px;
+    left: 0;
 }
 .babe-spr-sentence .spr-word-hidden  {
     visibility: hidden;
@@ -452,7 +484,6 @@ input[name=answer] {
     }
 }
 .babe-thanks-view {
-    margin: 0 20px;
     max-width: auto;
 }
 /* submitting the data */
@@ -525,4 +556,7 @@ input[name=answer] {
 /* STYLES USED BY JS */
 .babe-nodisplay {
     display: none;
+}
+.babe-invisible {
+    visibility: hidden;
 }

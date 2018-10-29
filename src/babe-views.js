@@ -1,3 +1,76 @@
+const showResponse = function() {
+    return new Promise((res, rej) => {
+         res(() => $(".babe-view-answer-container").removeClass('babe-nodisplay'))
+    })
+};
+
+const updateDOM = function(fix_duration, stim_duration, data, enableResponse) {
+    // shows or not a fixation point
+    new Promise((resolve, reject) => {
+        if (fix_duration !== undefined &&
+            typeof fix_duration === 'number' &&
+            isNaN(fix_duration) === false) {
+                const fixPoint = jQuery('<div/>', {
+                    class: 'babe-view-fix-point'
+                });
+                $(".babe-view-stimulus-container").prepend(fixPoint);
+
+                setTimeout(() => {
+                    fixPoint.remove()
+                    resolve('show fix point')
+                }, fix_duration);
+        } else {
+            resolve();
+        }
+    // then shows a picture or a canvas
+    }).then(() => {
+        if (data.picture !== undefined) {
+            $(".babe-view-stimulus-container").prepend(
+                `<div class='babe-view-picture'>
+                <img src=${data.picture}>
+            </div>`
+            );
+        }
+        if (data.canvas) {
+            console.log(data.canvas);
+            babeDrawShapes(data.canvas);
+        }
+
+        return new Promise((resolve, reject) => {
+            resolve();
+        });
+    // then hides or not the stimulus
+    }).then(() => {
+
+        const spacePressed = function(e) {
+            if (e.which === 32) {
+                $('.babe-view-picture').addClass('babe-invisible');
+                $('body').off('keydown', spacePressed);
+            }
+        };
+
+        return new Promise((resolve, reject) => {
+            if (stim_duration !== undefined &&
+                typeof stim_duration === 'number' &&
+                isNaN(stim_duration) === false) {
+                setTimeout(() => {
+                    $(".babe-view-picture").addClass('babe-invisible');
+                    resolve('hide pic')
+                }, stim_duration);
+            } else {
+                $('body').on('keydown', spacePressed);
+                resolve();
+            }
+        });
+    }).then(() => {
+
+        return new Promise((resolve, reject) => {
+            enableResponse();
+        })
+    });
+};
+
+
 // sets a default title for the views that are not given a title
 const setTitle = function(title, dflt) {
     return title === undefined || title === "" ? dflt : title;
@@ -195,7 +268,7 @@ const babeViews = {
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
-                    <p class='babe-view-answer-container'>
+                    <p class='babe-view-answer-container babe-nodisplay'>
                         <label for='o1' class='babe-response-buttons'>${option1}</label>
                         <input type='radio' name='answer' id='o1' value=${option1} />
                         <input type='radio' name='answer' id='o2' value=${option2} />
@@ -844,53 +917,37 @@ const babeViews = {
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const sentenceList = config.data[CT].sentence.trim().split(" ");
-                const helpText = config.data[CT].helpText;
                 let spaceCounter = 0;
                 let wordList;
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question'>${question}</p>
-                    <p class='babe-help-text babe-nodisplay'>${helpText}</p>
+                    <div class='babe-view-stimulus-container'></div>
+                    <p class='babe-help-text babe-nodisplay'>Press the SPACE bar to reveal the words</p>
                     <p class='babe-spr-sentence'></p>
-                    <p class='babe-view-answer-container babe-nodisplay'>
+                    <div class='babe-view-answer-container babe-nodisplay'>
                         <label for='o1' class='babe-response-buttons'>${option1}</label>
                         <input type='radio' name='answer' id='o1' value=${option1} />
                         <input type='radio' name='answer' id='o2' value=${option2} />
                         <label for='o2' class='babe-response-buttons'>${option2}</label>
-                    </p>
+                    </div>
                 </div>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-question'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
-
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
-
-                // adds the sentence to the DOM word by word
-                sentenceList.map(word => {
-                    $(".babe-spr-sentence").append(
-                        `<span class='spr-word spr-word-hidden'>${word}</span>`
-                    );
-                });
-
+                // records the starting time
                 startingTime = Date.now();
 
-                // an array of spr word elements
-                wordList = $(".spr-word").toArray();
-
+                // shows the sentence word by word on SPACE press
                 const handleKeyPress = function(e) {
                     if (e.which === 32 && spaceCounter < wordList.length) {
                         wordList[spaceCounter].classList.remove(
                             "spr-word-hidden"
                         );
+
+                        if (spaceCounter === 0) {
+                            $('.babe-help-text').addClass('babe-invisible');
+                        }
 
                         if (spaceCounter > 0) {
                             wordList[spaceCounter - 1].classList.add(
@@ -919,15 +976,43 @@ const babeViews = {
                     }
                 };
 
-                // attaches an eventListener to the body for space
-                $("body").on("keydown", handleKeyPress);
+                // happens when the stimulus is hidden
+                const enableResponse = function() {
+
+                    // shows the help text
+                    $('.babe-help-text').removeClass('babe-nodisplay');
+
+                    // creates the sentence
+                    sentenceList.map(word => {
+                        $(".babe-spr-sentence").append(
+                            `<span class='spr-word spr-word-hidden'>${word}</span>`
+                        );
+                    });
+
+                    // creates an array of spr word elements
+                    wordList = $(".spr-word").toArray();
+
+                    // attaches an eventListener to the body for space
+                    $("body").on("keydown", handleKeyPress);
+                }
+
+                // updates the DOM and adds the sentence
+                updateDOM(
+                    config.fix_duration,
+                    config.stim_duration,
+                    config.data[CT],
+                    enableResponse
+                );
 
                 $("input[name=answer]").on("change", function() {
                     const RT = Date.now() - startingTime;
-                    let reactionTimes = readingTimes.reduce(
-                        (result, current, idx) => {
-                            return result.concat(readingTimes[idx+1] - readingTimes[idx]);
-                        }, []).filter(item => isNaN(item) === false);
+                    let reactionTimes = readingTimes
+                        .reduce((result, current, idx) => {
+                            return result.concat(
+                                readingTimes[idx + 1] - readingTimes[idx]
+                            );
+                        }, [])
+                        .filter(item => isNaN(item) === false);
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
@@ -936,7 +1021,8 @@ const babeViews = {
                         option2: config.data[CT].option2,
                         sentence: config.data[CT].sentence,
                         response: $("input[name=answer]:checked").val(),
-                        reactionTimes: reactionTimes
+                        reactionTimes: reactionTimes,
+                        time_spent: RT
                     };
 
                     if (config.data[CT].picture !== undefined) {

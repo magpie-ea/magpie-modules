@@ -11,7 +11,7 @@ const babeDrawShapes = function(trialInfo) {
         canvasElem.height = height;
         canvasElem.width = width;
         canvasElem.style.backgroundColor = bg;
-        $('.babe-view').prepend(canvasElem);
+        $('.babe-view-stimulus-container').prepend(canvasElem);
 
         canvas.draw = function(shape, size, x, y, color) {
             context.beginPath();
@@ -154,7 +154,7 @@ const babeDrawShapes = function(trialInfo) {
             (function() {
                 let times;
                 const area = canvasElem.height * canvasElem.width;
-                const minArea = size * size * number * 3;
+                const minArea = size * size * number * 4;
 
                 if (area < minArea) {
                     times = Math.ceil(minArea / area)
