@@ -55,10 +55,11 @@ const updateDOM = function(pause, fix_duration, stim_duration, data, enableRespo
         // then hides or not the stimulus
     }).then(() => {
 
-        const spacePressed = function(e) {
+        const spacePressed = function(e, resolve) {
             if (e.which === 32) {
                 $('.babe-view-picture').addClass('babe-invisible');
                 $('body').off('keydown', spacePressed);
+                resolve();
             }
         };
 
@@ -68,15 +69,15 @@ const updateDOM = function(pause, fix_duration, stim_duration, data, enableRespo
                 isNaN(stim_duration) === false) {
                 setTimeout(() => {
                     $(".babe-view-picture").addClass('babe-invisible');
-                    resolve('hide pic')
+                    resolve();
                 }, stim_duration);
             } else {
-                $('body').on('keydown', spacePressed);
-                resolve();
+                $('body').on('keydown', (e) => {
+                    spacePressed(e, resolve);
+                });
             }
         });
     }).then(() => {
-
         return new Promise((resolve, reject) => {
             enableResponse();
         })
