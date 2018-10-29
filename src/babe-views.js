@@ -1022,6 +1022,12 @@ const babeViews = {
                     enableResponse
                 );
 
+                if (config.customEvents) {
+                    for (let i=0; i<config.customEvents.length; i++) {
+                        config.customEvents[i](config.data[CT]);
+                    }
+                }
+
                 $("input[name=answer]").on("change", function() {
                     const RT = Date.now() - startingTime;
                     let reactionTimes = readingTimes
