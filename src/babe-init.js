@@ -62,11 +62,9 @@ const babeInit = function(config) {
                 currentView.render(currentView.CT, babe);
             } else {
                 $("#main").html(
-                    Mustache.render(
-                        `<div class='view'>
+                    `<div class='babe-view'>
                         <h1 class="title">Nothing more to show</h1>
                     </div>`
-                    )
                 );
                 return;
             }

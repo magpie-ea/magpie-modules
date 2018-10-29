@@ -11,7 +11,6 @@ const updateDOM = function(pause, fix_duration, stim_duration, data, enableRespo
             typeof pause === 'number' &&
             isNaN(pause) === false) {
             setTimeout(() => {
-                console.log('resolved')
                 resolve()
             }, pause);
         } else {
@@ -924,6 +923,7 @@ const babeViews = {
         checkTrialView(config, "self-paced reading");
         paramsChecker(config, "self-paced reading");
         const spr = {
+            name: config.name,
             render: function(CT, babe) {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
