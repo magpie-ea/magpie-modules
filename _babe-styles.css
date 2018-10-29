@@ -59,14 +59,6 @@ body {
 .babe-view-button:focus {
     background-color: #324D93;
 }
-.babe-view-fix-point {
-    align-self: center;
-    border-radius: 50%;
-    background: red;
-    height: 50px;
-    width: 50px;
-    margin: 0 auto;
-}
 .babe-view-question {
     color: rgba(0, 0, 0, 0.87);
     font-size: 17px;
@@ -105,6 +97,31 @@ body {
     font-size: 17px;
     font-style: italic;
     text-align: center;
+}
+
+/*
+    FIXATION POINT
+*/
+.babe-view-fix-point {
+    align-self: center;
+    height: 32px;
+    width: 32px;
+    margin: 0 auto;
+    position: relative;
+}
+.babe-view-fix-point:before, .babe-view-fix-point:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: black;
+}
+.babe-view-fix-point:before {
+  transform: rotate(45deg);
+}
+.babe-view-fix-point:after {
+  transform: rotate(-45deg);
 }
 
 /* 
