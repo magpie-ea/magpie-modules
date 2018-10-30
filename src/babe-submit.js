@@ -26,7 +26,7 @@ function babeSubmit(babe) {
                     // creates a form with assignmentId input for the submission ot MTurk
                     var form = jQuery("<form/>", {
                         id: "mturk-submission-form",
-                        action: config_deploy.MTurk_server
+                        action: babe.deploy.MTurk_server
                     }).appendTo(".babe-thanks-view");
                     jQuery("<input/>", {
                         type: "hidden",
