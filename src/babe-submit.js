@@ -38,7 +38,7 @@ function babeSubmit(babe) {
                     jQuery("<input/>", {
                         type: "hidden",
                         name: "assignmentId",
-                        value: HITData["assignmentId"]
+                        value: HITData["assignment_id"]
                     }).appendTo(form);
                 } catch (e) {
                     console.error(e);
