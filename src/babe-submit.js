@@ -263,8 +263,8 @@ function babeSubmit(babe) {
     // parses the url to get the assignmentId and workerId
     const getHITData = function() {
         const url = window.location.href;
-        const qArray = url.split("?");
-        const HITData = {};
+        let qArray = url.split("?");
+        let HITData = {};
 
         if (qArray[1] === undefined) {
             throw new Error(
