@@ -17,33 +17,29 @@ function babeSubmit(babe) {
 
             // add more fields depending on the deploy method
             if (babe.deploy.is_MTurk) {
-                try {
-                    const HITData = getHITData();
-                    data["assignment_id"] = HITData["assignmentId"];
-                    data["worker_id"] = HITData["workerId"];
-                    data["hit_id"] = HITData["hitId"];
+                const HITData = getHITData();
+                data["assignment_id"] = HITData["assignmentId"];
+                data["worker_id"] = HITData["workerId"];
+                data["hit_id"] = HITData["hitId"];
 
-                    // creates a form with assignmentId input for the submission ot MTurk
-                    var form = jQuery("<form/>", {
-                        id: "mturk-submission-form",
-                        action: babe.deploy.MTurk_server,
-                        method: 'POST'
-                    }).appendTo(".babe-thanks-view");
-                    jQuery("<input/>", {
-                        type: "hidden",
-                        name: "data",
-                        value: JSON.stringify(data)
-                    }).appendTo(form);
-                    // MTurk expects a key 'assignmentId' for the submission to work,
-                    // that is why is it not consistent with the snake case that the other keys have
-                    jQuery("<input/>", {
-                        type: "hidden",
-                        name: "assignmentId",
-                        value: HITData["assignment_id"]
-                    }).appendTo(form);
-                } catch (e) {
-                    console.error(e);
-                }
+                // creates a form with assignmentId input for the submission ot MTurk
+                var form = jQuery("<form/>", {
+                    id: "mturk-submission-form",
+                    action: babe.deploy.MTurk_server,
+                    method: 'POST'
+                }).appendTo(".babe-thanks-view");
+                jQuery("<input/>", {
+                    type: "hidden",
+                    name: "trials",
+                    value: JSON.stringify(data)
+                }).appendTo(form);
+                // MTurk expects a key 'assignmentId' for the submission to work,
+                // that is why is it not consistent with the snake case that the other keys have
+                jQuery("<input/>", {
+                    type: "hidden",
+                    name: "assignmentId",
+                    value: HITData["assignmentId"]
+                }).appendTo(form);
             }
 
             // if the experiment is set to live (see config liveExperiment)
