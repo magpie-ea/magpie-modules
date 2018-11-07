@@ -46,6 +46,7 @@ const babeInit = function(config) {
 
     // adds progress bars to the views
     babe.progress = babeProgress(babe);
+    // makes the submit available
     babe.submission = babeSubmit(babe);
 
     // handles the views rendering

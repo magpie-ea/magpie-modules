@@ -1,88 +1,114 @@
-const showResponse = function() {
-    return new Promise((res, rej) => {
-        res(() => $(".babe-view-answer-container").removeClass('babe-nodisplay'))
-    })
-};
+const createTrialDOM = function(config, enableResponse) {
+    const pause = config.pause;
+    const fix_duration = config.fix_duration;
+    const stim_duration = config.stim_duration;
+    const data = config.data;
+    const view = config.view;
 
-const updateDOM = function(pause, fix_duration, stim_duration, data, enableResponse) {
-    // shows or not a fixation point
+    // shows a blank screen
     new Promise((resolve, reject) => {
-        if (pause !== undefined &&
-            typeof pause === 'number' &&
-            isNaN(pause) === false) {
+        if (
+            pause !== undefined &&
+            typeof pause === "number" &&
+            isNaN(pause) === false
+        ) {
             setTimeout(() => {
-                resolve()
+                resolve();
             }, pause);
         } else {
             resolve();
         }
-    }).then(() => {
-        return new Promise((resolve, reject) => {
-            if (fix_duration !== undefined &&
-                typeof fix_duration === 'number' &&
-                isNaN(fix_duration) === false) {
-                const fixPoint = jQuery('<div/>', {
-                    class: 'babe-view-fix-point'
-                });
-                $(".babe-view-stimulus-container").prepend(fixPoint);
+        // then shows a fixation point (or doesn't)
+    })
+        .then(() => {
+            return new Promise((resolve, reject) => {
+                if (
+                    fix_duration !== undefined &&
+                    typeof fix_duration === "number" &&
+                    isNaN(fix_duration) === false
+                ) {
+                    const fixPoint = jQuery("<div/>", {
+                        class: "babe-view-fix-point"
+                    });
+                    $(".babe-view-stimulus-container").prepend(fixPoint);
 
-                setTimeout(() => {
-                    fixPoint.remove()
-                    resolve('show fix point')
-                }, fix_duration);
-            } else {
-                resolve();
-            }
-        });
-        // then shows a picture or a canvas
-    }).then(() => {
-        if (data.picture !== undefined) {
-            $(".babe-view-stimulus-container").prepend(
-                `<div class='babe-view-picture'>
+                    setTimeout(() => {
+                        fixPoint.remove();
+                        resolve("show fix point");
+                    }, fix_duration);
+                } else {
+                    resolve();
+                }
+            });
+            // then shows the stimulus
+        })
+        .then(() => {
+            if (data.picture !== undefined) {
+                $(".babe-view-stimulus-container").prepend(
+                    `<div class='babe-view-picture'>
                 <img src=${data.picture}>
             </div>`
-            );
-        }
-        if (data.canvas) {
-            console.log(data.canvas);
-            babeDrawShapes(data.canvas);
-        }
-
-        return new Promise((resolve, reject) => {
-            resolve();
-        });
-        // then hides or not the stimulus
-    }).then(() => {
-
-        const spacePressed = function(e, resolve) {
-            if (e.which === 32) {
-                $('.babe-view-picture').addClass('babe-invisible');
-                $('body').off('keydown', spacePressed);
-                resolve();
+                );
             }
-        };
-
-        return new Promise((resolve, reject) => {
-            if (stim_duration !== undefined &&
-                typeof stim_duration === 'number' &&
-                isNaN(stim_duration) === false) {
-                setTimeout(() => {
-                    $(".babe-view-picture").addClass('babe-invisible');
-                    resolve();
-                }, stim_duration);
-            } else {
-                $('body').on('keydown', (e) => {
-                    spacePressed(e, resolve);
-                });
+            if (data.canvas) {
+                console.log(data.canvas);
+                babeDrawShapes(data.canvas);
             }
-        });
-    }).then(() => {
-        return new Promise((resolve, reject) => {
-            enableResponse();
+
+            return new Promise((resolve, reject) => {
+                resolve("stim shown");
+            });
+            // then hides the stimulus
         })
-    });
+        .then(res => {
+            console.log(res);
+            if (view === 'imageSelection') {
+                $('.babe-view-stimulus-container').addClass('babe-nodisplay');
+                return new Promise((resolve, reject) => {
+                    resolve();
+                })
+            }
+            const spacePressed = function(e, resolve) {
+                if (e.which === 32) {
+                    $(".babe-view-picture").addClass("babe-invisible");
+                    $("body").off("keydown", spacePressed);
+                    resolve();
+                }
+            };
+
+            return new Promise((resolve, reject) => {
+                if (
+                    stim_duration !== undefined &&
+                    typeof stim_duration === "number" &&
+                    isNaN(stim_duration) === false
+                ) {
+                    setTimeout(() => {
+                        $(".babe-view-picture").addClass("babe-invisible");
+                        resolve();
+                    }, stim_duration);
+                } else {
+                    $("body").on("keydown", e => {
+                        spacePressed(e, resolve);
+                    });
+                }
+            });
+            // then enables possible actions from the participant
+        })
+        .then(() => {
+            console.log("tries to enable the response");
+            return new Promise((resolve, reject) => {
+                enableResponse();
+            });
+        });
 };
 
+const addCustomEvents = function(evts, data) {
+    if (evts !== undefined) {
+        for (let i = 0; i < evts.length; i++) {
+            evts[i](data);
+        }
+    }
+};
 
 // sets a default title for the views that are not given a title
 const setTitle = function(title, dflt) {
@@ -103,6 +129,14 @@ const setQuestion = function(question) {
     }
 };
 
+const setQUD = function(qud) {
+    if (qud === undefined || qud === "") {
+        return "";
+    } else {
+        return qud;
+    }
+};
+
 // checks whether name and trials are present
 const paramsChecker = function(config, view) {
     if (config.trials === undefined || config.trials === "") {
@@ -114,7 +148,7 @@ const paramsChecker = function(config, view) {
     }
 };
 
-// checks whether data is passed and is array
+// checks whether data is passed to the trial views and whether it is an array
 const checkTrialView = function(config, view) {
     if (config.data === undefined || config.data === null) {
         throw new Error(errors.noData.concat(findFile(view)));
@@ -276,66 +310,79 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
+                const QUD = setQUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
-                    <p class='babe-view-question'>${question}</p>
-                    <p class='babe-view-answer-container babe-nodisplay'>
-                        <label for='o1' class='babe-response-buttons'>${option1}</label>
-                        <input type='radio' name='answer' id='o1' value=${option1} />
-                        <input type='radio' name='answer' id='o2' value=${option2} />
-                        <label for='o2' class='babe-response-buttons'>${option2}</label>
-                    </p>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
                 </div>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-picture'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
+                const answerContainerElem = `<div class='babe-view-answer-container'>
+                    <p class='babe-view-question'>${question}</p>
+                    <label for='o1' class='babe-response-buttons'>${option1}</label>
+                    <input type='radio' name='answer' id='o1' value=${option1} />
+                    <input type='radio' name='answer' id='o2' value=${option2} />
+                    <label for='o2' class='babe-response-buttons'>${option2}</label>
+                </div>`;
 
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
+                const enableResponse = function() {
+                    $(".babe-view").append(answerContainerElem);
+
+                    // attaches an event listener to the yes / no radio inputs
+                    // when an input is selected a response property with a value equal
+                    // to the answer is added to the trial object
+                    // as well as a readingTimes property with value
+                    $("input[name=answer]").on("change", function() {
+                        const RT = Date.now() - startingTime;
+                        const trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: config.data[CT].question,
+                            option1: config.data[CT].option1,
+                            option2: config.data[CT].option2,
+                            response: $("input[name=answer]:checked").val(),
+                            RT: RT
+                        };
+
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
+
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
+                                }
+                            }
+                        }
+
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
 
                 startingTime = Date.now();
 
-                // attaches an event listener to the yes / no radio inputs
-                // when an input is selected a response property with a value equal
-                // to the answer is added to the trial object
-                // as well as a readingTimes property with value
-                $("input[name=answer]").on("change", function() {
-                    const RT = Date.now() - startingTime;
-                    const trial_data = {
-                        trial_type: config.trial_type,
-                        trial_number: CT + 1,
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        response: $("input[name=answer]:checked").val(),
-                        RT: RT
-                    };
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: 'forcedChoice'
+                    },
+                    enableResponse
+                );
 
-                    if (config.data[CT].picture !== undefined) {
-                        trial_data.picture = config.data[CT].picture;
-                    }
-
-                    if (config.data[CT].canvas !== undefined) {
-                        for (let prop in config.data[CT].canvas) {
-                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT].canvas[prop];
-                            }
-                        }
-                    }
-
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
-                });
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -352,72 +399,86 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
+                const QUD = setQUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                let response;
                 const viewTemplate = `<div class='babe-view'>
-                    <p class='babe-view-question'>${question}</p>
-                    <p class='babe-view-answer-container'>
-                        <span class='babe-response-slider-option'>${option1}</span>
-                        <input type='range' id='response' class='babe-response-slider' min='0' max='100' value='50'/>
-                        <span class='babe-response-slider-option'>${option2}</span>
-                    </p>
-                    <button id="next" class='babe-view-button babe-nodisplay'>Next</button>
+                    <p class='babe-view-question babe-view-QUD'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
                 </div>`;
+
+                const answerContainerElem = `<p class='babe-view-question'>${question}</p>
+                <div class='babe-view-answer-container'>
+                    <span class='babe-response-slider-option'>${option1}</span>
+                    <input type='range' id='response' class='babe-response-slider' min='0' max='100' value='50'/>
+                    <span class='babe-response-slider-option'>${option2}</span>
+                </div>
+                <button id="next" class='babe-view-button babe-nodisplay'>Next</button>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-picture'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
+                const enableResponse = function() {
+                    let response;
 
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
+                    $(".babe-view").append(answerContainerElem);
 
-                startingTime = Date.now();
-                response = $("#response");
+                    response = $("#response");
+                    // checks if the slider has been changed
+                    response.on("change", function() {
+                        $("#next").removeClass("babe-nodisplay");
+                    });
+                    response.on("click", function() {
+                        $("#next").removeClass("babe-nodisplay");
+                    });
 
-                // checks if the slider has been changed
-                response.on("change", function() {
-                    $("#next").removeClass("babe-nodisplay");
-                });
-                response.on("click", function() {
-                    $("#next").removeClass("babe-nodisplay");
-                });
+                    $("#next").on("click", function() {
+                        const RT = Date.now() - startingTime; // measure RT before anything else
+                        const trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: config.data[CT].question,
+                            option1: config.data[CT].option1,
+                            option2: config.data[CT].option2,
+                            response: response.val(),
+                            RT: RT
+                        };
 
-                $("#next").on("click", function() {
-                    const RT = Date.now() - startingTime; // measure RT before anything else
-                    const trial_data = {
-                        trial_type: config.trial_type,
-                        trial_number: CT + 1,
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        response: response.val(),
-                        RT: RT
-                    };
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
 
-                    if (config.data[CT].picture !== undefined) {
-                        trial_data.picture = config.data[CT].picture;
-                    }
-
-                    if (config.data[CT].canvas !== undefined) {
-                        for (let prop in config.data[CT].canvas) {
-                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT].canvas[prop];
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
+                                }
                             }
                         }
-                    }
 
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
-                });
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
+
+                startingTime = Date.now();
+
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: 'sliderRating'
+                    },
+                    enableResponse
+                );
+
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -433,76 +494,93 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
+                const QUD = setQUD(config.data[CT].QUD);
                 const question = setQuestion(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const minChars =
-                    config.data[CT].minChars === undefined ?
-                    10 :
-                    config.data[CT].minChars;
+                    config.data[CT].minChars === undefined
+                        ? 10
+                        : config.data[CT].minChars;
                 const viewTemplate = `<div class='babe-view'>
-                    <p class='babe-view-question'>${question}</p>
-                    <p class='babe-view-answer-container'>
-                        <textarea name='textbox-input' rows=10 cols=50 class='babe-response-text' />
-                    </p>
-                    <button id='next' class='babe-view-button babe-nodisplay'>next</button>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
                 </div>`;
+
+                const answerContainerElem = `<p class='babe-view-question'>${question}</p>
+                    <div class='babe-view-answer-container'>
+                        <textarea name='textbox-input' rows=10 cols=50 class='babe-response-text' />
+                    </div>
+                    <button id='next' class='babe-view-button babe-nodisplay'>next</button>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-picture'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
+                const enableResponse = function() {
+                    let next;
+                    let textInput;
 
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
+                    $(".babe-view").append(answerContainerElem);
 
-                startingTime = Date.now();
-                const next = $("#next");
-                const textInput = $("textarea");
+                    next = $("#next");
+                    textInput = $("textarea");
 
-                // attaches an event listener to the textbox input
-                textInput.on("keyup", function() {
-                    // if the text is longer than (in this case) 10 characters without the spaces
-                    // the 'next' button appears
-                    if (textInput.val().trim().length > minChars) {
-                        next.removeClass("babe-nodisplay");
-                    } else {
-                        next.addClass("babe-nodisplay");
-                    }
-                });
+                    // attaches an event listener to the textbox input
+                    textInput.on("keyup", function() {
+                        // if the text is longer than (in this case) 10 characters without the spaces
+                        // the 'next' button appears
+                        if (textInput.val().trim().length > minChars) {
+                            next.removeClass("babe-nodisplay");
+                        } else {
+                            next.addClass("babe-nodisplay");
+                        }
+                    });
 
-                // the trial data gets added to the trial object
-                next.on("click", function() {
-                    var RT = Date.now() - startingTime; // measure RT before anything else
-                    var trial_data = {
-                        trial_type: config.trial_type,
-                        trial_number: CT + 1,
-                        question: config.data[CT].question,
-                        minimum_characters: config.data[CT].minChars,
-                        response: textInput.val().trim(),
-                        RT: RT
-                    };
+                    // the trial data gets added to the trial object
+                    next.on("click", function() {
+                        var RT = Date.now() - startingTime; // measure RT before anything else
+                        var trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: config.data[CT].question,
+                            minimum_characters: config.data[CT].minChars,
+                            response: textInput.val().trim(),
+                            RT: RT
+                        };
 
-                    if (config.data[CT].picture !== undefined) {
-                        trial_data.picture = config.data[CT].picture;
-                    }
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
 
-                    if (config.data[CT].canvas !== undefined) {
-                        for (let prop in config.data[CT].canvas) {
-                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT].canvas[prop];
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
+                                }
                             }
                         }
-                    }
 
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
-                });
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
+
+                startingTime = Date.now();
+
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: 'textboxInput'
+                    },
+                    enableResponse
+                );
+
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -517,80 +595,95 @@ const babeViews = {
         const dropdownChoice = {
             name: config.name,
             render: function(CT, babe) {
-                let response;
                 let startingTime;
+                const QUD = setQUD(config.data[CT].QUD);
                 const question_left_part = config.data[CT].question_left_part;
                 const question_right_part =
-                    config.data[CT].question_right_part === undefined ?
-                    "" :
-                    config.data[CT].question_right_part;
+                    config.data[CT].question_right_part === undefined
+                        ? ""
+                        : config.data[CT].question_right_part;
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
-                    <p class='babe-view-answer-container babe-response-dropdown'>
-                        ${question_left_part}
-                        <select id='response' name='answer'>
-                            <option disabled selected></option>
-                            <option value=${option1}>${option1}</option>
-                            <option value=${option2}>${option2}</option>
-                        </select>
-                        ${question_right_part}
-                        </p>
-                        <button id='next' class='babe-view-button babe-nodisplay'>Next</button>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
+                </div>`;
+
+                const answerContainerElem = `<div class='babe-view-answer-container babe-response-dropdown'>
+                    ${question_left_part}
+                    <select id='response' name='answer'>
+                        <option disabled selected></option>
+                        <option value=${option1}>${option1}</option>
+                        <option value=${option2}>${option2}</option>
+                    </select>
+                    ${question_right_part}
                     </p>
+                    <button id='next' class='babe-view-button babe-nodisplay'>Next</button>
                 </div>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-picture'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
+                const enableResponse = function() {
+                    let response;
 
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
+                    $(".babe-view").append(answerContainerElem);
 
-                startingTime = Date.now();
-                response = $("#response");
+                    response = $("#response");
 
-                response.on("change", function() {
-                    $("#next").removeClass("babe-nodisplay");
-                });
+                    response.on("change", function() {
+                        $("#next").removeClass("babe-nodisplay");
+                    });
 
-                $("#next").on("click", function() {
-                    const RT = Date.now() - startingTime; // measure RT before anything else
-                    const trial_data = {
-                        trial_type: config.trial_type,
-                        trial_number: CT + 1,
-                        question: question_left_part
-                            .concat("...answer here...")
-                            .concat(question_right_part),
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        response: $(response).val(),
-                        RT: RT
-                    };
+                    $("#next").on("click", function() {
+                        const RT = Date.now() - startingTime; // measure RT before anything else
+                        const trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: question_left_part
+                                .concat("...answer here...")
+                                .concat(question_right_part),
+                            option1: config.data[CT].option1,
+                            option2: config.data[CT].option2,
+                            response: $(response).val(),
+                            RT: RT
+                        };
 
-                    if (config.data[CT].picture !== undefined) {
-                        trial_data.picture = config.data[CT].picture;
-                    }
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
 
-                    if (config.data[CT].canvas !== undefined) {
-                        for (let prop in config.data[CT].canvas) {
-                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT].canvas[prop];
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
+                                }
                             }
                         }
-                    }
 
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
-                });
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
+
+                startingTime = Date.now();
+
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: 'dropdownChoice'
+                    },
+                    enableResponse
+                );
+
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -607,12 +700,17 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
+                const QUD = setQUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
-                    <p class='babe-view-question'>${question}</p>
-                    <p class='babe-view-answer-container'>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
+                </div>`;
+
+                const answerContainerElem = `<p class='babe-view-question'>${question}</p>
+                    <div class='babe-view-answer-container'>
                         <strong class='babe-response-rating-option babe-view-text'>${option1}</strong>
                         <label for="1" class='babe-response-rating'>1</label>
                         <input type="radio" name="answer" id="1" value="1" />
@@ -629,56 +727,63 @@ const babeViews = {
                         <label for="7" class='babe-response-rating'>7</label>
                         <input type="radio" name="answer" id="7" value="7" />
                         <strong class='babe-response-rating-option babe-view-text'>${option2}</strong>
-                    </p>
-                </div>`;
+                    </div>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-picture'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
+                const enableResponse = function() {
+                    $(".babe-view").append(answerContainerElem);
+                    // attaches an event listener to the yes / no radio inputs
+                    // when an input is selected a response property with a value equal
+                    // to the answer is added to the trial object
+                    // as well as a readingTimes property with value
+                    $("input[name=answer]").on("change", function() {
+                        const RT = Date.now() - startingTime; // measure RT before anything else
+                        const trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: config.data[CT].question,
+                            option1: config.data[CT].option1,
+                            option2: config.data[CT].option2,
+                            response: $("input[name=answer]:checked").val(),
+                            RT: RT
+                        };
 
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
+
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
+                                }
+                            }
+                        }
+
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
 
                 startingTime = Date.now();
 
-                // attaches an event listener to the yes / no radio inputs
-                // when an input is selected a response property with a value equal
-                // to the answer is added to the trial object
-                // as well as a readingTimes property with value
-                $("input[name=answer]").on("change", function() {
-                    const RT = Date.now() - startingTime; // measure RT before anything else
-                    const trial_data = {
-                        trial_type: config.trial_type,
-                        trial_number: CT + 1,
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        response: $("input[name=answer]:checked").val(),
-                        RT: RT
-                    };
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: 'ratingScale'
+                    },
+                    enableResponse
+                );
 
-                    if (config.data[CT].picture !== undefined) {
-                        trial_data.picture = config.data[CT].picture;
-                    }
-
-                    if (config.data[CT].canvas !== undefined) {
-                        for (let prop in config.data[CT].canvas) {
-                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT].canvas[prop];
-                            }
-                        }
-                    }
-
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
-                });
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -695,62 +800,75 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
+                const QUD = setQUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
-                    <p class='babe-view-question'>${question}</p>
-                    <p class='babe-view-answer-container'>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
+                </div>`;
+                const answerContainerElem = `
+                    <div class='babe-view-answer-container'>
+                        <p class='babe-view-question'>${question}</p>
                         <label for='s1' class='babe-response-sentence'>${option1}</label>
                         <input type='radio' name='answer' id='s1' value=${option1}'/>
                         <label for='s2' class='babe-response-sentence'>${option2}</label>
                         <input type='radio' name='answer' id='s2' value=${option2}"/>
-                    </p>
-                </div>`;
+                    </div>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-picture'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
+                const enableResponse = function() {
+                    $(".babe-view").append(answerContainerElem);
 
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
+                    $("input[name=answer]").on("change", function() {
+                        var RT = Date.now() - startingTime; // measure RT before anything else
+                        var trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: config.data[CT].question,
+                            option1: config.data[CT].option1,
+                            option2: config.data[CT].option2,
+                            response: $("input[name=answer]:checked").val(),
+                            RT: RT
+                        };
+
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
+
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
+                                }
+                            }
+                        }
+
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
 
                 startingTime = Date.now();
 
-                $("input[name=answer]").on("change", function() {
-                    var RT = Date.now() - startingTime; // measure RT before anything else
-                    var trial_data = {
-                        trial_type: config.trial_type,
-                        trial_number: CT + 1,
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        response: $("input[name=answer]:checked").val(),
-                        RT: RT
-                    };
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: 'sentenceChoice'
+                    },
+                    enableResponse
+                );
 
-                    if (config.data[CT].picture !== undefined) {
-                        trial_data.picture = config.data[CT].picture;
-                    }
-
-                    if (config.data[CT].canvas !== undefined) {
-                        for (let prop in config.data[CT].canvas) {
-                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT].canvas[prop];
-                            }
-                        }
-                    }
-
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
-                });
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -766,54 +884,73 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
+                const QUD = setQUD(config.data[CT].QUD);
                 const question = setQuestion(config.data[CT].question);
                 const picture1 = config.data[CT].picture1;
                 const picture2 = config.data[CT].picture2;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class="babe-view">
-                    <p class='babe-view-question'>${question}</p>
-                    <p class='babe-view-answer-container'>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
+                </div>`;
+                const answerContainerElem = `<div class='babe-view-answer-container'>
+                        <p class='babe-view-question'>${question}</p>
                         <label for="img1" class='babe-view-picture babe-response-picture'><img src=${picture1}></label>
                         <input type="radio" name="answer" id="img1" value=${option1} />
                         <input type="radio" name="answer" id="img2" value=${option2} />
                         <label for="img2" class='babe-view-picture babe-response-picture'><img src=${picture2}></label>
-                    </p>
-                </div>`;
+                    </div>`;
 
                 $("#main").html(viewTemplate);
 
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
+                const enableResponse = function() {
+                    $('.babe-view').append(answerContainerElem);
+                    $("input[name=answer]").on("change", function() {
+                        const RT = Date.now() - startingTime; // measure RT before anything else
+                        const trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: config.data[CT].question,
+                            option1: config.data[CT].option1,
+                            option2: config.data[CT].option2,
+                            picture1: config.data[CT].picture1,
+                            picture2: config.data[CT].picture2,
+                            response: $("input[name=answer]:checked").val(),
+                            RT: RT
+                        };
+
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
+                                }
+                            }
+                        }
+
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
 
                 startingTime = Date.now();
 
-                $("input[name=answer]").on("change", function() {
-                    const RT = Date.now() - startingTime; // measure RT before anything else
-                    const trial_data = {
-                        trial_type: config.trial_type,
-                        trial_number: CT + 1,
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        picture1: config.data[CT].picture1,
-                        picture2: config.data[CT].picture2,
-                        response: $("input[name=answer]:checked").val(),
-                        RT: RT
-                    };
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: "imageSelection"
+                    },
+                    enableResponse
+                );
 
-                    if (config.data[CT].canvas !== undefined) {
-                        for (let prop in config.data[CT].canvas) {
-                            if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT].canvas[prop];
-                            }
-                        }
-                    }
-
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
-                });
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -837,26 +974,12 @@ const babeViews = {
                 const value2 = config.data[CT][key2];
                 const viewTemplate = `<div class="babe-view">
                     <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
-                    <p class='babe-view-question'>${question}</p>
+                    <div class='babe-view-stimulus-container'></div>
                 </div>`;
 
                 $("#main").html(viewTemplate);
 
-                if (picture !== undefined) {
-                    $(".babe-view").prepend(
-                        `<div class='babe-view-picture'>
-                        <img src=${picture}>
-                    </div>`
-                    );
-                }
-
-                if (config.data[CT].canvas) {
-                    babeDrawShapes(config.data[CT].canvas);
-                }
-
-                startingTime = Date.now();
-
-                function handleKeyPress(e) {
+                const handleKeyPress = function(e) {
                     const keyPressed = String.fromCharCode(
                         e.which
                     ).toLowerCase();
@@ -908,9 +1031,27 @@ const babeViews = {
                         $("body").off("keydown", handleKeyPress);
                         babe.findNextView();
                     }
-                }
+                };
 
-                $("body").on("keydown", handleKeyPress);
+                const enableResponse = function() {
+                    $("body").on("keydown", handleKeyPress);
+                };
+
+                startingTime = Date.now();
+
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: 'keyPress'
+                    },
+                    enableResponse
+                );
+
+                addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -928,16 +1069,20 @@ const babeViews = {
                 let startingTime;
                 const question = setQuestion(config.data[CT].question);
                 const QUD = config.data[CT].QUD;
-                const title = (config.data[CT].title !== undefined) ? config.data[CT].title : '';
+                const title =
+                    config.data[CT].title !== undefined
+                        ? config.data[CT].title
+                        : "";
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const sentenceList = config.data[CT].sentence.trim().split(" | ");
+                const sentenceList = config.data[CT].sentence
+                    .trim()
+                    .split(" | ");
                 let spaceCounter = 0;
                 let wordList;
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'></div>
                     <p class='babe-help-text babe-nodisplay'>Press the SPACE bar to reveal the words</p>
@@ -964,7 +1109,7 @@ const babeViews = {
                         );
 
                         if (spaceCounter === 0) {
-                            $('.babe-help-text').addClass('babe-invisible');
+                            $(".babe-help-text").addClass("babe-invisible");
                         }
 
                         if (spaceCounter > 0) {
@@ -995,9 +1140,9 @@ const babeViews = {
 
                 // happens when the stimulus is hidden
                 const enableResponse = function() {
-
+                    console.log("enable response from view");
                     // shows the help text
-                    $('.babe-help-text').removeClass('babe-nodisplay');
+                    $(".babe-help-text").removeClass("babe-nodisplay");
 
                     // creates the sentence
                     sentenceList.map(word => {
@@ -1011,22 +1156,21 @@ const babeViews = {
 
                     // attaches an eventListener to the body for space
                     $("body").on("keydown", handleKeyPress);
-                }
+                };
 
-                // updates the DOM and adds the sentence
-                updateDOM(
-                    config.pause,
-                    config.fix_duration,
-                    config.stim_duration,
-                    config.data[CT],
+                // creates the DOM of the trial view
+                createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: "spr"
+                    },
                     enableResponse
                 );
 
-                if (config.customEvents) {
-                    for (let i=0; i<config.customEvents.length; i++) {
-                        config.customEvents[i](config.data[CT]);
-                    }
-                }
+                addCustomEvents(config.customEvents, config.data[CT]);
 
                 $("input[name=answer]").on("change", function() {
                     const RT = Date.now() - startingTime;
