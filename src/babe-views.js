@@ -1,183 +1,11 @@
-const createTrialDOM = function(config, enableResponse) {
-    const pause = config.pause;
-    const fix_duration = config.fix_duration;
-    const stim_duration = config.stim_duration;
-    const data = config.data;
-    const view = config.view;
-
-    // shows a blank screen
-    new Promise((resolve, reject) => {
-        if (
-            pause !== undefined &&
-            typeof pause === "number" &&
-            isNaN(pause) === false
-        ) {
-            setTimeout(() => {
-                resolve();
-            }, pause);
-        } else {
-            resolve();
-        }
-        // then shows a fixation point (or doesn't)
-    })
-        .then(() => {
-            return new Promise((resolve, reject) => {
-                if (
-                    fix_duration !== undefined &&
-                    typeof fix_duration === "number" &&
-                    isNaN(fix_duration) === false
-                ) {
-                    const fixPoint = jQuery("<div/>", {
-                        class: "babe-view-fix-point"
-                    });
-                    $(".babe-view-stimulus-container").prepend(fixPoint);
-
-                    setTimeout(() => {
-                        fixPoint.remove();
-                        resolve("show fix point");
-                    }, fix_duration);
-                } else {
-                    resolve();
-                }
-            });
-            // then shows the stimulus
-        })
-        .then(() => {
-            if (data.picture !== undefined) {
-                $(".babe-view-stimulus-container").prepend(
-                    `<div class='babe-view-picture'>
-                <img src=${data.picture}>
-            </div>`
-                );
-            }
-            if (data.canvas) {
-                console.log(data.canvas);
-                babeDrawShapes(data.canvas);
-            }
-
-            return new Promise((resolve, reject) => {
-                resolve("stim shown");
-            });
-            // then hides the stimulus
-        })
-        .then(res => {
-            console.log(res);
-            if (view === 'imageSelection') {
-                $('.babe-view-stimulus-container').addClass('babe-nodisplay');
-                return new Promise((resolve, reject) => {
-                    resolve();
-                })
-            }
-            const spacePressed = function(e, resolve) {
-                if (e.which === 32) {
-                    $(".babe-view-picture").addClass("babe-invisible");
-                    $("body").off("keydown", spacePressed);
-                    resolve();
-                }
-            };
-
-            return new Promise((resolve, reject) => {
-                if (
-                    stim_duration !== undefined &&
-                    typeof stim_duration === "number" &&
-                    isNaN(stim_duration) === false
-                ) {
-                    setTimeout(() => {
-                        $(".babe-view-picture").addClass("babe-invisible");
-                        resolve();
-                    }, stim_duration);
-                } else {
-                    $("body").on("keydown", e => {
-                        spacePressed(e, resolve);
-                    });
-                }
-            });
-            // then enables possible actions from the participant
-        })
-        .then(() => {
-            console.log("tries to enable the response");
-            return new Promise((resolve, reject) => {
-                enableResponse();
-            });
-        });
-};
-
-const addCustomEvents = function(evts, data) {
-    if (evts !== undefined) {
-        for (let i = 0; i < evts.length; i++) {
-            evts[i](data);
-        }
-    }
-};
-
-// sets a default title for the views that are not given a title
-const setTitle = function(title, dflt) {
-    return title === undefined || title === "" ? dflt : title;
-};
-
-// sets default button text for the views that are not given button text
-const setButtonText = function(buttonText) {
-    return buttonText === undefined || buttonText === "" ? "Next" : buttonText;
-};
-
-const setQuestion = function(question) {
-    if (question === undefined || question === "") {
-        console.warn("this trial has no 'question'");
-        return "";
-    } else {
-        return question;
-    }
-};
-
-const setQUD = function(qud) {
-    if (qud === undefined || qud === "") {
-        return "";
-    } else {
-        return qud;
-    }
-};
-
-// checks whether name and trials are present
-const paramsChecker = function(config, view) {
-    if (config.trials === undefined || config.trials === "") {
-        throw new Error(errors.noTrials.concat(findFile(view)));
-    }
-
-    if (config.name === undefined || config.name === "") {
-        throw new Error(errors.noName.concat(findFile(view)));
-    }
-};
-
-// checks whether data is passed to the trial views and whether it is an array
-const checkTrialView = function(config, view) {
-    if (config.data === undefined || config.data === null) {
-        throw new Error(errors.noData.concat(findFile(view)));
-    }
-
-    if (config.data instanceof Array === false) {
-        throw new Error(errors.notAnArray.concat(findFile(view)));
-    }
-
-    if (config.trial_type === undefined || config.trial_type === "") {
-        throw new Error(errors.noTrialType.concat(findFile(view)));
-    }
-};
-
-// finds in which type of view the error occurs
-function findFile(view) {
-    return `
-
-The problem is in ${view} view type.`;
-}
-
 const babeViews = {
     intro: function(config) {
-        paramsChecker(config, "intro");
+        babeUtils.view.inspector.params(config, "intro");
         const intro = {
             name: config.name,
-            title: setTitle(config.title, "Welcome!"),
+            title: babeUtils.view.setter.title(config.title, "Welcome!"),
             text: config.text,
-            button: setButtonText(config.buttonText),
+            button: babeUtils.view.setter.buttonText(config.buttonText),
             render: function(CT, babe) {
                 const viewTemplate = `<div class='babe-view'>
                     <h1 class='babe-view-title'>${this.title}</h1>
@@ -238,12 +66,12 @@ const babeViews = {
     },
 
     instructions: function(config) {
-        paramsChecker(config, "instructions");
+        babeUtils.view.inspector.params(config, "instructions");
         const instructions = {
             name: config.name,
-            title: setTitle(config.title, "Instructions"),
+            title: babeUtils.view.setter.title(config.title, "Instructions"),
             text: config.text,
-            button: setButtonText(config.buttonText),
+            button: babeUtils.view.setter.buttonText(config.buttonText),
             render: function(CT, babe) {
                 const viewTemplate = `<div class="babe-view">
                     <h1 class='babe-view-title'>${this.title}</h1>
@@ -270,12 +98,12 @@ const babeViews = {
     },
 
     begin: function(config) {
-        paramsChecker(config, "begin experiment");
+        babeUtils.view.inspector.params(config, "begin experiment");
         const begin = {
             name: config.name,
-            title: setTitle(config.title, "Begin"),
+            title: babeUtils.view.setter.title(config.title, "Begin"),
             text: config.text,
-            button: setButtonText(config.buttonText),
+            button: babeUtils.view.setter.buttonText(config.buttonText),
             // render function renders the view
             render: function(CT, babe) {
                 const viewTemplate = `<div class="babe-view">
@@ -303,14 +131,14 @@ const babeViews = {
     },
 
     forcedChoice: function(config) {
-        checkTrialView(config, "forced choice");
-        paramsChecker(config, "forced choice");
+        babeUtils.view.inspector.missingData(config, "forced choice");
+        babeUtils.view.inspector.params(config, "forced choice");
         const forcedChoice = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = setQuestion(config.data[CT].question);
-                const QUD = setQUD(config.data[CT].QUD);
+                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
@@ -371,7 +199,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -382,7 +210,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -392,14 +220,14 @@ const babeViews = {
     },
 
     sliderRating: function(config) {
-        checkTrialView(config, "slider rating");
-        paramsChecker(config, "slider rating");
+        babeUtils.view.inspector.missingData(config, "slider rating");
+        babeUtils.view.inspector.params(config, "slider rating");
         const sliderRating = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = setQuestion(config.data[CT].question);
-                const QUD = setQUD(config.data[CT].QUD);
+                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
@@ -467,7 +295,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -478,7 +306,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -488,14 +316,14 @@ const babeViews = {
     },
 
     textboxInput: function(config) {
-        checkTrialView(config, "textbox input");
-        paramsChecker(config, "textbox input");
+        babeUtils.view.inspector.missingData(config, "textbox input");
+        babeUtils.view.inspector.params(config, "textbox input");
         const textboxInput = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const QUD = setQUD(config.data[CT].QUD);
-                const question = setQuestion(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const question = babeUtils.view.setter.question(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const minChars =
                     config.data[CT].minChars === undefined
@@ -569,7 +397,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -580,7 +408,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -590,13 +418,13 @@ const babeViews = {
     },
 
     dropdownChoice: function(config) {
-        checkTrialView(config, "dropdown choice");
-        paramsChecker(config, "dropdown choice");
+        babeUtils.view.inspector.missingData(config, "dropdown choice");
+        babeUtils.view.inspector.params(config, "dropdown choice");
         const dropdownChoice = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const QUD = setQUD(config.data[CT].QUD);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const question_left_part = config.data[CT].question_left_part;
                 const question_right_part =
                     config.data[CT].question_right_part === undefined
@@ -672,7 +500,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -683,7 +511,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -693,14 +521,14 @@ const babeViews = {
     },
 
     ratingScale: function(config) {
-        checkTrialView(config, "rating scale");
-        paramsChecker(config, "rating scale");
+        babeUtils.view.inspector.missingData(config, "rating scale");
+        babeUtils.view.inspector.params(config, "rating scale");
         const ratingScale = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = setQuestion(config.data[CT].question);
-                const QUD = setQUD(config.data[CT].QUD);
+                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
@@ -772,7 +600,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -783,7 +611,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -793,14 +621,14 @@ const babeViews = {
     },
 
     sentenceChoice: function(config) {
-        checkTrialView(config, "sentence choice");
-        paramsChecker(config, "sentence choice");
+        babeUtils.view.inspector.missingData(config, "sentence choice");
+        babeUtils.view.inspector.params(config, "sentence choice");
         const sentenceChoice = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = setQuestion(config.data[CT].question);
-                const QUD = setQUD(config.data[CT].QUD);
+                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
@@ -857,7 +685,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -868,7 +696,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -878,14 +706,14 @@ const babeViews = {
     },
 
     imageSelection: function(config) {
-        checkTrialView(config, "image selection");
-        paramsChecker(config, "image selection");
+        babeUtils.view.inspector.missingData(config, "image selection");
+        babeUtils.view.inspector.params(config, "image selection");
         const imageSelection = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const QUD = setQUD(config.data[CT].QUD);
-                const question = setQuestion(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const question = babeUtils.view.setter.question(config.data[CT].question);
                 const picture1 = config.data[CT].picture1;
                 const picture2 = config.data[CT].picture2;
                 const option1 = config.data[CT].option1;
@@ -939,7 +767,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -950,7 +778,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -960,13 +788,13 @@ const babeViews = {
     },
 
     keyPress: function(config) {
-        checkTrialView(config, "key press");
-        paramsChecker(config, "key press");
+        babeUtils.view.inspector.missingData(config, "key press");
+        babeUtils.view.inspector.params(config, "key press");
         const keyPress = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = setQuestion(config.data[CT].question);
+                const question = babeUtils.view.setter.question(config.data[CT].question);
                 const picture = config.data[CT].picture;
                 const key1 = config.data[CT].key1;
                 const key2 = config.data[CT].key2;
@@ -1040,7 +868,7 @@ const babeViews = {
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -1051,7 +879,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -1061,14 +889,14 @@ const babeViews = {
     },
 
     selfPacedReading: function(config) {
-        checkTrialView(config, "self-paced reading");
-        paramsChecker(config, "self-paced reading");
+        babeUtils.view.inspector.missingData(config, "self-paced reading");
+        babeUtils.view.inspector.params(config, "self-paced reading");
         const spr = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = setQuestion(config.data[CT].question);
-                const QUD = config.data[CT].QUD;
+                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const title =
                     config.data[CT].title !== undefined
                         ? config.data[CT].title
@@ -1159,7 +987,7 @@ const babeViews = {
                 };
 
                 // creates the DOM of the trial view
-                createTrialDOM(
+                babeUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -1170,7 +998,7 @@ const babeViews = {
                     enableResponse
                 );
 
-                addCustomEvents(config.customEvents, config.data[CT]);
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
 
                 $("input[name=answer]").on("change", function() {
                     const RT = Date.now() - startingTime;
@@ -1217,12 +1045,12 @@ const babeViews = {
     },
 
     postTest: function(config) {
-        paramsChecker(config, "post test");
+        babeUtils.view.inspector.params(config, "post test");
         const postTest = {
             name: config.name,
-            title: setTitle(config.title, "Additional Information"),
+            title: babeUtils.view.setter.title(config.title, "Additional Information"),
             text: config.text,
-            button: setButtonText(config.buttonText),
+            button: babeUtils.view.setter.buttonText(config.buttonText),
             render: function(CT, babe) {
                 const viewTemplate = `<div class='babe-view babe-post-test-view'>
                     <h1 class='babe-view-title'>${this.title}</h1>
@@ -1299,10 +1127,10 @@ const babeViews = {
     },
 
     thanks: function(config) {
-        paramsChecker(config, "thanks");
+        babeUtils.view.inspector.params(config, "thanks");
         const thanks = {
             name: config.name,
-            title: setTitle(
+            title: babeUtils.view.setter.title(
                 config.title,
                 "Thank you for taking part in this experiment!"
             ),
