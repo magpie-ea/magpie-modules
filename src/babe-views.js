@@ -897,6 +897,7 @@ const babeViews = {
                 let startingTime;
                 const question = babeUtils.view.setter.question(config.data[CT].question);
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const helpText = config.data[CT].helpText !== undefined ? config.data[CT].helpText : 'Press the SPACE bar to reveal the words'
                 const title =
                     config.data[CT].title !== undefined
                         ? config.data[CT].title
@@ -913,7 +914,7 @@ const babeViews = {
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'></div>
-                    <p class='babe-help-text babe-nodisplay'>Press the SPACE bar to reveal the words</p>
+                    <p class='babe-help-text babe-nodisplay'>${helpText}</p>
                     <p class='babe-spr-sentence'></p>
                     <div class='babe-view-answer-container babe-nodisplay'>
                         <p class='babe-view-question'>${question}</p>
@@ -1036,6 +1037,176 @@ const babeViews = {
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
+            },
+            CT: 0,
+            trials: config.trials
+        };
+
+        return spr;
+    },
+
+    selfPacedReading_ratingScale: function(config) {
+        babeUtils.view.inspector.missingData(config, "self-paced reading ratingScale");
+        babeUtils.view.inspector.params(config, "self-paced reading scale ratingScale");
+        const spr = {
+            name: config.name,
+            render: function(CT, babe) {
+                let startingTime;
+                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const title =
+                    config.data[CT].title !== undefined
+                        ? config.data[CT].title
+                        : "";
+                const helpText = config.data[CT].helpText !== undefined ? config.data[CT].helpText : 'Press the SPACE bar to reveal the words'
+                console.log(config.data[CT].helpText);
+                const picture = config.data[CT].picture;
+                const option1 = config.data[CT].option1;
+                const option2 = config.data[CT].option2;
+                const sentenceList = config.data[CT].sentence
+                    .trim()
+                    .split(" | ");
+                let spaceCounter = 0;
+                let wordList;
+                let readingTimes = [];
+                const viewTemplate = `<div class='babe-view'>
+                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
+                    <div class='babe-view-stimulus-container'></div>
+                    <p class='babe-help-text babe-nodisplay'>${helpText}</p>
+                    <p class='babe-spr-sentence'></p>
+                    <div class='babe-view-answer-container babe-nodisplay'>
+                        <p class='babe-view-question'>${question}</p>
+                        <strong class='babe-response-rating-option babe-view-text'>${option1}</strong>
+                        <label for="1" class='babe-response-rating'>1</label>
+                        <input type="radio" name="answer" id="1" value="1" />
+                        <label for="2" class='babe-response-rating'>2</label>
+                        <input type="radio" name="answer" id="2" value="2" />
+                        <label for="3" class='babe-response-rating'>3</label>
+                        <input type="radio" name="answer" id="3" value="3" />
+                        <label for="4" class='babe-response-rating'>4</label>
+                        <input type="radio" name="answer" id="4" value="4" />
+                        <label for="5" class='babe-response-rating'>5</label>
+                        <input type="radio" name="answer" id="5" value="5" />
+                        <label for="6" class='babe-response-rating'>6</label>
+                        <input type="radio" name="answer" id="6" value="6" />
+                        <label for="7" class='babe-response-rating'>7</label>
+                        <input type="radio" name="answer" id="7" value="7" />
+                        <strong class='babe-response-rating-option babe-view-text'>${option2}</strong>
+                    </div>
+                </div>`;
+
+                $("#main").html(viewTemplate);
+
+                // records the starting time
+                startingTime = Date.now();
+
+                // shows the sentence word by word on SPACE press
+                const handleKeyPress = function(e) {
+                    if (e.which === 32 && spaceCounter < wordList.length) {
+                        wordList[spaceCounter].classList.remove(
+                            "spr-word-hidden"
+                        );
+
+                        if (spaceCounter === 0) {
+                            $(".babe-help-text").addClass("babe-invisible");
+                        }
+
+                        if (spaceCounter > 0) {
+                            wordList[spaceCounter - 1].classList.add(
+                                "spr-word-hidden"
+                            );
+                        }
+
+                        readingTimes.push(Date.now());
+                        spaceCounter++;
+                    } else if (
+                        e.which === 32 &&
+                        spaceCounter === wordList.length
+                    ) {
+                        wordList[spaceCounter - 1].classList.add(
+                            "spr-word-hidden"
+                        );
+                        $(".babe-view-answer-container").removeClass(
+                            "babe-nodisplay"
+                        );
+
+                        readingTimes.push(Date.now());
+                        spaceCounter++;
+                    } else {
+                        $("body").off("keydown", handleKeyPress);
+                    }
+                };
+
+                // happens when the stimulus is hidden
+                const enableResponse = function() {
+                    console.log("enable response from view");
+                    // shows the help text
+                    $(".babe-help-text").removeClass("babe-nodisplay");
+
+                    // creates the sentence
+                    sentenceList.map(word => {
+                        $(".babe-spr-sentence").append(
+                            `<span class='spr-word spr-word-hidden'>${word}</span>`
+                        );
+                    });
+
+                    // creates an array of spr word elements
+                    wordList = $(".spr-word").toArray();
+
+                    // attaches an eventListener to the body for space
+                    $("body").on("keydown", handleKeyPress);
+
+                    $("input[name=answer]").on("change", function() {
+                        const RT = Date.now() - startingTime;
+                        let reactionTimes = readingTimes
+                            .reduce((result, current, idx) => {
+                                return result.concat(
+                                    readingTimes[idx + 1] - readingTimes[idx]
+                                );
+                            }, [])
+                            .filter(item => isNaN(item) === false);
+                        const trial_data = {
+                            trial_type: config.trial_type,
+                            trial_number: CT + 1,
+                            question: config.data[CT].question,
+                            option1: config.data[CT].option1,
+                            option2: config.data[CT].option2,
+                            sentence: config.data[CT].sentence,
+                            response: $("input[name=answer]:checked").val(),
+                            reactionTimes: reactionTimes,
+                            time_spent: RT
+                        };
+
+                        if (config.data[CT].picture !== undefined) {
+                            trial_data.picture = config.data[CT].picture;
+                        }
+
+                        if (config.data[CT].canvas !== undefined) {
+                            for (let prop in config.data[CT].canvas) {
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
+                                }
+                            }
+                        }
+
+                        babe.trial_data.push(trial_data);
+                        babe.findNextView();
+                    });
+                };
+
+                // creates the DOM of the trial view
+                babeUtils.view.createTrialDOM(
+                    {
+                        pause: config.pause,
+                        fix_duration: config.fix_duration,
+                        stim_duration: config.stim_duration,
+                        data: config.data[CT],
+                        view: "spr"
+                    },
+                    enableResponse
+                );
+
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
