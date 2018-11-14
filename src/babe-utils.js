@@ -105,8 +105,10 @@ const babeUtils = {
 
             // checks if there is a stimulus and shows it
             const showStim = function(resolve, reject) {
+                $('.babe-view-stimulus').removeClass('babe-nodisplay');
+
                 if (data.picture !== undefined) {
-                    $(".babe-view-stimulus-container").prepend(
+                    $(".babe-view-stimulus").prepend(
                         `<div class='babe-view-picture'>
                     <img src=${data.picture}>
                 </div>`
@@ -114,7 +116,6 @@ const babeUtils = {
                 }
 
                 if (data.canvas) {
-                    console.log(data.canvas);
                     babeDrawShapes(data.canvas);
                 }
 
@@ -125,7 +126,7 @@ const babeUtils = {
             const hideStim = function(resolve, reject) {
                 const spacePressed = function(e, resolve) {
                     if (e.which === 32) {
-                        $(".babe-view-picture").addClass("babe-invisible");
+                        $(".babe-view-stimulus").addClass("babe-invisible");
                         $("body").off("keydown", spacePressed);
                         resolve();
                     }
@@ -142,11 +143,11 @@ const babeUtils = {
                     isNaN(stim_duration) === false
                 ) {
                     setTimeout(() => {
-                        $(".babe-view-picture").addClass("babe-invisible");
+                        $(".babe-view-stimulus").addClass("babe-invisible");
                         resolve();
                     }, stim_duration);
-                } else if (stim_duration === undefined) {
-                    resolve('resolves: no stim duration');
+                // } else if (stim_duration === undefined) {
+                //     resolve('resolves: no stim duration');
                 } else {
                      $("body").on("keydown", e => {
                         spacePressed(e, resolve);

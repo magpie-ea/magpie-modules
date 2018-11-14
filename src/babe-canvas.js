@@ -11,7 +11,7 @@ const babeDrawShapes = function(trialInfo) {
         canvasElem.height = height;
         canvasElem.width = width;
         canvasElem.style.backgroundColor = bg;
-        $('.babe-view-stimulus-container').prepend(canvasElem);
+        $('.babe-view-stimulus').prepend(canvasElem);
 
         canvas.draw = function(shape, size, x, y, color) {
             context.beginPath();

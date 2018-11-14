@@ -144,7 +144,9 @@ const babeViews = {
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
 
                 $("#main").html(viewTemplate);
@@ -233,7 +235,9 @@ const babeViews = {
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-QUD'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
 
                 const answerContainerElem = `<p class='babe-view-question'>${question}</p>
@@ -331,7 +335,9 @@ const babeViews = {
                         : config.data[CT].minChars;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
 
                 const answerContainerElem = `<p class='babe-view-question'>${question}</p>
@@ -435,7 +441,9 @@ const babeViews = {
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
 
                 const answerContainerElem = `<div class='babe-view-answer-container babe-response-dropdown'>
@@ -530,11 +538,13 @@ const babeViews = {
                 const question = babeUtils.view.setter.question(config.data[CT].question);
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
-                const option1 = config.data[CT].option1;
-                const option2 = config.data[CT].option2;
+                const option1 = config.data[CT].optionLeft;
+                const option2 = config.data[CT].optionRight;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
 
                 const answerContainerElem = `<p class='babe-view-question'>${question}</p>
@@ -634,7 +644,9 @@ const babeViews = {
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
                 const answerContainerElem = `
                     <div class='babe-view-answer-container'>
@@ -720,7 +732,9 @@ const babeViews = {
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class="babe-view">
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
                 const answerContainerElem = `<div class='babe-view-answer-container'>
                         <p class='babe-view-question'>${question}</p>
@@ -802,7 +816,9 @@ const babeViews = {
                 const value2 = config.data[CT][key2];
                 const viewTemplate = `<div class="babe-view">
                     <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                 </div>`;
 
                 $("#main").html(viewTemplate);
@@ -913,7 +929,9 @@ const babeViews = {
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                     <p class='babe-help-text babe-nodisplay'>${helpText}</p>
                     <p class='babe-spr-sentence'></p>
                     <div class='babe-view-answer-container babe-nodisplay'>
@@ -969,7 +987,6 @@ const babeViews = {
 
                 // happens when the stimulus is hidden
                 const enableResponse = function() {
-                    console.log("enable response from view");
                     // shows the help text
                     $(".babe-help-text").removeClass("babe-nodisplay");
 
@@ -998,8 +1015,6 @@ const babeViews = {
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
 
                 $("input[name=answer]").on("change", function() {
                     const RT = Date.now() - startingTime;
@@ -1037,6 +1052,8 @@ const babeViews = {
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
+
+                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -1059,10 +1076,9 @@ const babeViews = {
                         ? config.data[CT].title
                         : "";
                 const helpText = config.data[CT].helpText !== undefined ? config.data[CT].helpText : 'Press the SPACE bar to reveal the words'
-                console.log(config.data[CT].helpText);
                 const picture = config.data[CT].picture;
-                const option1 = config.data[CT].option1;
-                const option2 = config.data[CT].option2;
+                const option1 = config.data[CT].optionLeft;
+                const option2 = config.data[CT].optionRight;
                 const sentenceList = config.data[CT].sentence
                     .trim()
                     .split(" | ");
@@ -1071,7 +1087,9 @@ const babeViews = {
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'></div>
+                    <div class='babe-view-stimulus-container'>
+                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                    </div>
                     <p class='babe-help-text babe-nodisplay'>${helpText}</p>
                     <p class='babe-spr-sentence'></p>
                     <div class='babe-view-answer-container babe-nodisplay'>
@@ -1139,7 +1157,6 @@ const babeViews = {
 
                 // happens when the stimulus is hidden
                 const enableResponse = function() {
-                    console.log("enable response from view");
                     // shows the help text
                     $(".babe-help-text").removeClass("babe-nodisplay");
 
@@ -1168,14 +1185,16 @@ const babeViews = {
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            option1: config.data[CT].option1,
-                            option2: config.data[CT].option2,
-                            sentence: config.data[CT].sentence,
                             response: $("input[name=answer]:checked").val(),
                             reactionTimes: reactionTimes,
                             time_spent: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;

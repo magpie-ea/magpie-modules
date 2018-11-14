@@ -122,8 +122,8 @@ const dropdown_choice_trials = [
 
 * `picture` (link) - *optional*
 * `question` (string) - **obligatory**
-* `option1` (string) -  **obligatory**
-* `option2` (string) -  **obligatory**
+* `optionLeft` (string) -  **obligatory**
+* `optionRight` (string) -  **obligatory**
 
 ### Sample data
 
