@@ -183,25 +183,7 @@ Sample `index.html`
     * `babeViews.thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
 
 
-Each \_babe view function takes an object as a parameter with the following properties:
-
-* `trials: int` - the number of trials this view will appear
-* `name: string`
-
-     * trial type views also have:
-
-        * `trial_type: string` - the name of the trial type that will be in the final data (for example 'main binary choice');
-        * `data: array` - an array of trial objects. see [the data format](docs/views.md)
-
-    * other views also have:
-
-        * `title: string` - the title in the view
-        * `text: string` - the text in the view
-        * `buttonText: string` - the text on the button that takes the user to the newxt view
-
-    * thanks view
-
-        * `prolificConfirmText: string` - text above the prolific submission url
+Each \_babe view function takes an object as a parameter with obligatory and optional properties. [Check the properties](docs/view.md#properties)
 
 Sample use of \_babe views:
 

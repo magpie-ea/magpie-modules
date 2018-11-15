@@ -236,8 +236,8 @@ const babeViews = {
                 const question = babeUtils.view.setter.question(config.data[CT].question);
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const picture = config.data[CT].picture;
-                const option1 = config.data[CT].option1;
-                const option2 = config.data[CT].option2;
+                const option1 = config.data[CT].optionLeft;
+                const option2 = config.data[CT].optionRight;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-QUD'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>

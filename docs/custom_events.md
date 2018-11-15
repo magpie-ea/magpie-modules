@@ -9,7 +9,7 @@ custom_events: {
 }
 ```
 
-## Hooks
+## Points
 
 <!--  add info about the DOM at each stage to this docs -->
 - `after_pause` - after the pause is finished
