@@ -172,6 +172,8 @@ Sample `index.html`
     * `babeViews.sentenceSelection` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
     * `babeViews.imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
     * `babeViews.keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
+    * `babeViews.selfPacedReading`
+    * `babeViews.selfPacedReading_ratingScale`
 
 * other views:
     * `babeViews.intro`  - introduction view
@@ -196,6 +198,10 @@ Each \_babe view function takes an object as a parameter with the following prop
         * `title: string` - the title in the view
         * `text: string` - the text in the view
         * `buttonText: string` - the text on the button that takes the user to the newxt view
+
+    * thanks view
+
+        * `prolificConfirmText: string` - text above the prolific submission url
 
 Sample use of \_babe views:
 

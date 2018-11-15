@@ -38,6 +38,11 @@ const babeUtils = {
                 return title === undefined || title === "" ? dflt : title;
             },
 
+            // sets a default prolificConfirmText to the thanks view if not given
+            prolificConfirmText: function(text, dflt) {
+                return text === undefined || text === "" ? dflt : text;
+            },
+
             // sets default button text for the views that are not given button text
             buttonText: function(buttonText) {
                 return buttonText === undefined || buttonText === "" ? "Next" : buttonText;

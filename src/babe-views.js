@@ -1344,6 +1344,10 @@ const babeViews = {
                 config.title,
                 "Thank you for taking part in this experiment!"
             ),
+            prolificConfirmText: babeUtils.view.setter.prolificConfirmText(
+                config.prolificConfirmText,
+                "Please press the button below to confirm that you completed the experiment with Prolific"
+            ),
             render: function(CT, babe) {
                 if (
                     babe.deploy.is_MTurk ||
@@ -1372,7 +1376,7 @@ const babeViews = {
                                 this.title
                             }</h1>
                             <p id='extra-message' class='babe-view-text babe-nodisplay'>
-                                Please press the button below to confirm that you completed the experiment with Prolific
+                                ${this.prolificConfirmText}
                                 <a href="${babe.deploy.prolificURL}" class="babe-view-button prolific-url">Confirm</a>
                             </p>
                         </div>`
