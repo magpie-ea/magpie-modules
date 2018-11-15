@@ -1353,7 +1353,7 @@ const babeViews = {
                             }</h1>
                             <p id='extra-message' class='babe-view-text babe-nodisplay'>
                                 Please press the button below to confirm that you completed the experiment with Prolific
-                                <a href="babe.deploy.prolificURL" class="babe-view-button prolific-url">Confirm</a>
+                                <a href="${babe.deploy.prolificURL}" class="babe-view-button prolific-url">Confirm</a>
                             </p>
                         </div>`
                     );
