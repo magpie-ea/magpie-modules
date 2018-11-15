@@ -1,7 +1,5 @@
 # Custom Events
 
-Give you more control of the view.
-
 ```
 custom_events: {
     after_pause: eventAfterThePause,
