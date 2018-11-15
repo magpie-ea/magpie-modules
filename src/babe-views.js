@@ -207,12 +207,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: 'forcedChoice'
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -305,12 +304,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: 'sliderRating'
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -409,12 +407,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: 'textboxInput'
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -514,12 +511,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: 'dropdownChoice'
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -616,12 +612,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: 'ratingScale'
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -703,12 +698,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: 'sentenceChoice'
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -787,12 +781,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: "imageSelection"
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -824,6 +817,7 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 const handleKeyPress = function(e) {
+                    console.log('key pressed');
                     const keyPressed = String.fromCharCode(
                         e.which
                     ).toLowerCase();
@@ -890,12 +884,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: 'keyPress'
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -1011,6 +1004,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: "spr"
                     },
                     enableResponse
@@ -1052,8 +1046,6 @@ const babeViews = {
                     babe.trial_data.push(trial_data);
                     babe.findNextView();
                 });
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials
@@ -1220,12 +1212,11 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
+                        evts: config.custom_events,
                         view: "spr"
                     },
                     enableResponse
                 );
-
-                babeUtils.view.addCustomEvents(config.customEvents, config.data[CT]);
             },
             CT: 0,
             trials: config.trials

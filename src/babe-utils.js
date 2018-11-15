@@ -66,6 +66,7 @@ const babeUtils = {
             const stim_duration = config.stim_duration;
             const data = config.data;
             const view = config.view;
+            const evts = config.evts !== undefined ? config.evts : {};
 
             // checks if there is a pause and shows the pause screen
             const showPause = function(resolve, reject) {
@@ -96,7 +97,7 @@ const babeUtils = {
 
                     setTimeout(() => {
                         fixPoint.remove();
-                        resolve("show fix point");
+                        resolve();
                     }, fix_duration);
                 } else {
                     resolve();
@@ -118,8 +119,7 @@ const babeUtils = {
                 if (data.canvas) {
                     babeDrawShapes(data.canvas);
                 }
-
-                resolve();
+                resolve(evts.after_stim_shown);
             };
 
             // hides the stimulus
@@ -128,13 +128,13 @@ const babeUtils = {
                     if (e.which === 32) {
                         $(".babe-view-stimulus").addClass("babe-invisible");
                         $("body").off("keydown", spacePressed);
-                        resolve();
+                        resolve(evts.after_stim_hidden);
                     }
                 };
 
                 if (view === 'imageSelection') {
                     $('.babe-view-stimulus-container').addClass('babe-nodisplay');
-                    resolve();
+                    resolve(evts.after_stim_hidden);
                 }
 
                 if (
@@ -144,7 +144,7 @@ const babeUtils = {
                 ) {
                     setTimeout(() => {
                         $(".babe-view-stimulus").addClass("babe-invisible");
-                        resolve();
+                        resolve(evts.after_stim_hidden);
                     }, stim_duration);
                 // } else if (stim_duration === undefined) {
                 //     resolve('resolves: no stim duration');
@@ -163,29 +163,36 @@ const babeUtils = {
             new Promise((resolve, reject) => {
                 showPause(resolve, reject);
             }).then(() => {
+                if (evts.after_pause) {
+                    evts.after_pause(data);
+                }
+
                 return new Promise((resolve, reject) => {
                     showFixPoint(resolve, reject);
                 });
             }).then(() => {
+                if (evts.after_fix_point) {
+                    evts.after_fix_point(data);
+                }
+
                 return new Promise((resolve, reject) => {
                     showStim(resolve, reject);
                 });
             }).then(() => {
+                if (evts.after_stim_shown) {
+                    evts.after_stim_shown(data);
+                }
+
                 return new Promise((resolve, reject) => {
                     hideStim(resolve, reject);
                 });
             }).then(() => {
-                return new Promise((resolve, reject) => {
-                    enableResponse();
-                });
-            });
-        },
-        addCustomEvents: function(evts, data) {
-            if (evts !== undefined) {
-                for (let i = 0; i < evts.length; i++) {
-                    evts[i](data);
+                if (evts.after_stim_hidden) {
+                    evts.after_stim_hidden(data);
                 }
-            }
+
+                enableResponse();
+            });
         }
     },
     views_seq: {
