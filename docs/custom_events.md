@@ -51,7 +51,7 @@ You might want to tell the participants if their answer was correct in the pract
 
 ```
 // assume that `option1` is always the correct answer.
-// the view passes the `data` for this trial as an arg to all custom functions
+// the view passes the trial `data` as an arg to all custom functions
 
 function checkResponse(data) {
     $('input[name=answer]').on('change', function() {
