@@ -99,6 +99,20 @@ body {
 }
 
 /*
+    Prolific id form
+*/
+#prolific-id-form {
+    margin: 30px auto;
+    max-width: 550px;
+}
+#prolific-id-form label {
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 17px;
+    line-height: 27px;
+    font-family: "Lato", "Noto Sans", sans-serif;
+}
+
+/*
     FIXATION POINT
 */
 .babe-view-fix-point {

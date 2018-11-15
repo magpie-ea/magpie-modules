@@ -7,15 +7,12 @@ const babeViews = {
             text: config.text,
             button: babeUtils.view.setter.buttonText(config.buttonText),
             render: function(CT, babe) {
+                let prolificId;
                 const viewTemplate = `<div class='babe-view'>
                     <h1 class='babe-view-title'>${this.title}</h1>
                     <section class="babe-text-container">
-                    <p class="babe-view-text">${this.text}</p>
+                        <p class="babe-view-text">${this.text}</p>
                     </section>
-                    <p id="prolific-id-form">
-                        <label for="prolific-id">Please, enter your Prolific ID</label>
-                        <input type="text" id="prolific-id" />
-                    </p>
                     <button id="next" class='babe-view-button' class="babe-nodisplay">${
                         this.button
                     }</button>
@@ -23,8 +20,11 @@ const babeViews = {
 
                 $("#main").html(viewTemplate);
 
-                const prolificId = $("#prolific-id");
-                const IDform = $("#prolific-id-form");
+                const prolificForm = `<p id="prolific-id-form">
+                    <label for="prolific-id">Please, enter your Prolific ID</label>
+                    <input type="text" id="prolific-id" />
+                </p>`;
+
                 const next = $("#next");
 
                 function showNextBtn() {
@@ -35,9 +35,10 @@ const babeViews = {
                     }
                 }
 
-                if (babe.deploy.deployMethod !== "Prolific") {
-                    IDform.addClass("babe-nodisplay");
-                    next.removeClass("babe-nodisplay");
+                if (babe.deploy.deployMethod === "Prolific") {
+                    $('.babe-text-container').append(prolificForm);
+                    next.addClass("babe-nodisplay");
+                    prolificId = $("#prolific-id");
                 }
 
                 prolificId.on("keyup", function() {
