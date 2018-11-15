@@ -192,6 +192,10 @@ const babeUtils = {
                 }
 
                 enableResponse();
+
+                if (evts.after_response_enabled) {
+                    evts.after_response_enabled(data);
+                }
             });
         }
     },
