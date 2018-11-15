@@ -192,28 +192,35 @@ input[name=answer] {
     rating buttons
 */
 .babe-response-rating {
-    background-color: #5187BA;
-    border: none;
-    border-radius: 2px;
-    color: white;
+    border: 1px solid #5187BA;
+    border-radius: 50%;
+    color: #5187BA;
     cursor: pointer;
     display: inline-block;
     font-family: "Lato", "Noto Sans", sans-serif;
-    font-weight: 700;
     line-height: 20px;
     letter-spacing: 0.9px;
-    margin: 10px 5px 10px 5px;
+    margin: 10px 5px;
     outline: none;
     padding: 5px 10px;
     text-transform: uppercase;
 }
+.babe-response-rating:first-child {
+    margin-left: 15px;
+}
+.babe-response-rating:nth-child(-1) {
+    margin-right: 15px;
+}
 .babe-response-rating:hover {
     background-color: #324D93;
+    border: 1px solid #324D93;
+    color: white;
 }
 .babe-response-rating-option {
     font-size: 15px;
     display: inline-block;
     line-height: 17px;
+    margin: 0 10px;
 }
 
 /*

@@ -817,7 +817,6 @@ const babeViews = {
                 $("#main").html(viewTemplate);
 
                 const handleKeyPress = function(e) {
-                    console.log('key pressed');
                     const keyPressed = String.fromCharCode(
                         e.which
                     ).toLowerCase();
