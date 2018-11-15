@@ -4,8 +4,8 @@ Give you more control of the view.
 
 ```
 custom_events: {
-	after_pause: eventAfterThePause,
-	after_stim_shown: eventAfterTheStimIsShown
+    after_pause: eventAfterThePause,
+    after_stim_shown: eventAfterTheStimIsShown
 }
 ```
 
@@ -27,7 +27,7 @@ babe trial views can have QUD? - a question or sentence that is always on the to
 
 ```
 function hideQUD(data) {
-	$('.babe-view-qud').css('display', 'none');
+    $('.babe-view-qud').css('display', 'none');
 };
 ```
 
@@ -56,13 +56,13 @@ You might want to tell the participants if their answer was correct in the pract
 // the view passes the `data` for this trial as an arg to all custom functions
 
 function checkResponse(data) {
-	$('input[name=answer]').on('change', function() {
-	    if ($("input[name=answer]:checked").val() === data.option1) {
-	        alert('Your answer is correct! Yey!');
-	    } else {
-	        alert('Sorry, you picked the wrong answer :(');
-	    }
-	});
+    $('input[name=answer]').on('change', function() {
+        if ($("input[name=answer]:checked").val() === data.option1) {
+            alert('Your answer is correct! Yey!');
+        } else {
+            alert('Sorry, you picked the wrong answer :(');
+        }
+    });
 };
 ```
 
