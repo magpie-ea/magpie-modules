@@ -39,21 +39,23 @@ const babeViews = {
                     $('.babe-text-container').append(prolificForm);
                     next.addClass("babe-nodisplay");
                     prolificId = $("#prolific-id");
+
+                    prolificId.on("keyup", function() {
+                        showNextBtn();
+                    });
+
+                    prolificId.on("focus", function() {
+                        showNextBtn();
+                    });
                 }
 
-                prolificId.on("keyup", function() {
-                    showNextBtn();
-                });
-
-                prolificId.on("focus", function() {
-                    showNextBtn();
-                });
 
                 // moves to the next view
                 next.on("click", function() {
                     if (babe.deploy.deployMethod === "Prolific") {
                         babe.global_data.prolific_id = prolificId.val().trim();
                     }
+                    console.log(babe.global_data.prolific_id);
 
                     babe.findNextView();
                 });
@@ -172,12 +174,15 @@ const babeViews = {
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            option1: config.data[CT].option1,
-                            option2: config.data[CT].option2,
                             response: $("input[name=answer]:checked").val(),
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;
@@ -269,12 +274,15 @@ const babeViews = {
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            option1: config.data[CT].option1,
-                            option2: config.data[CT].option2,
                             response: response.val(),
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;
@@ -373,11 +381,15 @@ const babeViews = {
                         var trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            minimum_characters: config.data[CT].minChars,
                             response: textInput.val().trim(),
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;
@@ -477,11 +489,15 @@ const babeViews = {
                             question: question_left_part
                                 .concat("...answer here...")
                                 .concat(question_right_part),
-                            option1: config.data[CT].option1,
-                            option2: config.data[CT].option2,
                             response: $(response).val(),
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;
@@ -577,12 +593,15 @@ const babeViews = {
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            option1: config.data[CT].option1,
-                            option2: config.data[CT].option2,
                             response: $("input[name=answer]:checked").val(),
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;
@@ -663,12 +682,15 @@ const babeViews = {
                         var trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            option1: config.data[CT].option1,
-                            option2: config.data[CT].option2,
                             response: $("input[name=answer]:checked").val(),
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].picture !== undefined) {
                             trial_data.picture = config.data[CT].picture;
@@ -748,14 +770,15 @@ const babeViews = {
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            option1: config.data[CT].option1,
-                            option2: config.data[CT].option2,
-                            picture1: config.data[CT].picture1,
-                            picture2: config.data[CT].picture2,
                             response: $("input[name=answer]:checked").val(),
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         if (config.data[CT].canvas !== undefined) {
                             for (let prop in config.data[CT].canvas) {
@@ -838,12 +861,16 @@ const babeViews = {
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            question: config.data[CT].question,
-                            expected: config.data[CT].expected,
                             key_pressed: keyPressed,
                             correctness: correctness,
                             RT: RT
                         };
+
+                        for (let prop in config.data[CT]) {
+                            if (config.data[CT].hasOwnProperty(prop)) {
+                                trial_data[prop] = config.data[CT][prop]
+                            }
+                        }
 
                         trial_data[config.data[CT].key1] =
                             config.data[CT][key1];
@@ -1022,14 +1049,16 @@ const babeViews = {
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
-                        question: config.data[CT].question,
-                        option1: config.data[CT].option1,
-                        option2: config.data[CT].option2,
-                        sentence: config.data[CT].sentence,
                         response: $("input[name=answer]:checked").val(),
                         reactionTimes: reactionTimes,
                         time_spent: RT
                     };
+
+                    for (let prop in config.data[CT]) {
+                        if (config.data[CT].hasOwnProperty(prop)) {
+                            trial_data[prop] = config.data[CT][prop]
+                        }
+                    }
 
                     if (config.data[CT].picture !== undefined) {
                         trial_data.picture = config.data[CT].picture;
