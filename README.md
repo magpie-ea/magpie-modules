@@ -184,7 +184,7 @@ Sample `index.html`
 
 
 Each \_babe view function takes an object as a parameter with obligatory and optional properties.
-[Here](docs/view.md) you can find more information about how to use the \_babe views.
+[Here](docs/views.md) you can find more information about how to use the \_babe views.
 
 #### Custom views
 
