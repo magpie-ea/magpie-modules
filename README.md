@@ -1,7 +1,7 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**_version 0.0.16**
+**version 0.0.20**
 
 **Table of contents**
 
