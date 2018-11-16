@@ -164,14 +164,14 @@ Sample `index.html`
 \_babe provides several ready-made views which you can access form the `babeViews` object. The views use [js template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
 
 * Trial Type Views (TTV):
-    * `babeViews.forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
-    * `babeViews.sliderRating` - [slider rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#slider-rating-task)
-    * `babeViews.textboxInput` [textbox input task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#textbox-input-task)
-    * `babeViews.dropdownMenu` - [dropdown menu task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#dropdown-choice-task)
-    * `babeViews.ratingScale` - [Likert-scale rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#rating-scale-task)
-    * `babeViews.sentenceChoice` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
-    * `babeViews.imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
-    * `babeViews.keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
+    * `babeViews.forcedChoice` - binary forced-choice task
+    * `babeViews.sliderRating` - slider rating task
+    * `babeViews.textboxInput` - textbox input task
+    * `babeViews.dropdownMenu` - dropdown menu task
+    * `babeViews.ratingScale` - Likert-scale rating task
+    * `babeViews.sentenceChoice` - text selection task
+    * `babeViews.imageSelection` - click-on-a-picture task
+    * `babeViews.keyPress`- press a button task
     * `babeViews.selfPacedReading`
     * `babeViews.selfPacedReading_ratingScale`
 

@@ -5,7 +5,7 @@
 * [List of the available \_babe views](#views-_babe-provide)
 * [Properties of \_babe's Trial Type Views (TTV)](#properties-of-ttv)
 * [Properties of \_babe's Other Type Views (TTV)](#properties-of-otv)
-* [Data Format](#ttv-data-format)
+* [Trial Data Format](#ttv-data-format)
     * [Forced-choice data format](#forced-choice-task)
     * [Textbox Input data format](#textbox-input-task)
     * [Slider Rating data format](#slider-rating-task)
@@ -15,7 +15,7 @@
     * [Image selection data format](#image-selection-task)
     * [Key press data format](#key-press-task)
     * [Self-paced reading with forced choice response data format](#self-paced-reading-with-forced-choice-response)
-    * [Self-paced reading with slider rating response data format](#self-paced-reading-with-slider-rating-response)
+    * [Self-paced reading with slider rating response data format](#self-paced-reading-with-rating-scale-response)
 * [Sample use of \_babe views](#sample-use-of-_babe-views)
 
 ## Views \_babe provide
@@ -23,33 +23,49 @@
 ### Trial Type Views (TTV)
 
 * babeViews.forcedChoice
+    * [image of the view](images/view_samples/view_fc.png)
 * babeViews.sliderRating
+    * [image of the view](images/view_samples/view_sr.png)
 * babeViews.dropdownChoice
+    * [image of the view](images/view_samples/view_dc.png)
 * babeViews.textboxInput
+    * [image of the view](images/view_samples/view_ti.png)
 * babeViews.ratingScale
+    * [image of the view](images/view_samples/view_rc.png)
 * babeViews.imageSelection
+    * [image of the view](images/view_samples/view_is.png)
 * babeViews.sentenceChoice
+    * [image of the view](images/view_samples/view_ss.png)
 * babeViews.keyPress
+    * [image of the view](images/view_samples/view_kp.png)
 * babeViews.selfPacedReading
 * babeViews.selfPacedReading_ratingScale
 
 ### Other Type Views (OTV)
 
 * babeViews.intro
+    * gives general information about the experiment
+    * records the participant's prolific id if the experiment runs on [Prolific](prolific.ac)
 * babeViews.instructions
+    * gives experiment-specific instructions
 * babeViews.begin
+    * warns the participant the experiment is about to begin
+    * can be used between the practice trial and the main trial
 * babeViews.postTest
+    * collects extra information about the participant (age, gender, etc.)
 * babeViews.thanks (and submit the data)
+    * Debug mode: displays the data
+    * submits the data of the live experiments
 
 ## Properties of TTV
 
-### **Obligatory Fields**
+### **Obligatory fields**
 * `trials: int` - the number of trials this view will appear
 * `name: string`
 * `trial_type: string` - the name of the trial type as you want it to appear in the submitted the final data (for example 'main binary choice')
 * `data: array` - an array of trial objects
 
-### **Optional Fields (can be skipped)**
+### **Optional fields (can be skipped)**
 * `pause: number (in ms)` - blank screen before the fixation point or stimulus show
 * `fix_duration: number (in ms)` - blank screen with fixation point in the middle
 * `stim_duration: number (in ms)` - for how long to have the stimulus on the screen
@@ -61,7 +77,7 @@
 * `trials: int` - the number of trials this view will appear
 * `name: string`
 
-### Optional Fields:
+### **Optional fields by view type**:
 * babeViews.intro:
     * `buttonText: string`
         * the text of the button that takes the participant to the next view
@@ -118,7 +134,7 @@
 
 ### Forced-choice task
 
-<img src='images/views_samples/view_fc.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_fc.png)
 
 #### Data properties
 
@@ -152,7 +168,7 @@ const forced_choice_trials = [
 
 ### Textbox Input task
 
-<img src='images/views_samples/view_ti.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_ti.png)
 
 #### Data properties
 
@@ -185,7 +201,7 @@ const textbox_input_trials = [
 
 ### Slider Rating task
 
-<img src='images/views_samples/view_sr.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_sr.png)
 
 #### Data properties
 
@@ -219,7 +235,7 @@ const slider_rating_trials = [
 
 ### Dropdown Choice task
 
-<img src='images/views_samples/view_dc.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_dc.png)
 
 
 #### Data properties
@@ -255,7 +271,7 @@ const dropdown_choice_trials = [
 
 ### Rating Scale task
 
-<img src='images/views_samples/view_rc.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_rc.png)
 
 #### Data properties
 
@@ -289,7 +305,7 @@ const rating_scale_trials = [
 
 ### Sentence Choice task
 
-<img src='images/views_samples/view_ss.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_ss.png)
 
 
 #### Data properties
@@ -329,7 +345,7 @@ const sentence_choice_trials = [
 
 ### Image Selection task
 
-<img src='images/views_samples/view_is.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_is.png)
 
 
 #### Data properties
@@ -367,7 +383,7 @@ const image_selection_trials = [
 
 ### Key Press task
 
-<img src='images/views_samples/view_kp.png' alt='view sample' height='auto' width='500' />
+[image of the view](images/view_samples/view_kp.png)
 
 
 #### Data properties
