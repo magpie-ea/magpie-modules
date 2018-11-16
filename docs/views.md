@@ -9,7 +9,7 @@
 * babeViews.textboxInput
 * babeViews.ratingScale
 * babeViews.imageSelection
-* babeViews.sentenceSelection
+* babeViews.sentenceChoice
 * babeViews.keyPress
 * babeViews.selfPacedReading
 * babeViews.selfPacedReading_ratingScale
@@ -17,14 +17,14 @@
 #### **Obligatory Fields**
 * `trials: int` - the number of trials this view will appear
 * `name: string`
-* `trial_type: string` - the name of the trial type that will be in the final data (for example 'main binary choice')
+* `trial_type: string` - the name of the trial type as you want it to appear in the submitted the final data (for example 'main binary choice')
 * `data: array` - an array of trial objects
 
 #### **Optional Fields (can be skipped)**
 * `pause: number (in ms)` - blank screen before the fixation point or stimulus show
 * `fix_duration: number (in ms)` - blank screen with fixation point in the middle
 * `stim_duration: number (in ms)` - for how long to have the stimulus on the screen
-* `custom_events: object` - option to add custom events to the view. [more about custom events](custom_events.md) 
+* `custom_events: object` - option to add custom events to the view. [more about custom events](custom_events.md)
 
 ### Other views
 * babeViews.intro
@@ -90,7 +90,7 @@
         * text asking the participant to press the 'confirm' button
         * default: 'Please press the button below to confirm that you completed the experiment with Prolific'
 
-## Data format
+## Trial Data Format
 
 ### Forced-choice (binary choice) task
 
@@ -99,11 +99,11 @@
 #### Data properties
 
 * **Obligatory Fileds**
-    * `question: string`
     * `option1: string`
     * `option2: string`
 
 * **Optional Fields**
+    * `question: string`
     * `QUD: string` - text that is always present on the slide
     * `canvas: object` [more about babe canvas](canvas.md)
     * `picture: string (link)`
@@ -134,12 +134,14 @@ const forced_choice_trials = [
 
 * **Obligatory Fileds**
     * `question: string`
-    * `min_length: number`
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
     * `canvas: object` [more about babe canvas](canvas.md)
     * `picture: string (link)`
+    * `min_chars: number`
+        * the minumum number of characters in the textarea field before proceeding is available
+        * default - *10*
 
 #### Sample data
 
@@ -148,11 +150,11 @@ const textbox_input_trials = [
     {
         picture: "path/to/picture.jpg",
         question: "What's on the bread?",
-        min_length: 100
+        min_chars: 100
     },
     {
         question: "What's the weather?",
-        min_length: 50
+        min_chars: 50
     }
 ];
 ```
@@ -164,7 +166,6 @@ const textbox_input_trials = [
 #### Data properties
 
 * **Obligatory Fileds**
-    * `question: string`
     * `optionLeft: string`
     * `optionRight: string`
 
@@ -172,6 +173,7 @@ const textbox_input_trials = [
     * `QUD: string` - text that is always present on the slide
     * `canvas: object` [more about babe canvas](canvas.md)
     * `picture: string (link)`
+    * `question: string`
 
 #### Sample data
 
@@ -199,7 +201,6 @@ const slider_rating_trials = [
 #### Data properties
 
 * **Obligatory Fileds**
-    * `question: string`
     * `option1: string`
     * `option2: string`
 
@@ -207,6 +208,8 @@ const slider_rating_trials = [
     * `QUD: string` - text that is always present on the slide
     * `canvas: object` [more about babe canvas](canvas.md)
     * `picture: string (link)`
+    * `question_left_part: string`
+    * `question_right_part: string`
 
 #### Sample data
 
@@ -233,7 +236,6 @@ const dropdown_choice_trials = [
 #### Data properties
 
 * **Obligatory Fileds**
-    * `question: string`
     * `optionLeft: string`
     * `optionRight: string`
 
@@ -241,6 +243,7 @@ const dropdown_choice_trials = [
     * `QUD: string` - text that is always present on the slide
     * `canvas: object` [more about babe canvas](canvas.md)
     * `picture: string (link)`
+    * `question: string`
 
 #### Sample data
 
@@ -260,7 +263,7 @@ const rating_scale_trials = [
 ];
 ```
 
-### Sentence Selection task
+### Sentence Choice task
 
 <img src='images/views_samples/view_ss.png' alt='view sample' height='auto' width='500' />
 
@@ -268,7 +271,6 @@ const rating_scale_trials = [
 #### Data properties
 
 * **Obligatory Fileds**
-    * `question: string`
     * `option1: string`
     * `option2: string`
 
@@ -276,14 +278,20 @@ const rating_scale_trials = [
     * `QUD: string` - text that is always present on the slide
     * `canvas: object` [more about babe canvas](canvas.md)
     * `picture: string (link)`
+    * `question: string`
 
 #### Sample data
 
 ```
-const sentence_selection_trials = [
+const sentence_choice_trials = [
     {
         picture: 'path/to/picture_of_bread.jpg',
         question: "What's on the bread?",
+        option1: 'jam',
+        option2: 'ham'
+    },
+    {
+        picture: 'path/to/picture_of_bread.jpg',
         option1: 'jam',
         option2: 'ham'
     },
@@ -305,8 +313,8 @@ const sentence_selection_trials = [
 * **Obligatory Fileds**
     * `option1: string`
     * `option2: string`
-    * `picture1: string (link)`
-    * `picture2: string (link)`
+    * `picture1: string (link)` - refers to `option1`
+    * `picture2: string (link)` - refers to `option2`
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
@@ -348,8 +356,8 @@ const image_selection_trials = [
     * `expected: string`
 
 * **Optional Fields**
-    * `QUD: string` - text that is always present on the slide
     * `question: string`
+    * `picture: string (link)`
     * `canvas: object` [more about babe canvas](canvas.md)
 
 #### Sample data
@@ -376,21 +384,24 @@ const key_press_trials = [
 ];
 ```
 
-### Self-paced readingand forced choice task
+### Self-paced reading wirh forced choice response buttons
 
 #### Data properties
 
 * **Obligatory Fileds**
     * `sentence: string`
-    * `question: string`
+        * the spr parts are separated by ' | '
     * `option1: string`
     * `option2: string`
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
-    * `help: string` - SPACE press text above the spr sentence
+    * `help_text: string`
+        * instructions to press SPACE above the spr sentence lines
+        * default - *Press the SPACE bar to reveal the words*
     * `picture: string`
     * `canvas: object` [more about babe canvas](canvas.md)
+    * `question: string`
 
 #### Sample data
 
@@ -398,12 +409,12 @@ const key_press_trials = [
 const spr_trials = [
     {
         QUD: "Johnny says: 'I want you to bring me the box where ...",
-        helpText: 'SPACEEEE',
+        picture: "images/all-false3.png"
+        help_text: 'just press SPACE',
         question: "Should you bring Johnny this box or not?",
-        sentence: "all | of the | yellow marbles | are | inside | the case.'",
+        sentence: "all | of | the | yellow | marbles | are | inside | the | case.'",
         option1: "Bring it",
         option2: "Leave it",
-        picture: "images/all-false3.png"
     },
     {
         question: "Should you bring Johnny this box or not?",
@@ -414,34 +425,35 @@ const spr_trials = [
 ];
 ```
 
-### Self-paced reading task and rating scale task
+### Self-paced reading task with rating scale response
 
 #### Data properties
 
 * **Obligatory Fileds**
     * `sentence: string`
-    * `question: string`
+        * the spr parts are separated by ' | '
     * `optionLeft: string`
     * `optionRight: string`
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
-    * `help: string` - SPACE press text above the spr sentence
+    * `help_text: string` - SPACE press text above the spr sentence
     * `picture: string`
     * `canvas: object` [more about babe canvas](canvas.md)
+    * `question: string`
 
 #### Sample data
 
 ```
-const spr_trials = [
+const spr_rc_trials = [
     {
         QUD: "Johnny says: 'I want you to bring me the box where ...",
-        helpText: 'SPACEEEE',
-        question: "Should you bring Johnny this box or not?",
+        picture: "images/all-false3.png"
+        help_text: 'SPACEEEE',
         sentence: "all | of the | yellow marbles | are | inside | the case.'",
+        question: "Should you bring Johnny this box or not?",
         optionLeft: "Bring it",
         optionRight: "Leave it",
-        picture: "images/all-false3.png"
     },
     {
         question: "Should you bring Johnny this box or not?",

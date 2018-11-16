@@ -36,7 +36,7 @@ const babeViews = {
                 }
 
                 if (babe.deploy.deployMethod === "Prolific") {
-                    $('.babe-text-container').append(prolificForm);
+                    $(".babe-text-container").append(prolificForm);
                     next.addClass("babe-nodisplay");
                     prolificId = $("#prolific-id");
 
@@ -48,7 +48,6 @@ const babeViews = {
                         showNextBtn();
                     });
                 }
-
 
                 // moves to the next view
                 next.on("click", function() {
@@ -140,9 +139,10 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
@@ -180,7 +180,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -214,7 +214,7 @@ const babeViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.custom_events,
-                        view: 'forcedChoice'
+                        view: "forcedChoice"
                     },
                     enableResponse
                 );
@@ -233,9 +233,10 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].optionLeft;
                 const option2 = config.data[CT].optionRight;
                 const viewTemplate = `<div class='babe-view'>
@@ -280,7 +281,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -314,7 +315,7 @@ const babeViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.custom_events,
-                        view: 'sliderRating'
+                        view: "sliderRating"
                     },
                     enableResponse
                 );
@@ -334,12 +335,13 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const question = babeUtils.view.setter.question(config.data[CT].question);
-                const picture = config.data[CT].picture;
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const minChars =
-                    config.data[CT].minChars === undefined
+                    config.data[CT].min_chars === undefined
                         ? 10
-                        : config.data[CT].minChars;
+                        : config.data[CT].min_chars;
                 const viewTemplate = `<div class='babe-view'>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
@@ -387,7 +389,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -421,7 +423,7 @@ const babeViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.custom_events,
-                        view: 'textboxInput'
+                        view: "textboxInput"
                     },
                     enableResponse
                 );
@@ -441,12 +443,14 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const question_left_part = config.data[CT].question_left_part;
+                const question_left_part =
+                    config.data[CT].question_left_part === undefined
+                        ? ""
+                        : config.data[CT].question_left_part;
                 const question_right_part =
                     config.data[CT].question_right_part === undefined
                         ? ""
                         : config.data[CT].question_right_part;
-                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
@@ -495,7 +499,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -529,7 +533,7 @@ const babeViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.custom_events,
-                        view: 'dropdownChoice'
+                        view: "dropdownChoice"
                     },
                     enableResponse
                 );
@@ -548,9 +552,10 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].optionLeft;
                 const option2 = config.data[CT].optionRight;
                 const viewTemplate = `<div class='babe-view'>
@@ -599,7 +604,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -633,7 +638,7 @@ const babeViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.custom_events,
-                        view: 'ratingScale'
+                        view: "ratingScale"
                     },
                     enableResponse
                 );
@@ -652,9 +657,10 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const picture = config.data[CT].picture;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
@@ -667,9 +673,9 @@ const babeViews = {
                     <div class='babe-view-answer-container'>
                         <p class='babe-view-question'>${question}</p>
                         <label for='s1' class='babe-response-sentence'>${option1}</label>
-                        <input type='radio' name='answer' id='s1' value=${option1}'/>
+                        <input type='radio' name='answer' id='s1' value="${option1}" />
                         <label for='s2' class='babe-response-sentence'>${option2}</label>
-                        <input type='radio' name='answer' id='s2' value=${option2}"/>
+                        <input type='radio' name='answer' id='s2' value="${option2}" />
                     </div>`;
 
                 $("#main").html(viewTemplate);
@@ -677,18 +683,19 @@ const babeViews = {
                 const enableResponse = function() {
                     $(".babe-view").append(answerContainerElem);
 
-                    $("input[name=answer]").on("change", function() {
+                    $("input[name=answer]").on("change", function(e) {
+                        console.log(e.target.value);
                         var RT = Date.now() - startingTime; // measure RT before anything else
                         var trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
-                            response: $("input[name=answer]:checked").val(),
+                            response: e.target.value,
                             RT: RT
                         };
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -722,7 +729,7 @@ const babeViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.custom_events,
-                        view: 'sentenceChoice'
+                        view: "sentenceChoice"
                     },
                     enableResponse
                 );
@@ -742,7 +749,9 @@ const babeViews = {
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const picture1 = config.data[CT].picture1;
                 const picture2 = config.data[CT].picture2;
                 const option1 = config.data[CT].option1;
@@ -756,15 +765,15 @@ const babeViews = {
                 const answerContainerElem = `<div class='babe-view-answer-container'>
                         <p class='babe-view-question'>${question}</p>
                         <label for="img1" class='babe-view-picture babe-response-picture'><img src=${picture1}></label>
-                        <input type="radio" name="answer" id="img1" value=${option1} />
-                        <input type="radio" name="answer" id="img2" value=${option2} />
+                        <input type="radio" name="answer" id="img1" value="${option1}" />
+                        <input type="radio" name="answer" id="img2" value="${option2}" />
                         <label for="img2" class='babe-view-picture babe-response-picture'><img src=${picture2}></label>
                     </div>`;
 
                 $("#main").html(viewTemplate);
 
                 const enableResponse = function() {
-                    $('.babe-view').append(answerContainerElem);
+                    $(".babe-view").append(answerContainerElem);
                     $("input[name=answer]").on("change", function() {
                         const RT = Date.now() - startingTime; // measure RT before anything else
                         const trial_data = {
@@ -776,7 +785,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -825,8 +834,9 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(config.data[CT].question);
-                const picture = config.data[CT].picture;
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const key1 = config.data[CT].key1;
                 const key2 = config.data[CT].key2;
                 const value1 = config.data[CT][key1];
@@ -868,7 +878,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -912,7 +922,7 @@ const babeViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.custom_events,
-                        view: 'keyPress'
+                        view: "keyPress"
                     },
                     enableResponse
                 );
@@ -931,9 +941,14 @@ const babeViews = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const helpText = config.data[CT].helpText !== undefined ? config.data[CT].helpText : 'Press the SPACE bar to reveal the words'
+                const helpText =
+                    config.data[CT].help_text !== undefined
+                        ? config.data[CT].help_text
+                        : "Press the SPACE bar to reveal the words";
                 const title =
                     config.data[CT].title !== undefined
                         ? config.data[CT].title
@@ -957,8 +972,8 @@ const babeViews = {
                     <div class='babe-view-answer-container babe-nodisplay'>
                         <p class='babe-view-question'>${question}</p>
                         <label for='o1' class='babe-response-buttons'>${option1}</label>
-                        <input type='radio' name='answer' id='o1' value=${option1} />
-                        <input type='radio' name='answer' id='o2' value=${option2} />
+                        <input type='radio' name='answer' id='o1' value="${option1}" />
+                        <input type='radio' name='answer' id='o2' value="${option2}" />
                         <label for='o2' class='babe-response-buttons'>${option2}</label>
                     </div>
                 </div>`;
@@ -1056,7 +1071,7 @@ const babeViews = {
 
                     for (let prop in config.data[CT]) {
                         if (config.data[CT].hasOwnProperty(prop)) {
-                            trial_data[prop] = config.data[CT][prop]
+                            trial_data[prop] = config.data[CT][prop];
                         }
                     }
 
@@ -1084,19 +1099,30 @@ const babeViews = {
     },
 
     selfPacedReading_ratingScale: function(config) {
-        babeUtils.view.inspector.missingData(config, "self-paced reading ratingScale");
-        babeUtils.view.inspector.params(config, "self-paced reading scale ratingScale");
+        babeUtils.view.inspector.missingData(
+            config,
+            "self-paced reading ratingScale"
+        );
+        babeUtils.view.inspector.params(
+            config,
+            "self-paced reading scale ratingScale"
+        );
         const spr = {
             name: config.name,
             render: function(CT, babe) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(config.data[CT].question);
+                const question = babeUtils.view.setter.question(
+                    config.data[CT].question
+                );
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
                 const title =
                     config.data[CT].title !== undefined
                         ? config.data[CT].title
                         : "";
-                const helpText = config.data[CT].helpText !== undefined ? config.data[CT].helpText : 'Press the SPACE bar to reveal the words'
+                const helpText =
+                    config.data[CT].helpText !== undefined
+                        ? config.data[CT].helpText
+                        : "Press the SPACE bar to reveal the words";
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].optionLeft;
                 const option2 = config.data[CT].optionRight;
@@ -1213,7 +1239,7 @@ const babeViews = {
 
                         for (let prop in config.data[CT]) {
                             if (config.data[CT].hasOwnProperty(prop)) {
-                                trial_data[prop] = config.data[CT][prop]
+                                trial_data[prop] = config.data[CT][prop];
                             }
                         }
 
@@ -1223,8 +1249,11 @@ const babeViews = {
 
                         if (config.data[CT].canvas !== undefined) {
                             for (let prop in config.data[CT].canvas) {
-                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
-                                    trial_data[prop] = config.data[CT].canvas[prop];
+                                if (
+                                    config.data[CT].canvas.hasOwnProperty(prop)
+                                ) {
+                                    trial_data[prop] =
+                                        config.data[CT].canvas[prop];
                                 }
                             }
                         }
@@ -1258,7 +1287,10 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "post test");
         const postTest = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, "Additional Information"),
+            title: babeUtils.view.setter.title(
+                config.title,
+                "Additional Information"
+            ),
             text: config.text,
             button: babeUtils.view.setter.buttonText(config.buttonText),
             render: function(CT, babe) {
@@ -1377,7 +1409,9 @@ const babeViews = {
                             }</h1>
                             <p id='extra-message' class='babe-view-text babe-nodisplay'>
                                 ${this.prolificConfirmText}
-                                <a href="${babe.deploy.prolificURL}" class="babe-view-button prolific-url">Confirm</a>
+                                <a href="${
+                                    babe.deploy.prolificURL
+                                }" class="babe-view-button prolific-url">Confirm</a>
                             </p>
                         </div>`
                     );

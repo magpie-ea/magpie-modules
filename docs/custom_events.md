@@ -54,14 +54,14 @@ You might want to tell the participants if their answer was correct in the pract
 // the view passes the trial `data` as an arg to all custom functions
 
 function checkResponse(data) {
-    $('input[name=answer]').on('change', function() {
-        if ($("input[name=answer]:checked").val() === data.option1) {
+    $('input[name=answer]').on('change', function(e) {
+        if (e.target.value === data.option1) {
             alert('Your answer is correct! Yey!');
         } else {
-            alert('Sorry, you picked the wrong answer :(');
+            alert('Sorry, this answer is incorrect :(');
         }
-    });
-};
+    })
+}
 ```
 
 and add a `custom_event` after the response is enabled:
