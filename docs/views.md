@@ -1,8 +1,27 @@
 # \_babe views
 
-## Properties
+**Table of contents**
 
-### Trial type views
+* [List of the available \_babe views](#views-_babe-provide)
+* [Properties of \_babe's Trial Type Views (TTV)](#properties-of-ttv)
+* [Properties of \_babe's Other Type Views (TTV)](#properties-of-otv)
+* [Data Format](#ttv-data-format)
+    * [Forced-choice data format](#forced-choice-task)
+    * [Textbox Input data format](#textbox-input-task)
+    * [Slider Rating data format](#slider-rating-task)
+    * [Dropdown choice data format](#dropdown-choice-task)
+    * [Rating scale data format](#rating-scale-task)
+    * [Sentence choice data format](#sentence-choice-task)
+    * [Image selection data format](#image-selection-task)
+    * [Key press data format](#key-press-task)
+    * [Self-paced reading with forced choice response data format](#self-paced-reading-with-forced-choice-response)
+    * [Self-paced reading with slider rating response data format](#self-paced-reading-with-slider-rating-response)
+* [Sample use of \_babe views](#sample-use-of-_babe-views)
+
+## Views \_babe provide
+
+### Trial Type Views (TTV)
+
 * babeViews.forcedChoice
 * babeViews.sliderRating
 * babeViews.dropdownChoice
@@ -14,30 +33,35 @@
 * babeViews.selfPacedReading
 * babeViews.selfPacedReading_ratingScale
 
-#### **Obligatory Fields**
-* `trials: int` - the number of trials this view will appear
-* `name: string`
-* `trial_type: string` - the name of the trial type as you want it to appear in the submitted the final data (for example 'main binary choice')
-* `data: array` - an array of trial objects
+### Other Type Views (OTV)
 
-#### **Optional Fields (can be skipped)**
-* `pause: number (in ms)` - blank screen before the fixation point or stimulus show
-* `fix_duration: number (in ms)` - blank screen with fixation point in the middle
-* `stim_duration: number (in ms)` - for how long to have the stimulus on the screen
-* `custom_events: object` - option to add custom events to the view. [more about custom events](custom_events.md)
-
-### Other views
 * babeViews.intro
 * babeViews.instructions
 * babeViews.begin
 * babeViews.postTest
 * babeViews.thanks (and submit the data)
 
-#### **Obligatory Fields**
+## Properties of TTV
+
+### **Obligatory Fields**
+* `trials: int` - the number of trials this view will appear
+* `name: string`
+* `trial_type: string` - the name of the trial type as you want it to appear in the submitted the final data (for example 'main binary choice')
+* `data: array` - an array of trial objects
+
+### **Optional Fields (can be skipped)**
+* `pause: number (in ms)` - blank screen before the fixation point or stimulus show
+* `fix_duration: number (in ms)` - blank screen with fixation point in the middle
+* `stim_duration: number (in ms)` - for how long to have the stimulus on the screen
+* `custom_events: object` - option to add custom events to the view. [more about custom events](custom_events.md)
+
+## Properties of OTV
+
+### **Obligatory Fields**
 * `trials: int` - the number of trials this view will appear
 * `name: string`
 
-#### Optional Fields:
+### Optional Fields:
 * babeViews.intro:
     * `buttonText: string`
         * the text of the button that takes the participant to the next view
@@ -90,9 +114,9 @@
         * text asking the participant to press the 'confirm' button
         * default: 'Please press the button below to confirm that you completed the experiment with Prolific'
 
-## Trial Data Format
+## TTV Data Format
 
-### Forced-choice (binary choice) task
+### Forced-choice task
 
 <img src='images/views_samples/view_fc.png' alt='view sample' height='auto' width='500' />
 
@@ -384,7 +408,7 @@ const key_press_trials = [
 ];
 ```
 
-### Self-paced reading wirh forced choice response buttons
+### Self-paced reading with forced choice response
 
 #### Data properties
 
@@ -462,3 +486,75 @@ const spr_rc_trials = [
         optionRight: "Leave it"
     }
 ];
+```
+
+## Sample use of \_babe views
+
+Sample use of \_babe views:
+
+```
+// your_js_file.js
+
+const intro = babeViews.intro({
+    name: 'intro',
+    title: 'Welcome!',
+    text: "Let's start!",
+    buttonText: 'Begin the experiment',
+    trials: 1
+});
+
+const instructions = babeViews.instructions({
+    name: 'instuctions',
+    title: 'Instructions',
+    text: 'Choose an answer',
+    buttonText: 'Next',
+    trials: 1
+});
+
+const practice = babeViews.forcedChoice({
+    name: 'practice_forced_choice',
+    trial_type: 'practice',
+    data: practice_trials,
+    trials: 2
+});
+
+const main = babeViews.forcedChoice({
+    name: 'main_forced_choice',
+    trial_type: 'main',
+    data: main_trials,
+    trials: 4
+});
+
+const thanks = babeViews.thanks({
+    name: 'thanks'
+    title: 'Thank you for taking part in this experiment!',
+    trials: 1
+});
+
+$("document").ready(function() {
+    babeInit({
+        views_seq: [
+            intro,
+            instructions,
+            main,
+            thanks
+        ],
+        deploy: {
+            'experimentID': '4',
+            'serverAppURL': 'https://babe-demo.herokuapp.com/api/submit_experiment/',
+            'deployMethod': 'debug',
+            'contact_email": 'YOUREMAIL@wherelifeisgreat.you',
+            'prolificURL": 'https://app.prolific.ac/submissions/complete?cc=ABCD1234'
+
+        },
+        progress_bar: {
+            in: [
+                'practice_forced_choice',
+                'main_forced_choice'
+            ],
+            style: 'default',
+            width: 100
+        }
+    });
+});
+```

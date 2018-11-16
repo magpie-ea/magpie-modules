@@ -163,19 +163,19 @@ Sample `index.html`
 
 \_babe provides several ready-made views which you can access form the `babeViews` object. The views use [js template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
 
-* trial type views:
+* Trial Type Views (TTV):
     * `babeViews.forcedChoice` - [binary forced-choice task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#forced-choice-binary-choice-task)
     * `babeViews.sliderRating` - [slider rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#slider-rating-task)
     * `babeViews.textboxInput` [textbox input task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#textbox-input-task)
     * `babeViews.dropdownMenu` - [dropdown menu task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#dropdown-choice-task)
     * `babeViews.ratingScale` - [Likert-scale rating task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#rating-scale-task)
-    * `babeViews.sentenceSelection` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
+    * `babeViews.sentenceChoice` - [text selection task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#sentence-selection-task)
     * `babeViews.imageSelection` - [click-on-a-picture task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#image-selection-task)
     * `babeViews.keyPress`- press a [button task](https://github.com/babe-project/babe-base/blob/master/docs/views.md#key-press-task)
     * `babeViews.selfPacedReading`
     * `babeViews.selfPacedReading_ratingScale`
 
-* other views:
+* Other Type Views (OTV):
     * `babeViews.intro`  - introduction view
     * `babeViews.instructions`-  instructions view
     * `babeViews.begin` - begin experiment view; can be used between the practice and the main view
@@ -183,76 +183,8 @@ Sample `index.html`
     * `babeViews.thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
 
 
-Each \_babe view function takes an object as a parameter with obligatory and optional properties. [Check the properties](docs/view.md#properties)
-
-Sample use of \_babe views:
-
-```
-// your_js_file.js
-
-const intro = babeViews.intro({
-    name: 'intro',
-    title: 'Welcome!',
-    text: 'This is an experiment!',
-    buttonText: 'Begin the experiment',
-    trials: 1
-});
-
-const instructions = babeViews.instructions({
-    name: 'instuctions',
-    title: 'Instructions',
-    text: 'Choose an answer',
-    buttonText: 'Next',
-    trials: 1
-});
-
-const practice = babeViews.forcedChoice({
-    name: 'practice_forced_choice',
-    trial_type: 'practice',
-    data: practice_trials,
-    trials: 2
-});
-
-const main = babeViews.forcedChoice({
-    name: 'main_forced_choice',
-    trial_type: 'main',
-    data: main_trials,
-    trials: 4
-});
-
-const thanks = babeViews.thanks({
-    name: 'thanks'
-    title: 'Thank you for taking part in this experiment!',
-    trials: 1
-});
-
-$("document").ready(function() {
-    babeInit({
-        views_seq: [
-            intro,
-            instructions,
-            main,
-            thanks
-        ],
-        deploy: {
-            'experimentID': '4',
-            'serverAppURL': 'https://babe-demo.herokuapp.com/api/submit_experiment/',
-            'deployMethod': 'debug',
-            'contact_email": 'YOUREMAIL@wherelifeisgreat.you',
-            'prolificURL": 'https://app.prolific.ac/submissions/complete?cc=ABCD1234'
-
-        },
-        progress_bar: {
-            in: [
-                'practice_forced_choice',
-                'main_forced_choice'
-            ],
-            style: 'default',
-            width: 100
-        }
-    });
-});
-```
+Each \_babe view function takes an object as a parameter with obligatory and optional properties.
+[Here](docs/view.md) you can find more information about how to use the \_babe views.
 
 #### Custom views
 
