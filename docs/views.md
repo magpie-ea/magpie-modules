@@ -23,21 +23,21 @@
 ### Trial Type Views (TTV)
 
 * babeViews.forcedChoice
-    * [image of the view](images/view_samples/view_fc.png)
+    * [image of the view](images/views_samples/view_fc.png)
 * babeViews.sliderRating
-    * [image of the view](images/view_samples/view_sr.png)
+    * [image of the view](images/views_samples/view_sr.png)
 * babeViews.dropdownChoice
-    * [image of the view](images/view_samples/view_dc.png)
+    * [image of the view](images/views_samples/view_dc.png)
 * babeViews.textboxInput
-    * [image of the view](images/view_samples/view_ti.png)
+    * [image of the view](images/views_samples/view_ti.png)
 * babeViews.ratingScale
-    * [image of the view](images/view_samples/view_rc.png)
+    * [image of the view](images/views_samples/view_rc.png)
 * babeViews.imageSelection
-    * [image of the view](images/view_samples/view_is.png)
+    * [image of the view](images/views_samples/view_is.png)
 * babeViews.sentenceChoice
-    * [image of the view](images/view_samples/view_ss.png)
+    * [image of the view](images/views_samples/view_ss.png)
 * babeViews.keyPress
-    * [image of the view](images/view_samples/view_kp.png)
+    * [image of the view](images/views_samples/view_kp.png)
 * babeViews.selfPacedReading
 * babeViews.selfPacedReading_ratingScale
 
@@ -134,7 +134,7 @@
 
 ### Forced-choice task
 
-[image of the view](images/view_samples/view_fc.png)
+[image of the view](images/views_samples/view_fc.png)
 
 #### Data properties
 
@@ -168,7 +168,7 @@ const forced_choice_trials = [
 
 ### Textbox Input task
 
-[image of the view](images/view_samples/view_ti.png)
+[image of the view](images/views_samples/view_ti.png)
 
 #### Data properties
 
@@ -201,7 +201,7 @@ const textbox_input_trials = [
 
 ### Slider Rating task
 
-[image of the view](images/view_samples/view_sr.png)
+[image of the view](images/views_samples/view_sr.png)
 
 #### Data properties
 
@@ -235,7 +235,7 @@ const slider_rating_trials = [
 
 ### Dropdown Choice task
 
-[image of the view](images/view_samples/view_dc.png)
+[image of the view](images/views_samples/view_dc.png)
 
 
 #### Data properties
@@ -271,7 +271,7 @@ const dropdown_choice_trials = [
 
 ### Rating Scale task
 
-[image of the view](images/view_samples/view_rc.png)
+[image of the view](images/views_samples/view_rc.png)
 
 #### Data properties
 
@@ -305,7 +305,7 @@ const rating_scale_trials = [
 
 ### Sentence Choice task
 
-[image of the view](images/view_samples/view_ss.png)
+[image of the view](images/views_samples/view_ss.png)
 
 
 #### Data properties
@@ -345,7 +345,7 @@ const sentence_choice_trials = [
 
 ### Image Selection task
 
-[image of the view](images/view_samples/view_is.png)
+[image of the view](images/views_samples/view_is.png)
 
 
 #### Data properties
@@ -383,7 +383,7 @@ const image_selection_trials = [
 
 ### Key Press task
 
-[image of the view](images/view_samples/view_kp.png)
+[image of the view](images/views_samples/view_kp.png)
 
 
 #### Data properties
