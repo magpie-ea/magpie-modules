@@ -42,7 +42,7 @@ const babeUtils = {
         setter: {
             // sets a default title for the views that are not given a title
             title: function(title, dflt) {
-                return title === undefined || title === "" ? dflt : title;
+                return title === undefined ? dflt : title;
             },
 
             // sets a default prolificConfirmText to the thanks view if not given

@@ -5,6 +5,7 @@
 * [List of the available \_babe views](#views-_babe-provide)
 * [Properties of \_babe's Trial Type Views (TTV)](#properties-of-ttv)
 * [Properties of \_babe's Other Type Views (TTV)](#properties-of-otv)
+* [TTV procedure](#ttv-procedure)
 * [Trial Data Format](#ttv-data-format)
     * [Forced-choice data format](#forced-choice-task)
     * [Textbox Input data format](#textbox-input-task)
@@ -73,7 +74,7 @@
 
 ## Properties of OTV
 
-### **Obligatory Fields**
+### **Obligatory fields**
 * `trials: int` - the number of trials this view will appear
 * `name: string`
 
@@ -130,7 +131,22 @@
         * text asking the participant to press the 'confirm' button
         * default: 'Please press the button below to confirm that you completed the experiment with Prolific'
 
-## TTV Data Format
+## TTV procedure
+
+**Steps**
+1. pause - a blank screen
+    * passed to the TTV as `pause: number (in miliseconds)`
+    * shows nothing but a blank screen and the `QUD` if there is such
+
+2. fixation point - a cross in the middle where the stimulus appears
+    * passed to the TTV as `fix_duration: number (in miliseconds)`
+    * shows nothing but a blank screen and the `QUD` if there is such
+
+3. stimulus appears - stimulus appears
+4. stimulus disappears - stimulus disappears
+5. interactions are enabled - the participant can interact with the view (respond, read the sentence etc.)
+
+## TTV data format
 
 ### Forced-choice task
 

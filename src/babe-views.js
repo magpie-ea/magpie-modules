@@ -137,6 +137,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "forced choice");
         const forcedChoice = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -146,6 +147,7 @@ const babeViews = {
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -231,6 +233,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "slider rating");
         const sliderRating = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -240,6 +243,7 @@ const babeViews = {
                 const option1 = config.data[CT].optionLeft;
                 const option2 = config.data[CT].optionRight;
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-QUD'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -332,6 +336,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "textbox input");
         const textboxInput = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -343,6 +348,7 @@ const babeViews = {
                         ? 10
                         : config.data[CT].min_chars;
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -440,6 +446,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "dropdown choice");
         const dropdownChoice = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -454,6 +461,7 @@ const babeViews = {
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -550,6 +558,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "rating scale");
         const ratingScale = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -559,6 +568,7 @@ const babeViews = {
                 const option1 = config.data[CT].optionLeft;
                 const option2 = config.data[CT].optionRight;
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -655,6 +665,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "sentence choice");
         const sentenceChoice = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -664,6 +675,7 @@ const babeViews = {
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -746,6 +758,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "image selection");
         const imageSelection = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -757,6 +770,7 @@ const babeViews = {
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
                 const viewTemplate = `<div class="babe-view">
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -832,6 +846,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "key press");
         const keyPress = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -842,6 +857,7 @@ const babeViews = {
                 const value1 = config.data[CT][key1];
                 const value2 = config.data[CT][key2];
                 const viewTemplate = `<div class="babe-view">
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -939,6 +955,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "self-paced reading");
         const spr = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -963,6 +980,7 @@ const babeViews = {
                 let wordList;
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
@@ -1109,6 +1127,7 @@ const babeViews = {
         );
         const spr = {
             name: config.name,
+            title: babeUtils.view.setter.title(config.title, ''),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -1120,8 +1139,8 @@ const babeViews = {
                         ? config.data[CT].title
                         : "";
                 const helpText =
-                    config.data[CT].helpText !== undefined
-                        ? config.data[CT].helpText
+                    config.data[CT].help_text !== undefined
+                        ? config.data[CT].help_text
                         : "Press the SPACE bar to reveal the words";
                 const picture = config.data[CT].picture;
                 const option1 = config.data[CT].optionLeft;
@@ -1133,6 +1152,7 @@ const babeViews = {
                 let wordList;
                 let readingTimes = [];
                 const viewTemplate = `<div class='babe-view'>
+                    <h1 class='babe-view-title'>${this.title}</h1>
                     <p class='babe-view-question babe-view-qud'>${QUD}</p>
                     <div class='babe-view-stimulus-container'>
                         <div class='babe-view-stimulus babe-nodisplay'></div>
