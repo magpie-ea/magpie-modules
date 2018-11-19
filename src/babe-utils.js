@@ -40,6 +40,10 @@ const babeUtils = {
             }
         },
         setter: {
+            prop: function(prop, dflt) {
+                return prop === undefined ? dflt : prop;
+            },
+
             // sets a default title for the views that are not given a title
             title: function(title, dflt) {
                 return title === undefined ? dflt : title;

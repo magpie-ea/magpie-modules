@@ -67,6 +67,7 @@
 * `data: array` - an array of trial objects
 
 ### **Optional fields (can be skipped)**
+* `title: string` - the title at the top of the view 
 * `pause: number (in ms)` - blank screen before the fixation point or stimulus show
 * `fix_duration: number (in ms)` - blank screen with fixation point in the middle
 * `stim_duration: number (in ms)` - for how long to have the stimulus on the screen
@@ -122,6 +123,39 @@
     * `text: string`
         * the text of the view
         * default: *there is no default*
+    * `age_question: string`
+        * question about participant's age
+        * default: 'Age',
+    * `gender_question: string`
+        * question about participant's gender
+        * default: 'Gender'
+    * `gender_male: string`
+        * answer option for the gender question
+        * default: 'male'
+    * `gender_female: string`
+        * answer option for the gender question
+        * default: 'female'
+    * `gender_other: string`
+        * answer option for the gender question
+        * default: 'other'
+    * `edu_question: string`
+        * question about participant's level of education
+        * default: 'Level of Education'
+    * `edu_graduated_high_school: string`
+        * answer option for the education question
+        * default: 'Graduated High School'
+    * `edu_graduated_college: string`
+        * answer option for the education question
+        * default: 'Graduated College'
+    * `edu_higher_degree: string`
+        * answer option for the education question
+        * default: 'Higher Degree'
+    * `languages_question: string`
+        * question about participant's native languages
+        * default: 'Native Languages'
+    * `languages_more: string`
+        * more info about what native languages are
+        * default: '(i.e. the language(s) spoken at home when you were a child)'
 
 * babeViews.thanks:
     * `title: string`

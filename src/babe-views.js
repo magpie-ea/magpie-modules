@@ -1312,6 +1312,30 @@ const babeViews = {
                 "Additional Information"
             ),
             text: config.text,
+            quest: {
+                age: {
+                    title: babeUtils.view.setter.prop(config.age_question, 'Age')
+                },
+                gender: {
+                    title: babeUtils.view.setter.prop(config.gender_question, 'Gender'),
+                    male: babeUtils.view.setter.prop(config.gender_male, 'male'),
+                    female: babeUtils.view.setter.prop(config.gender_female, 'female'),
+                    other: babeUtils.view.setter.prop(config.gender_other, 'other')
+                },
+                edu: {
+                    title: babeUtils.view.setter.prop(config.edu_question, 'Level of Education'),
+                    graduated_high_school: babeUtils.view.setter.prop(config.edu_graduated_high_school, 'Graduated High School'),
+                    graduated_college: babeUtils.view.setter.prop(config.edu_graduated_college, 'Graduated College'),
+                    higher_degree: babeUtils.view.setter.prop(config.edu_higher_degree, 'Higher Degree')
+                },
+                langs: {
+                    title: babeUtils.view.setter.prop(config.languages_question, 'Native Languages'),
+                    text: babeUtils.view.setter.prop(config.languages_more, '(i.e. the language(s) spoken at home when you were a child)')
+                },
+                comments: {
+                    title: babeUtils.view.setter.prop(config.comments_question, 'Further Comments')
+                }
+            },
             button: babeUtils.view.setter.buttonText(config.buttonText),
             render: function(CT, babe) {
                 const viewTemplate = `<div class='babe-view babe-post-test-view'>
@@ -1321,33 +1345,33 @@ const babeViews = {
                     </section>
                     <form>
                         <p class='babe-view-text'>
-                            <label for="age">Age:</label>
+                            <label for="age">${this.quest.age.title}:</label>
                             <input type="number" name="age" min="18" max="110" id="age" />
                         </p>
                         <p class='babe-view-text'>
-                            <label for="gender">Gender:</label>
+                            <label for="gender">${this.quest.gender.title}:</label>
                             <select id="gender" name="gender">
                                 <option></option>
-                                <option value="male">male</option>
-                                <option value="female">female</option>
-                                <option value="other">other</option>
+                                <option value="${this.quest.gender.male}">${this.quest.gender.male}</option>
+                                <option value="${this.quest.gender.female}">${this.quest.gender.female}</option>
+                                <option value="${this.quest.gender.other}">${this.quest.gender.other}</option>
                             </select>
                         </p>
                         <p class='babe-view-text'>
-                            <label for="education">Level of Education:</label>
+                            <label for="education">${this.quest.edu.title}:</label>
                             <select id="education" name="education">
                                 <option></option>
-                                <option value="graduated_high_school">Graduated High School</option>
-                                <option value="graduated_college">Graduated College</option>
-                                <option value="higher_degree">Higher Degree</option>
+                                <option value="${this.quest.edu.graduated_high_school}">${this.quest.edu.graduated_high_school}</option>
+                                <option value="${this.quest.edu.graduated_college}">${this.quest.edu.graduated_college}</option>
+                                <option value="${this.quest.edu.higher_degree}">${this.quest.edu.higher_degree}</option>
                             </select>
                         </p>
                         <p class='babe-view-text'>
-                            <label for="languages" name="languages">Native Languages: <br /><span>(i.e. the language(s) spoken at home when you were a child)</</span></label>
+                            <label for="languages" name="languages">${this.quest.langs.title}:<br /><span>${this.quest.langs.text}</</span></label>
                             <input type="text" id="languages"/>
                         </p>
                         <p class="babe-view-text">
-                            <label for="comments">Further comments</label>
+                            <label for="comments">${this.quest.comments.title}</label>
                             <textarea name="comments" id="comments"
                             rows="6" cols="40"></textarea>
                         </p>
