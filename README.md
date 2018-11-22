@@ -1,7 +1,7 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**version 0.0.20**
+**version 0.0.22**
 
 **Table of contents**
 
@@ -55,13 +55,17 @@ basic architecture for browser-based experiments
 #### Option 2: Install with git and npm
 
 ```
-# clone the repo
+# create a folder for your project
 
-git clone https://github.com/babe-project/babe-project.git
+mkdir my-project
 
 # move to the project's folder
 
-cd babe-project
+cd my-project
+
+# initialise npm (create a package.json file)
+
+npm init
 
 # install the dependencies with npm
 
