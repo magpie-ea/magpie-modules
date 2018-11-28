@@ -428,9 +428,9 @@ Use `npm run watch` command from the `babe-project` folder to start a process wh
 Run `npm run concat` from the `babe-project` folder. This command builds both `babe.js` and `babe.full.js`.
 
 #### (3) Merge into master
-    - include a changelog information in the README
-    - merge to master
-    - update the version of \_babe in package.json
+- include a changelog information in the README
+- merge to master
+- update the version of \_babe in package.json
 
 #### (4) Publish to npm
 
