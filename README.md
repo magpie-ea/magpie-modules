@@ -52,19 +52,21 @@ the npm installation process creates a folder (named `node_modules`) in your exp
 The `babe-project` folder includes the following three files that you can add to your experiment:
 
 - `babe.full.js` - includes \_babe functions and its dependencies (jquery nad csv-js), no need to install and import jquery and csv-js.
-- `babe.full.js` - includes only \_babe functions (jquery nad csv-js), jquery and csv-js have to be included separately.
+- `babe.js` - includes only \_babe functions (jquery nad csv-js), jquery and csv-js have to be included separately.
 - `babe.css` - includes babe styles.
 
 Import \_babe with a script tag:
 
-add the file that includes babe and its dependencies
+add `babe.full.js`
 
 `<script src='path/to/node_modules/babe-project/babe.full.js'></script>`
 
-or add the file that includes only babe and import the dependencies separately
+or add `babe.js`, `jquery` and `csv.js`
 
 `<script src='path/to/node_modules/jquery/dist/jquery.min.js'></script>`
+
 `<script src='path/to/node_modules/csv-js/csv.js'></script>`
+
 `<script src='path/to/node_modules/babe-project/babe.js'></script>`
 
 3. Update \_babe 
