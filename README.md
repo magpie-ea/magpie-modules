@@ -395,49 +395,44 @@ $("document").ready(function() {
 
 ## Development
 
-To get the development version of the \_babe package, clone this repository and install the dependencies by running `npm install` in the terminal. This will install:
+To get the development version of the \_babe package, clone this repository and install the dependencies by running `npm install` in the terminal.
 
-**Dependencies**
+### Workflow
 
-- [jQuery](https://www.npmjs.com/package/jquery)
-- [csv-js](https://www.npmjs.com/package/csv-js)
+branches:
 
-**Development dependencies**
+- master - Current stable version.
+- development - Development version. This is where new featues or bug fixes are pushed. When the version is stable, the branch is merged into master.
 
-- [prettier](https://www.npmjs.com/package/prettier)
-- [eslint](https://www.npmjs.com/package/eslint)
-
-### Make changes to the files
-
-You can find the development files in the `src/` folder
+#### (1) Source files
 
 - src/
-    - babe-errors.js
-    - babe-init.js
-    - babe-progress-bar.js
-    - babe-submit.js
-    - babe-utils.js
-    - babe-views.js
-    - _babe-styles.css
+    - `babe-canvas.js`
+    - `babe-errors.js`
+    - `babe-init.js`
+    - `babe-progress-bar.js`
+    - `babe-submit.js`
+    - `babe-utils.js`
+    - `babe-views.js`
 
-**Code format**
+- `babe.css`
 
-...
+#### (2) Create babe.js and babe.full.js
 
-### Create \_babe.min.js and \_babe.full.min.js
+##### Option 1: Build the \_babe package files while developing
 
-`\_babe.min.js` includes only the babe project package
+Use `npm run watch` command from the `babe-project` folder to start a process which watches for changes in the files in `src` and builds (updates) `babe.js` and `babe.full.js`. This commands builds both `babe.js` and `babe.full.js` when a file  in `src` is saved.
 
-`_babe.full.min.js` includes the babe project package + jQuery and csv-js
+##### Option 2: Make changes to the files and then build the \_babe files
 
-You can use [uglify-es](https://www.npmjs.com/package/uglify-es) to minify the files.
+Run `npm run concat` from the `babe-project` folder. This command builds both `babe.js` and `babe.full.js`.
 
-```
-#install uglify-es with npm
+#### (3) Merge into master
+    - include a changelog information in the README
+    - merge to master
+    - update the version of \_babe in package.json
 
-npm install -g uglify-es
+#### (4) Publish to npm
 
-#minify the files
+[Update the version of \_babe](https://docs.npmjs.com/about-semantic-versioning) in the `package.json` and run `npm publish` from the `babe-project` folder to publish the new version of \_babe.
 
-npm run uglify
-```

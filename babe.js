@@ -920,7 +920,6 @@ function babeSubmit(babe) {
             error: function(responseData, textStatus, errorThrown) {
                 // There is this consideration about whether we should still allow such a submission that failed on our side to proceed on submitting to MTurk. Maybe we should after all.
                 if (config.is_MTurk) {
-
                     // submits to MTurk's server if isMTurk = true
                     submitToMTurk(data);
 

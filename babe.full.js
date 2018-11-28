@@ -920,10 +920,6 @@ function babeSubmit(babe) {
             error: function(responseData, textStatus, errorThrown) {
                 // There is this consideration about whether we should still allow such a submission that failed on our side to proceed on submitting to MTurk. Maybe we should after all.
                 if (config.is_MTurk) {
-                    // For now we still use the original turk.submit to inform MTurk that the experiment has finished.
-                    // Stela might have another implementation which submits only the participant id.
-                    // Not notifying the user yet since it might cause confusion. The webapp should report errors.
-
                     // submits to MTurk's server if isMTurk = true
                     submitToMTurk(data);
 
