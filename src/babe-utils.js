@@ -167,8 +167,6 @@ const babeUtils = {
                         $(".babe-view-stimulus").addClass("babe-invisible");
                         resolve(evts.after_stim_hidden);
                     }, stim_duration);
-                    // } else if (stim_duration === undefined) {
-                    //     resolve('resolves: no stim duration');
                 } else {
                     $("body").on("keydown", e => {
                         spacePressed(e, resolve);
@@ -181,35 +179,27 @@ const babeUtils = {
             // 3. then shows the stimulus (obligatory)
             // 4. then hides the stimulus (optional)
             // 5. then enables the interations from the participant (obligatory)
-            new Promise((resolve, reject) => {
-                showPause(resolve, reject);
-            })
+            new Promise(showPause)
                 .then(() => {
                     if (evts.after_pause) {
                         evts.after_pause(data);
                     }
 
-                    return new Promise((resolve, reject) => {
-                        showFixPoint(resolve, reject);
-                    });
+                    return new Promise(showFixPoint);
                 })
                 .then(() => {
                     if (evts.after_fix_point) {
                         evts.after_fix_point(data);
                     }
 
-                    return new Promise((resolve, reject) => {
-                        showStim(resolve, reject);
-                    });
+                    return new Promise(showStim);
                 })
                 .then(() => {
                     if (evts.after_stim_shown) {
                         evts.after_stim_shown(data);
                     }
 
-                    return new Promise((resolve, reject) => {
-                        hideStim(resolve, reject);
-                    });
+                    return new Promise(hideStim);
                 })
                 .then(() => {
                     if (evts.after_stim_hidden) {
@@ -224,7 +214,7 @@ const babeUtils = {
                 });
         }
     },
-    views_seq: {
+    views: {
         loop: function(arr, count, shuffleFlag) {
             return _.flatMapDeep(_.range(count), function(i) {
                 return arr;
