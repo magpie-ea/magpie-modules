@@ -430,9 +430,9 @@ Run `npm run concat` from the `babe-project` folder. This command builds both `b
 #### (3) Merge into master
 - include a changelog information in the README
 - merge to master
-- update the version of \_babe in package.json
+- [update the version of \_babe](https://docs.npmjs.com/about-semantic-versioning) in `package.json`
 
 #### (4) Publish to npm
 
-[Update the version of \_babe](https://docs.npmjs.com/about-semantic-versioning) in the `package.json` and run `npm publish` from the `babe-project` folder to publish the new version of \_babe.
+Run `npm publish` from the `babe-project` folder to publish the new version of \_babe.
 
