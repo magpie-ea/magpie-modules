@@ -6,7 +6,7 @@ basic architecture for browser-based experiments
 **Table of contents**
 
 - [Create an experiment with \_babe](#create-an-experiment-with-_babe)
-    - [Install \_babe](#install-_babe)
+    - [Install and import \_babe](#install-and-import_babe)
     - [Experiment Initialisation](#experiment-initialisation)
     - [Views](#views-in-_babe)
     - [Deploy configuraton](#deploy-configuration)
@@ -18,20 +18,23 @@ basic architecture for browser-based experiments
 
 ## Create an experiment with \_babe
 
-### Install \_babe
+### Install and import \_babe
 
 #### Option 1: Install with npm (recommended)
 
+1. Get \_babe
+
 You need to have npm installed in your machine. [Install npm](https://www.npmjs.com/get-npm).
 
+
 ```
-# create a folder for your project
+# create a folder for your experiment
 
-mkdir my-project
+mkdir my-experiment
 
-# move to the project's folder
+# move to the experiment's folder
 
-cd my-project
+cd my-experiment
 
 # initialise npm (create a package.json file)
 
@@ -42,52 +45,73 @@ npm init
 npm install babe-project --save
 ```
 
-\_babe dependencies:
+the npm installation process creates a folder (named `node_modules`) in your experiment's directory where the npm dependencies are stored. After successfully installing \_babe, the `node_modules` folder should contain `babe-project` and its dependencies `jquery` and `csv-js`.
 
- - jQuery
- - csv-js
+2. Add \_babe
 
-Update with `npm update`
+The `babe-project` folder includes the following three files that you can add to your experiment:
+
+- `babe.full.js` - includes \_babe functions and its dependencies (jquery nad csv-js), no need to install and import jquery and csv-js.
+- `babe.full.js` - includes only \_babe functions (jquery nad csv-js), jquery and csv-js have to be included separately.
+- `babe.css` - includes babe styles.
+
+Import \_babe with a script tag:
+
+add the file that includes babe and its dependencies
+
+`<script src='path/to/node_modules/babe-project/babe.full.js'></script>`
+
+or add the file that includes only babe and import the dependencies separately
+
+`<script src='path/to/node_modules/jquery/dist/jquery.min.js'></script>`
+`<script src='path/to/node_modules/csv-js/csv.js'></script>`
+`<script src='path/to/node_modules/babe-project/babe.js'></script>`
+
+3. Update \_babe 
+
+You can get newer versions of \_babe with
+
+`npm update`
 
 
 #### Option 2: Download the babe-project (not reccommended)
 
 1. Download the .zip from this repository
 
-2. Unzip and move `_babe.full.min.js`, `_babe.min.js` and `_babe-styles.css` in the `libraries/` folder of your experiment.
+2. Unzip and move `babe.full.js`, `babe.js` and `babe.css` in the `libraries/` folder of your experiment.
 
  Your experiment's structure should look like this:
 
 - experiment/
     - libraries/
-        - _babe.full.min.js
-        - _babe-styles.css
-        - _babe.min.js
+        - babe.full.js
+        - babe.css
+        - babe.js
 
- `_babe.full.min.js` includes the dependencies that \_babe uses (jQuery, and csv-js). There is no need to install and import jQuery, and csv-js.
+ `babe.full.js` includes the dependencies that \_babe uses (jQuery, and csv-js). There is no need to install and import jQuery, and csv-js.
 
- `_babe.min.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
+ `babe.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
 
- `_babe-styles.css` includes styles for \_babe experiments.
+ `babe.css` includes styles for \_babe experiments.
 
-3. Import \_babe in your `index.html`
+3. Import \_babe in your main `html` file
 
  the full version or no-dependencies version:
 
- `<script src="libraries/_babe.full.min.js></script>` or `<script src="libraries/_babe.min.js></script>`
+ `<script src="libraries/babe.full.js></script>` or `<script src="libraries/babe.js></script>`
 
  and \_babe-styles:
 
- `<link rel="stylesheet" type="text/css" href="libraries/_babe-styles.css">`
+ `<link rel="stylesheet" type="text/css" href="libraries/babe.css">`
 
 
 ## Usage
 
-Once you have installed \_babe, you can start using \_babe funcitons to create your experiment.
+Once you have installed and included \_babe in your files, you can start using \_babe funcitons to create your experiment.
 You can use:
 
 * babeInit({..}) - to initialize the experiment
-* babeViews._view_ - to create an instance of a \_babe view
+* babeViews._view_({..}) - to create an instance of a \_babe view
 
 ### Experiment initialisation
 
