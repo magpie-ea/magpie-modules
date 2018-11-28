@@ -1,7 +1,7 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**version 0.0.20**
+**version 0.0.22**
 
 **Table of contents**
 
@@ -20,8 +20,37 @@ basic architecture for browser-based experiments
 
 ### Install \_babe
 
-#### Option 1: Download the babe-project
+#### Option 1: Install with npm (recommended)
 
+You need to have npm installed in your machine. [Install npm](https://www.npmjs.com/get-npm).
+
+```
+# create a folder for your project
+
+mkdir my-project
+
+# move to the project's folder
+
+cd my-project
+
+# initialise npm (create a package.json file)
+
+npm init
+
+# install the dependencies with npm
+
+npm install babe-project --save
+```
+
+\_babe dependencies:
+
+ - jQuery
+ - csv-js
+
+Update with `npm update`
+
+
+#### Option 2: Download the babe-project (not reccommended)
 
 1. Download the .zip from this repository
 
@@ -50,31 +79,6 @@ basic architecture for browser-based experiments
  and \_babe-styles:
 
  `<link rel="stylesheet" type="text/css" href="libraries/_babe-styles.css">`
-
-
-#### Option 2: Install with git and npm
-
-```
-# clone the repo
-
-git clone https://github.com/babe-project/babe-project.git
-
-# move to the project's folder
-
-cd babe-project
-
-# install the dependencies with npm
-
-npm install babe-project --save
-```
-
-You need to have npm installed in your machine. [Install npm](https://www.npmjs.com/get-npm).
-
-\_babe dependencies:
-
- - jQuery
- - Mustache
- - csv-js
 
 
 ## Usage
