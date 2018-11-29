@@ -1,7 +1,11 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**version 0.0.22**
+**Latest version: x.x**
+
+- (change)
+- (change)
+- (change)
 
 **Table of contents**
 
@@ -13,7 +17,6 @@ basic architecture for browser-based experiments
     - [Progress bar](#progress-bar)
 - [Sample experiment](#sample-experiment)
 - [Development](#development)
-
 
 
 ## Create an experiment with \_babe

@@ -5,12 +5,12 @@
 ```
 progress_bar: {
     in: [
-        'forced_choice', 	// 6 trials
-        'dropdown_choice'	// 10 trials
-        'slider_rating', 	// 4 trials
+        'forced_choice',    // 6 trials
+        'dropdown_choice'   // 10 trials
+        'slider_rating',    // 4 trials
     ],
     style: "default",
-    width: 120			// 120 pixels
+    width: 120          // 120 pixels
 }
 
 
@@ -22,12 +22,12 @@ progress_bar: {
 ```
 progress_bar: {
     in: [
-        'forced_choice', 	// 6 trials
-        'dropdown_choice'	// 10 trials
-        'slider_rating', 	// 4 trials
+        'forced_choice',    // 6 trials
+        'dropdown_choice'   // 10 trials
+        'slider_rating',    // 4 trials
     ],
     style: "default",
-    width: 120			// 120 pixels
+    width: 120          // 120 pixels
 }
 
 
@@ -39,12 +39,12 @@ progress_bar: {
 ```
 progress_bar: {
     in: [
-        'forced_choice', 	// 6 trials
-        'dropdown_choice'	// 10 trials
-        'slider_rating', 	// 4 trials
+        'forced_choice',    // 6 trials
+        'dropdown_choice'   // 10 trials
+        'slider_rating',    // 4 trials
     ],
     style: "default",
-    width: 60			// 60 pixels
+    width: 60           // 60 pixels
 }
 
 
