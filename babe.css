@@ -387,6 +387,9 @@ input[name=answer] {
 */
 .babe-spr-sentence {
     display: block;
+    line-height: 40px;
+    max-width: 500px;
+    margin: 0 auto;
     text-align: center;
 }
 .babe-spr-sentence .spr-word {
