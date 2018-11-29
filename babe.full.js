@@ -1,6 +1,5 @@
 const errors = {
-    contactEmail:
-`There is no contact_email given. Please give a contact_email to the babeInit function,
+    contactEmail: `There is no contact_email given. Please give a contact_email to the babeInit function,
 
 for example:
 
@@ -14,8 +13,7 @@ babeInit({
     ...
 });`,
 
-    prolificURL:
-`There is no prolificURL given. Please give a prolificURL to the babeInit function,
+    prolificURL: `There is no prolificURL given. Please give a prolificURL to the babeInit function,
 
 for example:
 
@@ -29,8 +27,7 @@ babeInit({
     ...
 });`,
 
-    noTrials:
-`No trials given. Each _babe view takes an object with an obligatory 'trial' property.
+    noTrials: `No trials given. Each _babe view takes an object with an obligatory 'trial' property.
 
 for example:
 
@@ -42,8 +39,7 @@ const introView = intro({
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    noName:
-`No name given. Each _babe view takes an object with an obligatory 'name' property
+    noName: `No name given. Each _babe view takes an object with an obligatory 'name' property
 
 for example:
 
@@ -55,8 +51,7 @@ const introView = intro({
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    noData:
-`No data given. Each _babe view takes an object with an obligatory 'data' property
+    noData: `No data given. Each _babe view takes an object with an obligatory 'data' property
 
 for example:
 
@@ -78,8 +73,7 @@ _babe's trial views expect each trial object to have specific properties. Here i
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    noTrialType:
-`No trial_type given. Each _babe view takes an object with an obligatory 'trial_type' property
+    noTrialType: `No trial_type given. Each _babe view takes an object with an obligatory 'trial_type' property
 
 for example:
 
@@ -93,8 +87,7 @@ The trial type is needed for recording the results of your experiment.
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    notAnArray:
-`The data is not an array. Trial views get an array of objects.
+    notAnArray: `The data is not an array. Trial views get an array of objects.
 
 for example:
 
@@ -112,8 +105,7 @@ const mainTrials = forcedChoice({
     ],
     ...
 });`,
-    noSuchViewName:
-`The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
+    noSuchViewName: `The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
 
 for example:
 
@@ -141,8 +133,7 @@ babeInit({
     ...
 });
 `,
-    canvasSort:
-`No such 'canvas.sort' value. canvas.sort can be 'grid', 'split_grid' or 'random'.
+    canvasSort: `No such 'canvas.sort' value. canvas.sort can be 'grid', 'split_grid' or 'random'.
 
 for example:
 
@@ -161,8 +152,7 @@ const myTrials = [
 };
 
 const info = {
-     canvasTooSmall:
-`The canvas size was increased because the default canvas size was too small to fit all the elements.
+    canvasTooSmall: `The canvas size was increased because the default canvas size was too small to fit all the elements.
 Btw, you can manually change the canvas size by passing 'canvasSettings' to the canvas object,
 however, your canvas settings might be overridden if needed. 
 
@@ -187,7 +177,8 @@ const myTrials = [
 
 See https://github.com/babe-project/babe-project/blob/master/docs/canvas.md for more information.
 `
-}
+};
+
 const babeProgress = function(babe) {
     let totalProgressParts = 0;
     let progressTrials = 0;
@@ -199,7 +190,7 @@ const babeProgress = function(babe) {
     const progress = {
         // adds progress bar(s) to the views specified experiment.js
         add: function() {
-            babe.views_seq.map(view => {
+            babe.views_seq.map((view) => {
                 for (let j = 0; j < babe.progress_bar.in.length; j++) {
                     if (view.name === babe.progress_bar.in[j]) {
                         totalProgressChunks++;
@@ -226,8 +217,13 @@ const babeProgress = function(babe) {
                 div = $(".progress-bar").width() / totalProgressParts;
                 filledPart = progressTrials * div;
             } else {
-                div = $(".progress-bar").width() / babe.views_seq[babe.currentViewCounter].trials;
-                filledPart = ((babe.currentTrialInViewCounter - 1) * div).toFixed(4);
+                div =
+                    $(".progress-bar").width() /
+                    babe.views_seq[babe.currentViewCounter].trials;
+                filledPart = (
+                    (babe.currentTrialInViewCounter - 1) *
+                    div
+                ).toFixed(4);
             }
 
             const filledElem = jQuery("<span/>", {
@@ -243,7 +239,10 @@ const babeProgress = function(babe) {
                     fillChunk = false;
                 }
 
-                if (filledElem.width().toFixed(4) === ($(".progress-bar").width() - div).toFixed(4)) {
+                if (
+                    filledElem.width().toFixed(4) ===
+                    ($(".progress-bar").width() - div).toFixed(4)
+                ) {
                     fillChunk = true;
                 }
 
@@ -470,7 +469,7 @@ const babeUtils = {
                         resolve(evts.after_stim_hidden);
                     }, stim_duration);
                 } else {
-                    $("body").on("keydown", e => {
+                    $("body").on("keydown", (e) => {
                         spacePressed(e, resolve);
                     });
                 }
@@ -531,40 +530,52 @@ const babeUtils = {
 };
 
 const babeDrawShapes = function(trialInfo) {
-    const canvasHeight = (trialInfo.canvasSettings === undefined || trialInfo.canvasSettings.height === undefined) ? 300 : trialInfo.canvasSettings.height;
-    const canvasWidth = (trialInfo.canvasSettings === undefined || trialInfo.canvasSettings.width === undefined) ? 500 : trialInfo.canvasSettings.width;
-    const canvasBg = (trialInfo.canvasSettings === undefined || trialInfo.canvasSettings.background === undefined) ? 'white' : trialInfo.canvasSettings.background;
+    const canvasHeight =
+        trialInfo.canvasSettings === undefined ||
+        trialInfo.canvasSettings.height === undefined
+            ? 300
+            : trialInfo.canvasSettings.height;
+    const canvasWidth =
+        trialInfo.canvasSettings === undefined ||
+        trialInfo.canvasSettings.width === undefined
+            ? 500
+            : trialInfo.canvasSettings.width;
+    const canvasBg =
+        trialInfo.canvasSettings === undefined ||
+        trialInfo.canvasSettings.background === undefined
+            ? "white"
+            : trialInfo.canvasSettings.background;
 
     const createCanvas = function(height, width, bg) {
         const canvas = {};
-        const canvasElem = document.createElement('canvas');
+        const canvasElem = document.createElement("canvas");
         const context = canvasElem.getContext("2d");
-        canvasElem.classList.add('babe-view-canvas');
+        canvasElem.classList.add("babe-view-canvas");
         canvasElem.height = height;
         canvasElem.width = width;
         canvasElem.style.backgroundColor = bg;
-        $('.babe-view-stimulus').prepend(canvasElem);
+        $(".babe-view-stimulus").prepend(canvasElem);
 
         canvas.draw = function(shape, size, x, y, color) {
             context.beginPath();
-            if (shape === 'circle') {
-                context.arc(x, y, size / 2, 0, 2*Math.PI);
-            } else if (shape === 'square') {
-                context.rect(x - (size / 2), y - (size / 2), size, size);
-            } else if (shape === 'triangle') {
-                var delta = size / (Math.sqrt(3)*2);
-                context.moveTo(x - (size / 2), y + delta);
-                context.lineTo(x + (size / 2), y + delta);
-                context.lineTo(x, y - 2*delta);
+            if (shape === "circle") {
+                context.arc(x, y, size / 2, 0, 2 * Math.PI);
+            } else if (shape === "square") {
+                context.rect(x - size / 2, y - size / 2, size, size);
+            } else if (shape === "triangle") {
+                var delta = size / (Math.sqrt(3) * 2);
+                context.moveTo(x - size / 2, y + delta);
+                context.lineTo(x + size / 2, y + delta);
+                context.lineTo(x, y - 2 * delta);
             }
-            if (color === 'blue') {
-                context.fillStyle = '#2c89df';
-            } else if (color === 'green') {
-                context.fillStyle = '#22ce59';
-            } else if (color === 'red') {
-                context.fillStyle = '#ff6347';
-            } else if (color === 'yellow') {
-                context.fillStyle = '#ecd70b';
+            if (color === "blue") {
+                context.fillStyle = "#2c89df";
+            } else if (color === "green") {
+                context.fillStyle = "#22ce59";
+            } else if (color === "red") {
+                context.fillStyle = "#ff6347";
+            } else if (color === "yellow") {
+                context.fillStyle = "#ecd70b";
             } else {
                 context.fillStyle = color;
             }
@@ -572,7 +583,13 @@ const babeDrawShapes = function(trialInfo) {
             context.fill();
         };
 
-        canvas.getTwoSidedCoords = function(rows, gap, number, size, direction = 'row') {
+        canvas.getTwoSidedCoords = function(
+            rows,
+            gap,
+            number,
+            size,
+            direction = "row"
+        ) {
             // a list of coords
             var coords = [];
             var tempCoords = [];
@@ -581,45 +598,62 @@ const babeDrawShapes = function(trialInfo) {
             var columns, xStart, yStart;
 
             // reset the rows if not passed or more than the total elems
-            rows = (rows === 0 || rows === undefined) ? 1 : rows;
-            rows = (rows > number) ? number : rows;
+            rows = rows === 0 || rows === undefined ? 1 : rows;
+            rows = rows > number ? number : rows;
             // sets a gap if not specified
-            gap = (gap <= size + margin || gap === undefined) ? (margin + size) : gap;
+            gap =
+                gap <= size + margin || gap === undefined ? margin + size : gap;
             // calculates the total number of columns per side
             columns = Math.ceil(number / rows);
             // gets the first coordinate so that the elems are centered on the canvas
-            xStart = (canvasElem.width - (columns * size + (columns - 2) * margin)) / 2 + margin / 2 - gap / 2;
-            yStart = (canvasElem.height - (rows * size + (rows - 2) * margin)) / 2 + margin;
+            xStart =
+                (canvasElem.width - (columns * size + (columns - 2) * margin)) /
+                    2 +
+                margin / 2 -
+                gap / 2;
+            yStart =
+                (canvasElem.height - (rows * size + (rows - 2) * margin)) / 2 +
+                margin;
 
             // expands the canvas if needed
             if (xStart < margin) {
-                canvasElem.width += -2*xStart;
+                canvasElem.width += -2 * xStart;
                 xStart = margin;
             }
 
             // expands the canvas if needed
             if (yStart < margin) {
-                canvasElem.height += -2*yStart;
+                canvasElem.height += -2 * yStart;
                 yStart = margin;
             }
 
             // generates the coords
             // for each row
-            for (var i=0; i<rows; i++) {
+            for (var i = 0; i < rows; i++) {
                 // for each elem
-                for (var j=0; j<number; j++) {
+                for (var j = 0; j < number; j++) {
                     // x position, y position
                     var xPos, yPos;
-                     // position on the right
-                    if ((Math.floor(j/columns) === i) && (j%columns >= Math.ceil(columns / 2))) {
-                        xPos = xStart + (j%columns)*size + (j%columns)*margin + gap;
-                        yPos = yStart + i*size + i*margin;
-                        tempCoords.push({x: xPos, y: yPos});
-                    // position on the left
-                    } else if (Math.floor(j/columns) === i) {
-                        xPos = xStart + (j%columns)*size + (j%columns)*margin;
-                        yPos = yStart + i*size + i*margin
-                        tempCoords.push({x: xPos, y: yPos});
+                    // position on the right
+                    if (
+                        Math.floor(j / columns) === i &&
+                        j % columns >= Math.ceil(columns / 2)
+                    ) {
+                        xPos =
+                            xStart +
+                            (j % columns) * size +
+                            (j % columns) * margin +
+                            gap;
+                        yPos = yStart + i * size + i * margin;
+                        tempCoords.push({ x: xPos, y: yPos });
+                        // position on the left
+                    } else if (Math.floor(j / columns) === i) {
+                        xPos =
+                            xStart +
+                            (j % columns) * size +
+                            (j % columns) * margin;
+                        yPos = yStart + i * size + i * margin;
+                        tempCoords.push({ x: xPos, y: yPos });
                     }
                 }
             }
@@ -633,10 +667,11 @@ const babeDrawShapes = function(trialInfo) {
                 |   xxx  xxx   |
                 |              |
                 ----------------
-            */ 
-            if (direction === 'row') {
+            */
+
+            if (direction === "row") {
                 coords = tempCoords;
-            /*
+                /*
                 ----------------
                 |              |
                 |   000  xxx   |
@@ -644,12 +679,12 @@ const babeDrawShapes = function(trialInfo) {
                 |   xxx  xxx   |
                 |              |
                 ----------------
-            */ 
-            } else if (direction === 'side_row') {
+            */
+            } else if (direction === "side_row") {
                 var leftPart = [];
                 var rightPart = [];
-                for (var i=0; i<tempCoords.length; i++) {
-                    if (i%columns < columns/2) {
+                for (var i = 0; i < tempCoords.length; i++) {
+                    if (i % columns < columns / 2) {
                         leftPart.push(tempCoords[i]);
                     } else {
                         rightPart.push(tempCoords[i]);
@@ -657,7 +692,7 @@ const babeDrawShapes = function(trialInfo) {
                 }
 
                 coords = leftPart.concat(rightPart);
-            /*
+                /*
                 ----------------
                 |              |
                 |   00x  xxx   |
@@ -665,12 +700,12 @@ const babeDrawShapes = function(trialInfo) {
                 |   0xx  xxx   |
                 |              |
                 ----------------
-            */ 
-             } else if (direction === 'column') {
+            */
+            } else if (direction === "column") {
                 var idx;
 
-                for (var i=0; i<tempCoords.length; i++) {
-                    idx = ((i%rows) * columns) + Math.floor(i/rows);
+                for (var i = 0; i < tempCoords.length; i++) {
+                    idx = (i % rows) * columns + Math.floor(i / rows);
                     coords.push(tempCoords[idx]);
                 }
             }
@@ -689,7 +724,7 @@ const babeDrawShapes = function(trialInfo) {
                 const minArea = size * size * number * 4;
 
                 if (area < minArea) {
-                    times = Math.ceil(minArea / area)
+                    times = Math.ceil(minArea / area);
                     canvasElem.height = canvasElem.height * times;
                     canvasElem.width = canvasElem.width * times;
                     console.info(info.canvasTooSmall);
@@ -703,21 +738,25 @@ const babeDrawShapes = function(trialInfo) {
             const generateCoords = function() {
                 const maxWidth = canvasElem.width - size;
                 const maxHeight = canvasElem.height - size;
-                const xPos = Math.floor(Math.random() * (maxWidth - size)) + size;
-                const yPos = Math.floor(Math.random() * (maxHeight - size)) + size;
-                
-                return {x: xPos, y: yPos};
+                const xPos =
+                    Math.floor(Math.random() * (maxWidth - size)) + size;
+                const yPos =
+                    Math.floor(Math.random() * (maxHeight - size)) + size;
+
+                return { x: xPos, y: yPos };
             };
 
             const adjustCanvas = function() {
                 const area = canvasElem.height * canvasElem.width;
-                console.log('area ' + area);
+                console.log("area " + area);
                 const minArea = size * size * number * 2.5;
-                console.log('min area ' + minArea);
+                console.log("min area " + minArea);
 
                 if (area < minArea) {
-                    canvasElem.height = (canvasElem.height * minArea) / canvasElem.width;
-                    canvasElem.width = (canvasElem.width * minArea) / canvasElem.height;
+                    canvasElem.height =
+                        (canvasElem.height * minArea) / canvasElem.width;
+                    canvasElem.width =
+                        (canvasElem.width * minArea) / canvasElem.height;
                 } else {
                     canvasElem.height = canvasElem.height;
                     canvasElem.width = canvasElem.width;
@@ -726,11 +765,13 @@ const babeDrawShapes = function(trialInfo) {
 
             // ensures no elements overlap
             const checkCoords = function(xPos, yPos) {
-                for (var i=0; i<coords.length; i++) {
-                    if (((xPos + size + margin) > coords[i]["x"])
-                        && ((xPos - size - margin) < coords[i]["x"])
-                        && ((yPos + size + margin) > coords[i]["y"])
-                        && ((yPos - size - margin) < coords[i]["y"])) {
+                for (var i = 0; i < coords.length; i++) {
+                    if (
+                        xPos + size + margin > coords[i]["x"] &&
+                        xPos - size - margin < coords[i]["x"] &&
+                        yPos + size + margin > coords[i]["y"] &&
+                        yPos - size - margin < coords[i]["y"]
+                    ) {
                         return false;
                     }
                 }
@@ -749,8 +790,8 @@ const babeDrawShapes = function(trialInfo) {
             };
 
             // finds valid coordinates for each element
-            for (i=0; i<number; i++) {
-                findValidCoords();             
+            for (i = 0; i < number; i++) {
+                findValidCoords();
             }
 
             return coords;
@@ -766,27 +807,38 @@ const babeDrawShapes = function(trialInfo) {
             } else if (rows > number) {
                 rows = number;
             }
-            
+
             columns = Math.ceil(number / rows);
-            xStart = (canvasElem.width - (columns * size + (columns - 2) * margin)) / 2 + margin / 2;
-            yStart = (canvasElem.height - (rows * size + (rows - 2) * margin)) / 2 + margin;
+            xStart =
+                (canvasElem.width - (columns * size + (columns - 2) * margin)) /
+                    2 +
+                margin / 2;
+            yStart =
+                (canvasElem.height - (rows * size + (rows - 2) * margin)) / 2 +
+                margin;
 
             // handles small canvases
             if (xStart < margin) {
-                canvasElem.width += -2*xStart;
+                canvasElem.width += -2 * xStart;
                 xStart = margin;
             }
 
             if (yStart < margin) {
-                console.log('true');
-                canvasElem.height += -2*yStart;
+                console.log("true");
+                canvasElem.height += -2 * yStart;
                 yStart = margin;
             }
 
-            for (var i=0; i<rows; i++) {
-                for (var j=0; j<number; j++) {
-                    if (Math.floor(j/columns) === i) {
-                        coords.push({x: xStart + (j%columns)*size + (j%columns)*margin, y: yStart + i*size + i*margin})
+            for (var i = 0; i < rows; i++) {
+                for (var j = 0; j < number; j++) {
+                    if (Math.floor(j / columns) === i) {
+                        coords.push({
+                            x:
+                                xStart +
+                                (j % columns) * size +
+                                (j % columns) * margin,
+                            y: yStart + i * size + i * margin
+                        });
                     } else {
                         continue;
                     }
@@ -801,28 +853,65 @@ const babeDrawShapes = function(trialInfo) {
 
     const canvas = createCanvas(canvasHeight, canvasWidth, canvasBg);
     const coords =
-        trialInfo.sort == 'grid' ? canvas.getGridCoords(trialInfo.rows, trialInfo.total, trialInfo.elemSize) :
-        trialInfo.sort == 'split_grid' ? canvas.getTwoSidedCoords(trialInfo.rows, trialInfo.gap, trialInfo.total, trialInfo.elemSize, trialInfo.direction) :
-        canvas.getRandomCoords(trialInfo.total, trialInfo.elemSize);
+        trialInfo.sort == "grid"
+            ? canvas.getGridCoords(
+                  trialInfo.rows,
+                  trialInfo.total,
+                  trialInfo.elemSize
+              )
+            : trialInfo.sort == "split_grid"
+                ? canvas.getTwoSidedCoords(
+                      trialInfo.rows,
+                      trialInfo.gap,
+                      trialInfo.total,
+                      trialInfo.elemSize,
+                      trialInfo.direction
+                  )
+                : canvas.getRandomCoords(trialInfo.total, trialInfo.elemSize);
 
-    if (trialInfo.start_with === 'other') {
-        for (let i=0; i<trialInfo.total; i++) {
+    if (trialInfo.start_with === "other") {
+        for (let i = 0; i < trialInfo.total; i++) {
             if (i < trialInfo.total - trialInfo.focalNumber) {
-                canvas.draw(trialInfo.otherShape, trialInfo.elemSize, coords[i].x, coords[i].y, trialInfo.otherColor);
+                canvas.draw(
+                    trialInfo.otherShape,
+                    trialInfo.elemSize,
+                    coords[i].x,
+                    coords[i].y,
+                    trialInfo.otherColor
+                );
             } else {
-                canvas.draw(trialInfo.focalShape, trialInfo.elemSize, coords[i].x, coords[i].y, trialInfo.focalColor);
+                canvas.draw(
+                    trialInfo.focalShape,
+                    trialInfo.elemSize,
+                    coords[i].x,
+                    coords[i].y,
+                    trialInfo.focalColor
+                );
             }
         }
     } else {
-        for (let i=0; i<trialInfo.total; i++) {
+        for (let i = 0; i < trialInfo.total; i++) {
             if (i < trialInfo.focalNumber) {
-                canvas.draw(trialInfo.focalShape, trialInfo.elemSize, coords[i].x, coords[i].y, trialInfo.focalColor);
+                canvas.draw(
+                    trialInfo.focalShape,
+                    trialInfo.elemSize,
+                    coords[i].x,
+                    coords[i].y,
+                    trialInfo.focalColor
+                );
             } else {
-                canvas.draw(trialInfo.otherShape, trialInfo.elemSize, coords[i].x, coords[i].y, trialInfo.otherColor);
+                canvas.draw(
+                    trialInfo.otherShape,
+                    trialInfo.elemSize,
+                    coords[i].x,
+                    coords[i].y,
+                    trialInfo.otherColor
+                );
             }
         }
     }
 };
+
 function babeSubmit(babe) {
     const submit = {
         // submits the data
@@ -851,7 +940,7 @@ function babeSubmit(babe) {
                 var form = jQuery("<form/>", {
                     id: "mturk-submission-form",
                     action: babe.deploy.MTurk_server,
-                    method: 'POST'
+                    method: "POST"
                 }).appendTo(".babe-thanks-view");
                 jQuery("<input/>", {
                     type: "hidden",
@@ -1241,7 +1330,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "forced choice");
         const forcedChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -1337,7 +1426,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "slider rating");
         const sliderRating = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -1440,7 +1529,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "textbox input");
         const textboxInput = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -1550,7 +1639,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "dropdown choice");
         const dropdownChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -1662,7 +1751,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "rating scale");
         const ratingScale = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -1769,7 +1858,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "sentence choice");
         const sentenceChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -1862,7 +1951,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "image selection");
         const imageSelection = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -1950,7 +2039,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "key press");
         const keyPress = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -2059,7 +2148,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "self-paced reading");
         const spr = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -2148,7 +2237,7 @@ const babeViews = {
                     $(".babe-help-text").removeClass("babe-nodisplay");
 
                     // creates the sentence
-                    sentenceList.map(word => {
+                    sentenceList.map((word) => {
                         $(".babe-spr-sentence").append(
                             `<span class='spr-word spr-word-hidden'>${word}</span>`
                         );
@@ -2182,7 +2271,7 @@ const babeViews = {
                                 readingTimes[idx + 1] - readingTimes[idx]
                             );
                         }, [])
-                        .filter(item => isNaN(item) === false);
+                        .filter((item) => isNaN(item) === false);
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
@@ -2231,7 +2320,7 @@ const babeViews = {
         );
         const spr = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -2332,7 +2421,7 @@ const babeViews = {
                     $(".babe-help-text").removeClass("babe-nodisplay");
 
                     // creates the sentence
-                    sentenceList.map(word => {
+                    sentenceList.map((word) => {
                         $(".babe-spr-sentence").append(
                             `<span class='spr-word spr-word-hidden'>${word}</span>`
                         );
@@ -2352,7 +2441,7 @@ const babeViews = {
                                     readingTimes[idx + 1] - readingTimes[idx]
                                 );
                             }, [])
-                            .filter(item => isNaN(item) === false);
+                            .filter((item) => isNaN(item) === false);
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
@@ -2418,26 +2507,62 @@ const babeViews = {
             text: config.text,
             quest: {
                 age: {
-                    title: babeUtils.view.setter.prop(config.age_question, 'Age')
+                    title: babeUtils.view.setter.prop(
+                        config.age_question,
+                        "Age"
+                    )
                 },
                 gender: {
-                    title: babeUtils.view.setter.prop(config.gender_question, 'Gender'),
-                    male: babeUtils.view.setter.prop(config.gender_male, 'male'),
-                    female: babeUtils.view.setter.prop(config.gender_female, 'female'),
-                    other: babeUtils.view.setter.prop(config.gender_other, 'other')
+                    title: babeUtils.view.setter.prop(
+                        config.gender_question,
+                        "Gender"
+                    ),
+                    male: babeUtils.view.setter.prop(
+                        config.gender_male,
+                        "male"
+                    ),
+                    female: babeUtils.view.setter.prop(
+                        config.gender_female,
+                        "female"
+                    ),
+                    other: babeUtils.view.setter.prop(
+                        config.gender_other,
+                        "other"
+                    )
                 },
                 edu: {
-                    title: babeUtils.view.setter.prop(config.edu_question, 'Level of Education'),
-                    graduated_high_school: babeUtils.view.setter.prop(config.edu_graduated_high_school, 'Graduated High School'),
-                    graduated_college: babeUtils.view.setter.prop(config.edu_graduated_college, 'Graduated College'),
-                    higher_degree: babeUtils.view.setter.prop(config.edu_higher_degree, 'Higher Degree')
+                    title: babeUtils.view.setter.prop(
+                        config.edu_question,
+                        "Level of Education"
+                    ),
+                    graduated_high_school: babeUtils.view.setter.prop(
+                        config.edu_graduated_high_school,
+                        "Graduated High School"
+                    ),
+                    graduated_college: babeUtils.view.setter.prop(
+                        config.edu_graduated_college,
+                        "Graduated College"
+                    ),
+                    higher_degree: babeUtils.view.setter.prop(
+                        config.edu_higher_degree,
+                        "Higher Degree"
+                    )
                 },
                 langs: {
-                    title: babeUtils.view.setter.prop(config.languages_question, 'Native Languages'),
-                    text: babeUtils.view.setter.prop(config.languages_more, '(i.e. the language(s) spoken at home when you were a child)')
+                    title: babeUtils.view.setter.prop(
+                        config.languages_question,
+                        "Native Languages"
+                    ),
+                    text: babeUtils.view.setter.prop(
+                        config.languages_more,
+                        "(i.e. the language(s) spoken at home when you were a child)"
+                    )
                 },
                 comments: {
-                    title: babeUtils.view.setter.prop(config.comments_question, 'Further Comments')
+                    title: babeUtils.view.setter.prop(
+                        config.comments_question,
+                        "Further Comments"
+                    )
                 }
             },
             button: babeUtils.view.setter.buttonText(config.buttonText),
@@ -2453,29 +2578,53 @@ const babeViews = {
                             <input type="number" name="age" min="18" max="110" id="age" />
                         </p>
                         <p class='babe-view-text'>
-                            <label for="gender">${this.quest.gender.title}:</label>
+                            <label for="gender">${
+                                this.quest.gender.title
+                            }:</label>
                             <select id="gender" name="gender">
                                 <option></option>
-                                <option value="${this.quest.gender.male}">${this.quest.gender.male}</option>
-                                <option value="${this.quest.gender.female}">${this.quest.gender.female}</option>
-                                <option value="${this.quest.gender.other}">${this.quest.gender.other}</option>
+                                <option value="${this.quest.gender.male}">${
+                    this.quest.gender.male
+                }</option>
+                                <option value="${this.quest.gender.female}">${
+                    this.quest.gender.female
+                }</option>
+                                <option value="${this.quest.gender.other}">${
+                    this.quest.gender.other
+                }</option>
                             </select>
                         </p>
                         <p class='babe-view-text'>
-                            <label for="education">${this.quest.edu.title}:</label>
+                            <label for="education">${
+                                this.quest.edu.title
+                            }:</label>
                             <select id="education" name="education">
                                 <option></option>
-                                <option value="${this.quest.edu.graduated_high_school}">${this.quest.edu.graduated_high_school}</option>
-                                <option value="${this.quest.edu.graduated_college}">${this.quest.edu.graduated_college}</option>
-                                <option value="${this.quest.edu.higher_degree}">${this.quest.edu.higher_degree}</option>
+                                <option value="${
+                                    this.quest.edu.graduated_high_school
+                                }">${
+                    this.quest.edu.graduated_high_school
+                }</option>
+                                <option value="${
+                                    this.quest.edu.graduated_college
+                                }">${this.quest.edu.graduated_college}</option>
+                                <option value="${
+                                    this.quest.edu.higher_degree
+                                }">${this.quest.edu.higher_degree}</option>
                             </select>
                         </p>
                         <p class='babe-view-text'>
-                            <label for="languages" name="languages">${this.quest.langs.title}:<br /><span>${this.quest.langs.text}</</span></label>
+                            <label for="languages" name="languages">${
+                                this.quest.langs.title
+                            }:<br /><span>${
+                    this.quest.langs.text
+                }</</span></label>
                             <input type="text" id="languages"/>
                         </p>
                         <p class="babe-view-text">
-                            <label for="comments">${this.quest.comments.title}</label>
+                            <label for="comments">${
+                                this.quest.comments.title
+                            }</label>
                             <textarea name="comments" id="comments"
                             rows="6" cols="40"></textarea>
                         </p>

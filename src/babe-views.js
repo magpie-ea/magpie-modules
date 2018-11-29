@@ -137,7 +137,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "forced choice");
         const forcedChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -233,7 +233,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "slider rating");
         const sliderRating = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -336,7 +336,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "textbox input");
         const textboxInput = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -446,7 +446,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "dropdown choice");
         const dropdownChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -558,7 +558,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "rating scale");
         const ratingScale = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -665,7 +665,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "sentence choice");
         const sentenceChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -758,7 +758,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "image selection");
         const imageSelection = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
@@ -846,7 +846,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "key press");
         const keyPress = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -955,7 +955,7 @@ const babeViews = {
         babeUtils.view.inspector.params(config, "self-paced reading");
         const spr = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -1044,7 +1044,7 @@ const babeViews = {
                     $(".babe-help-text").removeClass("babe-nodisplay");
 
                     // creates the sentence
-                    sentenceList.map(word => {
+                    sentenceList.map((word) => {
                         $(".babe-spr-sentence").append(
                             `<span class='spr-word spr-word-hidden'>${word}</span>`
                         );
@@ -1078,7 +1078,7 @@ const babeViews = {
                                 readingTimes[idx + 1] - readingTimes[idx]
                             );
                         }, [])
-                        .filter(item => isNaN(item) === false);
+                        .filter((item) => isNaN(item) === false);
                     const trial_data = {
                         trial_type: config.trial_type,
                         trial_number: CT + 1,
@@ -1127,7 +1127,7 @@ const babeViews = {
         );
         const spr = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ''),
+            title: babeUtils.view.setter.title(config.title, ""),
             render: function(CT, babe) {
                 let startingTime;
                 const question = babeUtils.view.setter.question(
@@ -1228,7 +1228,7 @@ const babeViews = {
                     $(".babe-help-text").removeClass("babe-nodisplay");
 
                     // creates the sentence
-                    sentenceList.map(word => {
+                    sentenceList.map((word) => {
                         $(".babe-spr-sentence").append(
                             `<span class='spr-word spr-word-hidden'>${word}</span>`
                         );
@@ -1248,7 +1248,7 @@ const babeViews = {
                                     readingTimes[idx + 1] - readingTimes[idx]
                                 );
                             }, [])
-                            .filter(item => isNaN(item) === false);
+                            .filter((item) => isNaN(item) === false);
                         const trial_data = {
                             trial_type: config.trial_type,
                             trial_number: CT + 1,
@@ -1314,26 +1314,62 @@ const babeViews = {
             text: config.text,
             quest: {
                 age: {
-                    title: babeUtils.view.setter.prop(config.age_question, 'Age')
+                    title: babeUtils.view.setter.prop(
+                        config.age_question,
+                        "Age"
+                    )
                 },
                 gender: {
-                    title: babeUtils.view.setter.prop(config.gender_question, 'Gender'),
-                    male: babeUtils.view.setter.prop(config.gender_male, 'male'),
-                    female: babeUtils.view.setter.prop(config.gender_female, 'female'),
-                    other: babeUtils.view.setter.prop(config.gender_other, 'other')
+                    title: babeUtils.view.setter.prop(
+                        config.gender_question,
+                        "Gender"
+                    ),
+                    male: babeUtils.view.setter.prop(
+                        config.gender_male,
+                        "male"
+                    ),
+                    female: babeUtils.view.setter.prop(
+                        config.gender_female,
+                        "female"
+                    ),
+                    other: babeUtils.view.setter.prop(
+                        config.gender_other,
+                        "other"
+                    )
                 },
                 edu: {
-                    title: babeUtils.view.setter.prop(config.edu_question, 'Level of Education'),
-                    graduated_high_school: babeUtils.view.setter.prop(config.edu_graduated_high_school, 'Graduated High School'),
-                    graduated_college: babeUtils.view.setter.prop(config.edu_graduated_college, 'Graduated College'),
-                    higher_degree: babeUtils.view.setter.prop(config.edu_higher_degree, 'Higher Degree')
+                    title: babeUtils.view.setter.prop(
+                        config.edu_question,
+                        "Level of Education"
+                    ),
+                    graduated_high_school: babeUtils.view.setter.prop(
+                        config.edu_graduated_high_school,
+                        "Graduated High School"
+                    ),
+                    graduated_college: babeUtils.view.setter.prop(
+                        config.edu_graduated_college,
+                        "Graduated College"
+                    ),
+                    higher_degree: babeUtils.view.setter.prop(
+                        config.edu_higher_degree,
+                        "Higher Degree"
+                    )
                 },
                 langs: {
-                    title: babeUtils.view.setter.prop(config.languages_question, 'Native Languages'),
-                    text: babeUtils.view.setter.prop(config.languages_more, '(i.e. the language(s) spoken at home when you were a child)')
+                    title: babeUtils.view.setter.prop(
+                        config.languages_question,
+                        "Native Languages"
+                    ),
+                    text: babeUtils.view.setter.prop(
+                        config.languages_more,
+                        "(i.e. the language(s) spoken at home when you were a child)"
+                    )
                 },
                 comments: {
-                    title: babeUtils.view.setter.prop(config.comments_question, 'Further Comments')
+                    title: babeUtils.view.setter.prop(
+                        config.comments_question,
+                        "Further Comments"
+                    )
                 }
             },
             button: babeUtils.view.setter.buttonText(config.buttonText),
@@ -1349,29 +1385,53 @@ const babeViews = {
                             <input type="number" name="age" min="18" max="110" id="age" />
                         </p>
                         <p class='babe-view-text'>
-                            <label for="gender">${this.quest.gender.title}:</label>
+                            <label for="gender">${
+                                this.quest.gender.title
+                            }:</label>
                             <select id="gender" name="gender">
                                 <option></option>
-                                <option value="${this.quest.gender.male}">${this.quest.gender.male}</option>
-                                <option value="${this.quest.gender.female}">${this.quest.gender.female}</option>
-                                <option value="${this.quest.gender.other}">${this.quest.gender.other}</option>
+                                <option value="${this.quest.gender.male}">${
+                    this.quest.gender.male
+                }</option>
+                                <option value="${this.quest.gender.female}">${
+                    this.quest.gender.female
+                }</option>
+                                <option value="${this.quest.gender.other}">${
+                    this.quest.gender.other
+                }</option>
                             </select>
                         </p>
                         <p class='babe-view-text'>
-                            <label for="education">${this.quest.edu.title}:</label>
+                            <label for="education">${
+                                this.quest.edu.title
+                            }:</label>
                             <select id="education" name="education">
                                 <option></option>
-                                <option value="${this.quest.edu.graduated_high_school}">${this.quest.edu.graduated_high_school}</option>
-                                <option value="${this.quest.edu.graduated_college}">${this.quest.edu.graduated_college}</option>
-                                <option value="${this.quest.edu.higher_degree}">${this.quest.edu.higher_degree}</option>
+                                <option value="${
+                                    this.quest.edu.graduated_high_school
+                                }">${
+                    this.quest.edu.graduated_high_school
+                }</option>
+                                <option value="${
+                                    this.quest.edu.graduated_college
+                                }">${this.quest.edu.graduated_college}</option>
+                                <option value="${
+                                    this.quest.edu.higher_degree
+                                }">${this.quest.edu.higher_degree}</option>
                             </select>
                         </p>
                         <p class='babe-view-text'>
-                            <label for="languages" name="languages">${this.quest.langs.title}:<br /><span>${this.quest.langs.text}</</span></label>
+                            <label for="languages" name="languages">${
+                                this.quest.langs.title
+                            }:<br /><span>${
+                    this.quest.langs.text
+                }</</span></label>
                             <input type="text" id="languages"/>
                         </p>
                         <p class="babe-view-text">
-                            <label for="comments">${this.quest.comments.title}</label>
+                            <label for="comments">${
+                                this.quest.comments.title
+                            }</label>
                             <textarea name="comments" id="comments"
                             rows="6" cols="40"></textarea>
                         </p>

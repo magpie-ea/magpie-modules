@@ -1,6 +1,5 @@
 const errors = {
-    contactEmail:
-`There is no contact_email given. Please give a contact_email to the babeInit function,
+    contactEmail: `There is no contact_email given. Please give a contact_email to the babeInit function,
 
 for example:
 
@@ -14,8 +13,7 @@ babeInit({
     ...
 });`,
 
-    prolificURL:
-`There is no prolificURL given. Please give a prolificURL to the babeInit function,
+    prolificURL: `There is no prolificURL given. Please give a prolificURL to the babeInit function,
 
 for example:
 
@@ -29,8 +27,7 @@ babeInit({
     ...
 });`,
 
-    noTrials:
-`No trials given. Each _babe view takes an object with an obligatory 'trial' property.
+    noTrials: `No trials given. Each _babe view takes an object with an obligatory 'trial' property.
 
 for example:
 
@@ -42,8 +39,7 @@ const introView = intro({
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    noName:
-`No name given. Each _babe view takes an object with an obligatory 'name' property
+    noName: `No name given. Each _babe view takes an object with an obligatory 'name' property
 
 for example:
 
@@ -55,8 +51,7 @@ const introView = intro({
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    noData:
-`No data given. Each _babe view takes an object with an obligatory 'data' property
+    noData: `No data given. Each _babe view takes an object with an obligatory 'data' property
 
 for example:
 
@@ -78,8 +73,7 @@ _babe's trial views expect each trial object to have specific properties. Here i
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    noTrialType:
-`No trial_type given. Each _babe view takes an object with an obligatory 'trial_type' property
+    noTrialType: `No trial_type given. Each _babe view takes an object with an obligatory 'trial_type' property
 
 for example:
 
@@ -93,8 +87,7 @@ The trial type is needed for recording the results of your experiment.
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    notAnArray:
-`The data is not an array. Trial views get an array of objects.
+    notAnArray: `The data is not an array. Trial views get an array of objects.
 
 for example:
 
@@ -112,8 +105,7 @@ const mainTrials = forcedChoice({
     ],
     ...
 });`,
-    noSuchViewName:
-`The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
+    noSuchViewName: `The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
 
 for example:
 
@@ -141,8 +133,7 @@ babeInit({
     ...
 });
 `,
-    canvasSort:
-`No such 'canvas.sort' value. canvas.sort can be 'grid', 'split_grid' or 'random'.
+    canvasSort: `No such 'canvas.sort' value. canvas.sort can be 'grid', 'split_grid' or 'random'.
 
 for example:
 
@@ -161,8 +152,7 @@ const myTrials = [
 };
 
 const info = {
-     canvasTooSmall:
-`The canvas size was increased because the default canvas size was too small to fit all the elements.
+    canvasTooSmall: `The canvas size was increased because the default canvas size was too small to fit all the elements.
 Btw, you can manually change the canvas size by passing 'canvasSettings' to the canvas object,
 however, your canvas settings might be overridden if needed. 
 
@@ -187,4 +177,4 @@ const myTrials = [
 
 See https://github.com/babe-project/babe-project/blob/master/docs/canvas.md for more information.
 `
-}
+};

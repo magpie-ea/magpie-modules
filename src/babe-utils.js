@@ -168,7 +168,7 @@ const babeUtils = {
                         resolve(evts.after_stim_hidden);
                     }, stim_duration);
                 } else {
-                    $("body").on("keydown", e => {
+                    $("body").on("keydown", (e) => {
                         spacePressed(e, resolve);
                     });
                 }

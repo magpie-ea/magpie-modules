@@ -9,7 +9,7 @@ const babeProgress = function(babe) {
     const progress = {
         // adds progress bar(s) to the views specified experiment.js
         add: function() {
-            babe.views_seq.map(view => {
+            babe.views_seq.map((view) => {
                 for (let j = 0; j < babe.progress_bar.in.length; j++) {
                     if (view.name === babe.progress_bar.in[j]) {
                         totalProgressChunks++;
@@ -36,8 +36,13 @@ const babeProgress = function(babe) {
                 div = $(".progress-bar").width() / totalProgressParts;
                 filledPart = progressTrials * div;
             } else {
-                div = $(".progress-bar").width() / babe.views_seq[babe.currentViewCounter].trials;
-                filledPart = ((babe.currentTrialInViewCounter - 1) * div).toFixed(4);
+                div =
+                    $(".progress-bar").width() /
+                    babe.views_seq[babe.currentViewCounter].trials;
+                filledPart = (
+                    (babe.currentTrialInViewCounter - 1) *
+                    div
+                ).toFixed(4);
             }
 
             const filledElem = jQuery("<span/>", {
@@ -53,7 +58,10 @@ const babeProgress = function(babe) {
                     fillChunk = false;
                 }
 
-                if (filledElem.width().toFixed(4) === ($(".progress-bar").width() - div).toFixed(4)) {
+                if (
+                    filledElem.width().toFixed(4) ===
+                    ($(".progress-bar").width() - div).toFixed(4)
+                ) {
                     fillChunk = true;
                 }
 

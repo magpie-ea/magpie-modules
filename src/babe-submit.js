@@ -26,7 +26,7 @@ function babeSubmit(babe) {
                 var form = jQuery("<form/>", {
                     id: "mturk-submission-form",
                     action: babe.deploy.MTurk_server,
-                    method: 'POST'
+                    method: "POST"
                 }).appendTo(".babe-thanks-view");
                 jQuery("<input/>", {
                     type: "hidden",
