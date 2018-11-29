@@ -18,6 +18,7 @@
     },
     "scripts": {
         "watch": "gulp",
+        "prettify": "gulp prettify",
         "concat": "concat -o babe.js src/* && concat -o babe.full.js node_modules/jquery/dist/jquery.min.js node_modules/csv-js/csv.js babe.js"
     },
     "author": "",

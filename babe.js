@@ -388,7 +388,7 @@ const babeUtils = {
             const evts = config.evts !== undefined ? config.evts : {};
 
             // checks if there is a pause and shows the pause screen
-            const showPause = function(resolve, reject) {
+            const showPause = (resolve, reject) => {
                 if (
                     pause !== undefined &&
                     typeof pause === "number" &&
@@ -403,7 +403,7 @@ const babeUtils = {
             };
 
             // checks if there is a fixation point and shows the fixation point
-            const showFixPoint = function(resolve, reject) {
+            const showFixPoint = (resolve, reject) => {
                 if (
                     fix_duration !== undefined &&
                     typeof fix_duration === "number" &&
@@ -424,7 +424,7 @@ const babeUtils = {
             };
 
             // checks if there is a stimulus and shows it
-            const showStim = function(resolve, reject) {
+            const showStim = (resolve, reject) => {
                 $(".babe-view-stimulus").removeClass("babe-nodisplay");
 
                 if (data.picture !== undefined) {
@@ -439,16 +439,16 @@ const babeUtils = {
                     babeDrawShapes(data.canvas);
                 }
 
-                resolve(evts.after_stim_shown);
+                resolve();
             };
 
             // hides the stimulus
-            const hideStim = function(resolve, reject) {
+            const hideStim = (resolve, reject) => {
                 const spacePressed = function(e, resolve) {
                     if (e.which === 32) {
                         $(".babe-view-stimulus").addClass("babe-invisible");
                         $("body").off("keydown", spacePressed);
-                        resolve(evts.after_stim_hidden);
+                        resolve();
                     }
                 };
 
@@ -456,23 +456,31 @@ const babeUtils = {
                     $(".babe-view-stimulus-container").addClass(
                         "babe-nodisplay"
                     );
-                    resolve(evts.after_stim_hidden);
+                    resolve();
                 }
 
                 if (
                     stim_duration !== undefined &&
-                    typeof stim_duration === "number" &&
-                    isNaN(stim_duration) === false
+                    typeof stim_duration === "number"
                 ) {
                     setTimeout(() => {
                         $(".babe-view-stimulus").addClass("babe-invisible");
-                        resolve(evts.after_stim_hidden);
+                        resolve();
                     }, stim_duration);
-                } else {
+                } else if (stim_duration === "space") {
                     $("body").on("keydown", (e) => {
                         spacePressed(e, resolve);
                     });
+                } else {
+                    resolve();
                 }
+            };
+
+            const hookEvts = function(e) {
+                return new Promise((res, rej) => {
+                    e(data);
+                    res();
+                });
             };
 
             // 1. shows a blank screen (optional)
@@ -481,37 +489,21 @@ const babeUtils = {
             // 4. then hides the stimulus (optional)
             // 5. then enables the interations from the participant (obligatory)
             new Promise(showPause)
+                .then(() => hookEvts(evts.after_pause))
                 .then(() => {
-                    if (evts.after_pause) {
-                        evts.after_pause(data);
-                    }
-
                     return new Promise(showFixPoint);
                 })
+                .then(() => hookEvts(evts.after_fix_point))
                 .then(() => {
-                    if (evts.after_fix_point) {
-                        evts.after_fix_point(data);
-                    }
-
                     return new Promise(showStim);
                 })
+                .then(() => hookEvts(evts.after_stim_shown))
                 .then(() => {
-                    if (evts.after_stim_shown) {
-                        evts.after_stim_shown(data);
-                    }
-
                     return new Promise(hideStim);
                 })
+                .then(() => hookEvts(evts.after_stim_hidden))
                 .then(() => {
-                    if (evts.after_stim_hidden) {
-                        evts.after_stim_hidden(data);
-                    }
-
                     enableResponse();
-
-                    if (evts.after_response_enabled) {
-                        evts.after_response_enabled(data);
-                    }
                 });
         }
     },
@@ -1408,7 +1400,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "forcedChoice"
                     },
                     enableResponse
@@ -1511,7 +1503,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "sliderRating"
                     },
                     enableResponse
@@ -1621,7 +1613,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "textboxInput"
                     },
                     enableResponse
@@ -1733,7 +1725,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "dropdownChoice"
                     },
                     enableResponse
@@ -1840,7 +1832,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "ratingScale"
                     },
                     enableResponse
@@ -1933,7 +1925,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "sentenceChoice"
                     },
                     enableResponse
@@ -2021,7 +2013,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "imageSelection"
                     },
                     enableResponse
@@ -2056,6 +2048,8 @@ const babeViews = {
                         <div class='babe-view-stimulus babe-nodisplay'></div>
                     </div>
                 </div>`;
+                const answerContainerElem = `<div class='babe-view-answer-container'>
+                        <p class='babe-view-question'>${question}</p>`;
 
                 $("#main").html(viewTemplate);
 
@@ -2118,6 +2112,7 @@ const babeViews = {
                 };
 
                 const enableResponse = function() {
+                    $(".babe-view").append(answerContainerElem);
                     $("body").on("keydown", handleKeyPress);
                 };
 
@@ -2130,7 +2125,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "keyPress"
                     },
                     enableResponse
@@ -2257,7 +2252,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "spr"
                     },
                     enableResponse
@@ -2483,7 +2478,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "spr"
                     },
                     enableResponse

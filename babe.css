@@ -83,7 +83,7 @@ body {
 }
 .babe-view-answer-container {
     text-align: center;
-    margin: 70px auto;
+    margin: 45px auto;
 }
 .babe-view-stimulus-container {
     display: flex;
@@ -386,12 +386,14 @@ input[name=answer] {
     sentence and underlines
 */
 .babe-spr-sentence {
+    display: block;
     text-align: center;
 }
 .babe-spr-sentence .spr-word {
     color: rgba(0, 0, 0, 0.87);
     font-family: "Lato", "Noto Sans", sans-serif;
     font-size: 17px;
+    display: inline-block;
     line-height: 27px;
     margin: 0 4px;
     position: relative;

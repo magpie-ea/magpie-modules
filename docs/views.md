@@ -71,7 +71,7 @@
 * `pause: number (in ms)` - blank screen before the fixation point or stimulus show
 * `fix_duration: number (in ms)` - blank screen with fixation point in the middle
 * `stim_duration: number (in ms)` - for how long to have the stimulus on the screen
-* `custom_events: object` - option to add custom events to the view. [more about custom events](custom_events.md)
+* `hook: object` - option to hook and add custom functions to the view. [more about hooks](hooks.md)
 
 ## Properties of OTV
 

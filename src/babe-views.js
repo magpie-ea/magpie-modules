@@ -215,7 +215,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "forcedChoice"
                     },
                     enableResponse
@@ -318,7 +318,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "sliderRating"
                     },
                     enableResponse
@@ -428,7 +428,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "textboxInput"
                     },
                     enableResponse
@@ -540,7 +540,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "dropdownChoice"
                     },
                     enableResponse
@@ -647,7 +647,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "ratingScale"
                     },
                     enableResponse
@@ -740,7 +740,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "sentenceChoice"
                     },
                     enableResponse
@@ -828,7 +828,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "imageSelection"
                     },
                     enableResponse
@@ -863,6 +863,8 @@ const babeViews = {
                         <div class='babe-view-stimulus babe-nodisplay'></div>
                     </div>
                 </div>`;
+                const answerContainerElem = `<div class='babe-view-answer-container'>
+                        <p class='babe-view-question'>${question}</p>`;
 
                 $("#main").html(viewTemplate);
 
@@ -925,6 +927,7 @@ const babeViews = {
                 };
 
                 const enableResponse = function() {
+                    $(".babe-view").append(answerContainerElem);
                     $("body").on("keydown", handleKeyPress);
                 };
 
@@ -937,7 +940,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "keyPress"
                     },
                     enableResponse
@@ -1064,7 +1067,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "spr"
                     },
                     enableResponse
@@ -1290,7 +1293,7 @@ const babeViews = {
                         fix_duration: config.fix_duration,
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
-                        evts: config.custom_events,
+                        evts: config.hook,
                         view: "spr"
                     },
                     enableResponse
