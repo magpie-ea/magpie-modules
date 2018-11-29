@@ -1,7 +1,7 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: x.x**
+**Latest version: 0.0.23**
 
 - (change)
 - (change)
