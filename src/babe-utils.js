@@ -177,8 +177,11 @@ const babeUtils = {
 
             const hookEvts = function(e) {
                 return new Promise((res, rej) => {
-                    e(data);
-                    res();
+                    if (e !== undefined) {
+                        e(data, res);
+                    } else {
+                        res();
+                    }
                 });
             };
 

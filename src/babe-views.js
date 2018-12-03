@@ -54,7 +54,6 @@ const babeViews = {
                     if (babe.deploy.deployMethod === "Prolific") {
                         babe.global_data.prolific_id = prolificId.val().trim();
                     }
-                    console.log(babe.global_data.prolific_id);
 
                     babe.findNextView();
                 });

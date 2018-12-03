@@ -478,8 +478,11 @@ const babeUtils = {
 
             const hookEvts = function(e) {
                 return new Promise((res, rej) => {
-                    e(data);
-                    res();
+                    if (e !== undefined) {
+                        e(data, res);
+                    } else {
+                        res();
+                    }
                 });
             };
 
@@ -1239,7 +1242,6 @@ const babeViews = {
                     if (babe.deploy.deployMethod === "Prolific") {
                         babe.global_data.prolific_id = prolificId.val().trim();
                     }
-                    console.log(babe.global_data.prolific_id);
 
                     babe.findNextView();
                 });
