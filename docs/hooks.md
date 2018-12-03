@@ -26,8 +26,9 @@ hook: {
 babe trial views can have QUD? - a question or sentence that is always on the top of the trial view. Imagine you want to hide it when the stimulus gets hidden. You can define a function that adds 'display: none' to the QUD element:
 
 ```
-function hideQUD(data) {
+function hideQUD(data, next) {
     $('.babe-view-qud').css('display', 'none');
+    next();
 };
 ```
 
@@ -55,13 +56,14 @@ You might want to tell the participants if their answer was correct in the pract
 // assume that `option1` is always the correct answer.
 // the view passes the trial `data` as an arg to all custom functions
 
-function checkResponse(data) {
+function checkResponse(data, next) {
     $('input[name=answer]').on('change', function(e) {
         if (e.target.value === data.option1) {
             alert('Your answer is correct! Yey!');
         } else {
             alert('Sorry, this answer is incorrect :(');
         }
+        next();
     })
 }
 ```
