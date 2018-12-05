@@ -71,7 +71,7 @@ body {
 .babe-view-picture {
     align-self: center;
     height: auto;
-    width: 400px;
+    width: 350px;
 }
 .babe-view-canvas {
     display: block;
@@ -87,9 +87,12 @@ body {
 }
 .babe-view-stimulus-container {
     display: flex;
-    height: 300px;
+    height: 350px;
     margin: 0 auto;
-    width: 400px;
+    width: auto;
+}
+.babe-view-stimulus {
+    margin: 0 auto;
 }
 .babe-help-text {
     color: #555;
