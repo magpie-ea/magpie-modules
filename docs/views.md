@@ -197,20 +197,20 @@ You can create functions in your local js files and hook these functions to the 
 
 **Hooks**
 
-    * after the pause is finished
-        enable with `hook.after_pause: _function_`
+* after the pause is finished
+    enable with `hook.after_pause: _function_`
 
-    * after the fixation point hides
-        enable with `hook.after_fin_point: _function_`
+* after the fixation point hides
+    enable with `hook.after_fin_point: _function_`
 
-    * after the stimulus is shown
-        enable with `hook.after_stim_shown: _function_`
+* after the stimulus is shown
+    enable with `hook.after_stim_shown: _function_`
 
-    * after the stimulus hides
-        enable with `hook.after_stim_hidden: _function_`
+* after the stimulus hides
+    enable with `hook.after_stim_hidden: _function_`
 
-    * after the interactions are enabled
-        enable with `hook.after_response_enabled: _function_`
+* after the interactions are enabled
+    enable with `hook.after_response_enabled: _function_`
 
 
 Your custom functions get the trial `data` for each trial view and `next` as arguments. You can use the `data` if you need to. To proceed to the next step of the lifecycle, you have to call `next()`
