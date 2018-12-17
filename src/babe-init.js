@@ -173,7 +173,6 @@ You can find more information at https://github.com/babe-project/babe-base`
                 babe.findNextView();
             },
             error: function(jqXHR, textStatus, error) {
-                console.log(babe.deploy.checkExperimentURL);
                 alert(
                     `Sorry, there is an error communicating with our server and the experiment cannot proceed. Please return the HIT immediately and contact the author at ${
                         babe.deploy.contact_email

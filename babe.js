@@ -743,9 +743,7 @@ const babeDrawShapes = function(trialInfo) {
 
             const adjustCanvas = function() {
                 const area = canvasElem.height * canvasElem.width;
-                console.log("area " + area);
                 const minArea = size * size * number * 2.5;
-                console.log("min area " + minArea);
 
                 if (area < minArea) {
                     canvasElem.height =
@@ -819,7 +817,6 @@ const babeDrawShapes = function(trialInfo) {
             }
 
             if (yStart < margin) {
-                console.log("true");
                 canvasElem.height += -2 * yStart;
                 yStart = margin;
             }
@@ -2904,7 +2901,6 @@ You can find more information at https://github.com/babe-project/babe-base`
                 babe.findNextView();
             },
             error: function(jqXHR, textStatus, error) {
-                console.log(babe.deploy.checkExperimentURL);
                 alert(
                     `Sorry, there is an error communicating with our server and the experiment cannot proceed. Please return the HIT immediately and contact the author at ${
                         babe.deploy.contact_email

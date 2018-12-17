@@ -217,9 +217,7 @@ const babeDrawShapes = function(trialInfo) {
 
             const adjustCanvas = function() {
                 const area = canvasElem.height * canvasElem.width;
-                console.log("area " + area);
                 const minArea = size * size * number * 2.5;
-                console.log("min area " + minArea);
 
                 if (area < minArea) {
                     canvasElem.height =
@@ -293,7 +291,6 @@ const babeDrawShapes = function(trialInfo) {
             }
 
             if (yStart < margin) {
-                console.log("true");
                 canvasElem.height += -2 * yStart;
                 yStart = margin;
             }
