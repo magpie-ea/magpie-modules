@@ -525,6 +525,7 @@ const babeUtils = {
 };
 
 const babeDrawShapes = function(trialInfo) {
+    // applies user's setting if there are such
     const canvasHeight =
         trialInfo.canvasSettings === undefined ||
         trialInfo.canvasSettings.height === undefined
@@ -551,6 +552,7 @@ const babeDrawShapes = function(trialInfo) {
         canvasElem.style.backgroundColor = bg;
         $(".babe-view-stimulus").prepend(canvasElem);
 
+        // draws a SHAPE of SIZE and COLOR in the position X and Y
         canvas.draw = function(shape, size, x, y, color) {
             context.beginPath();
             if (shape === "circle") {
@@ -563,6 +565,8 @@ const babeDrawShapes = function(trialInfo) {
                 context.lineTo(x + size / 2, y + delta);
                 context.lineTo(x, y - 2 * delta);
             }
+
+            // sets better base colours
             if (color === "blue") {
                 context.fillStyle = "#2c89df";
             } else if (color === "green") {
@@ -578,6 +582,7 @@ const babeDrawShapes = function(trialInfo) {
             context.fill();
         };
 
+        // generates two sided coordinates
         canvas.getTwoSidedCoords = function(
             rows,
             gap,
@@ -708,28 +713,44 @@ const babeDrawShapes = function(trialInfo) {
             return coords;
         };
 
+        // generates random coords
         canvas.getRandomCoords = function(number, size) {
             let coords = [];
             const margin = size / 2;
 
             // increases the canvas if to small to fit all the elems
             (function() {
-                let times;
-                const area = canvasElem.height * canvasElem.width;
-                const minArea = size * size * number * 4;
+                // get the default dimetions of the canvas
+                let height = canvasElem.height;
+                let width = canvasElem.width;
+                // calculate the area of the elements
+                let elementsArea = size * size * number;
+                let stimContainerElem = $(".babe-view-stimulus-container");
 
-                if (area < minArea) {
-                    times = Math.ceil(minArea / area);
-                    canvasElem.height = canvasElem.height * times;
-                    canvasElem.width = canvasElem.width * times;
-                    console.info(info.canvasTooSmall);
-                } else {
-                    canvasElem.height = canvasElem.height;
-                    canvasElem.width = canvasElem.width;
-                }
+                // keep increasing the canvas until the elementsArea is smaller than 10% of the overall canvas area
+                const increaseCanvas = function(height, width) {
+                    if ((height * width) / 10 < elementsArea) {
+                        return increaseCanvas(
+                            height + height / 10,
+                            width + width / 10
+                        );
+                    } else {
+                        return [height, width];
+                    }
+                };
+
+                // get the height and width
+                let [newHeight, newWidth] = increaseCanvas(height, width);
+
+                // apply the new height and width to the canvas elem
+                canvasElem.height = newHeight;
+                canvasElem.width = newWidth;
+
+                // increase the stimulus container as well to fit the canvas
+                stimContainerElem.css("height", newHeight + 20);
             })();
 
-            // generates random x and y coordinates in the canvas
+            // generates random x and y coordinates on the canvas for one element
             const generateCoords = function() {
                 const maxWidth = canvasElem.width - size;
                 const maxHeight = canvasElem.height - size;
@@ -741,22 +762,7 @@ const babeDrawShapes = function(trialInfo) {
                 return { x: xPos, y: yPos };
             };
 
-            const adjustCanvas = function() {
-                const area = canvasElem.height * canvasElem.width;
-                const minArea = size * size * number * 2.5;
-
-                if (area < minArea) {
-                    canvasElem.height =
-                        (canvasElem.height * minArea) / canvasElem.width;
-                    canvasElem.width =
-                        (canvasElem.width * minArea) / canvasElem.height;
-                } else {
-                    canvasElem.height = canvasElem.height;
-                    canvasElem.width = canvasElem.width;
-                }
-            };
-
-            // ensures no elements overlap
+            // ensures no elements overlap or are too close
             const checkCoords = function(xPos, yPos) {
                 for (var i = 0; i < coords.length; i++) {
                     if (
@@ -790,37 +796,46 @@ const babeDrawShapes = function(trialInfo) {
             return coords;
         };
 
+        // generates grid coordinates
         canvas.getGridCoords = function(rows, number, size) {
             var coords = [];
             var margin = size / 2;
             var columns, xStart, yStart;
 
+            // sets the rows to 1 if not passed
             if (rows === 0 || rows === undefined) {
                 rows = 1;
             } else if (rows > number) {
                 rows = number;
             }
 
+            // calculates the number of columns
             columns = Math.ceil(number / rows);
+
+            // finds the starting point for the x axis so that the image ends up centered
             xStart =
                 (canvasElem.width - (columns * size + (columns - 2) * margin)) /
                     2 +
                 margin / 2;
+
+            // finds the starting point for the y axis so that the image ends up centered
             yStart =
                 (canvasElem.height - (rows * size + (rows - 2) * margin)) / 2 +
                 margin;
 
-            // handles small canvases
+            // increases the canvas's width if needed
             if (xStart < margin) {
                 canvasElem.width += -2 * xStart;
                 xStart = margin;
             }
 
+            // increases the canvas's height if needed
             if (yStart < margin) {
                 canvasElem.height += -2 * yStart;
                 yStart = margin;
             }
 
+            // generates all the coords
             for (var i = 0; i < rows; i++) {
                 for (var j = 0; j < number; j++) {
                     if (Math.floor(j / columns) === i) {
@@ -953,7 +968,6 @@ function babeSubmit(babe) {
             // if it is set to false
             // the results are displayed on the thanks slide
             if (babe.deploy.liveExperiment) {
-                console.log("submits");
                 //submitResults(config_deploy.contact_email, config_deploy.submissionURL, data);
                 submitResults(
                     babe.deploy.contact_email,
@@ -985,8 +999,6 @@ function babeSubmit(babe) {
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function(responseData, textStatus, jqXHR) {
-                console.log(textStatus);
-
                 $("#warning-message").addClass("babe-nodisplay");
                 $("#thanks-message").removeClass("babe-nodisplay");
                 $("#extra-message").removeClass("babe-nodisplay");
@@ -1880,7 +1892,6 @@ const babeViews = {
                     $(".babe-view").append(answerContainerElem);
 
                     $("input[name=answer]").on("change", function(e) {
-                        console.log(e.target.value);
                         var RT = Date.now() - startingTime; // measure RT before anything else
                         var trial_data = {
                             trial_type: config.trial_type,

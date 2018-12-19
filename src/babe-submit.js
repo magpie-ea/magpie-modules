@@ -78,7 +78,6 @@ function babeSubmit(babe) {
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function(responseData, textStatus, jqXHR) {
-
                 $("#warning-message").addClass("babe-nodisplay");
                 $("#thanks-message").removeClass("babe-nodisplay");
                 $("#extra-message").removeClass("babe-nodisplay");
