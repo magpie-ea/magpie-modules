@@ -695,7 +695,6 @@ const babeViews = {
                     $(".babe-view").append(answerContainerElem);
 
                     $("input[name=answer]").on("change", function(e) {
-                        console.log(e.target.value);
                         var RT = Date.now() - startingTime; // measure RT before anything else
                         var trial_data = {
                             trial_type: config.trial_type,

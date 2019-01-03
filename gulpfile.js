@@ -22,6 +22,7 @@ gulp.task('concat', function() {
         'src/babe-views.js',
         'src/babe-init.js',
         'node_modules/jquery/dist/jquery.min.js',
+        'node_modules/lodash/lodash.js',
         'node_modules/csv-js/csv.js'], 'babe.full.js');
 });
 

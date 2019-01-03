@@ -47,7 +47,6 @@ function babeSubmit(babe) {
             // if it is set to false
             // the results are displayed on the thanks slide
             if (babe.deploy.liveExperiment) {
-                console.log("submits");
                 //submitResults(config_deploy.contact_email, config_deploy.submissionURL, data);
                 submitResults(
                     babe.deploy.contact_email,
@@ -79,8 +78,6 @@ function babeSubmit(babe) {
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function(responseData, textStatus, jqXHR) {
-                console.log(textStatus);
-
                 $("#warning-message").addClass("babe-nodisplay");
                 $("#thanks-message").removeClass("babe-nodisplay");
                 $("#extra-message").removeClass("babe-nodisplay");
