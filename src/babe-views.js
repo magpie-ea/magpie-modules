@@ -190,14 +190,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -293,14 +299,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -403,14 +415,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -515,14 +533,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -622,14 +646,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -714,14 +744,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -802,14 +838,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -908,14 +950,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -1099,11 +1147,20 @@ const babeViews = {
                     }
 
                     if (config.data[CT].canvas !== undefined) {
+                        if (config.data[CT].canvas.canvasSettings !== undefined) {
+                            for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                }
+                            }
+                            delete trial_data.canvas.canvasSettings;
+                        }
                         for (let prop in config.data[CT].canvas) {
                             if (config.data[CT].canvas.hasOwnProperty(prop)) {
                                 trial_data[prop] = config.data[CT].canvas[prop];
                             }
                         }
+                        delete trial_data.canvas;
                     }
 
                     babe.trial_data.push(trial_data);
@@ -1269,14 +1326,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
