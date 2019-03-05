@@ -1,529 +1,3 @@
-const errors = {
-    contactEmail: `There is no contact_email given. Please give a contact_email to the babeInit function,
-
-for example:
-
-babeInit({
-    ...
-    deploy: {
-        ...
-        contact_email: 'yourcontactemail@email.sample',
-        ...
-    },
-    ...
-});`,
-
-    prolificURL: `There is no prolificURL given. Please give a prolificURL to the babeInit function,
-
-for example:
-
-babeInit({
-    ...
-    deploy: {
-        ...
-        prolificURL: 'https://app.prolific.ac/submissions/complete?cc=SAMPLE',
-        ...
-    },
-    ...
-});`,
-
-    noTrials: `No trials given. Each _babe view takes an object with an obligatory 'trial' property.
-
-for example:
-
-const introView = intro({
-    ...
-    trials: 1,
-    ...
-});
-
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
-
-    noName: `No name given. Each _babe view takes an object with an obligatory 'name' property
-
-for example:
-
-const introView = intro({
-    ...
-    name: 'introView',
-    ...
-});
-
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
-
-    noData: `No data given. Each _babe view takes an object with an obligatory 'data' property
-
-for example:
-
-const mainTrials = forcedChoice({
-    ...
-    data: my_main_trials,
-    ...
-});
-
-The data is a list of objects defined in your local js file.
-
-_babe's trial views expect each trial object to have specific properties. Here is an example of a forcedCoice view trial:
-
-{
-    question: 'How are you today?',
-    option1: 'fine',
-    option2: 'good'
-}
-
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
-
-    noTrialType: `No trial_type given. Each _babe view takes an object with an obligatory 'trial_type' property
-
-for example:
-
-const mainTrials = forcedChoice({
-    ...
-    trial_type: 'main trials',
-    ...
-});
-
-The trial type is needed for recording the results of your experiment.
-
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
-
-    notAnArray: `The data is not an array. Trial views get an array of objects.
-
-for example:
-
-const mainTrials = forcedChoice({
-    ...
-    data: [
-        {
-            prop: val,
-            prop: val
-        },
-        {
-            prop: val,
-            prop:val
-        }
-    ],
-    ...
-});`,
-    noSuchViewName: `The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
-
-for example:
-
-const mainView = forcedChoice({
-    ...
-    name: 'myMainView',
-    ...
-});
-
-const introView = intro({
-    ...
-    name: 'intro',
-    ...
-});
-
-babeInit({
-    ...
-    progress_bar: {
-        in: [
-            "myMainView"
-        ],
-        style: "chunks"
-        width: 100
-    },
-    ...
-});
-`,
-    canvasSort: `No such 'canvas.sort' value. canvas.sort can be 'grid', 'split_grid' or 'random'.
-
-for example:
-
-const myTrials = [
-    {
-        question: 'Are there circles on the picture',
-        option1: 'yes',
-        option2: 'yes',
-        canvas: {
-            ...
-            sort: 'split_grid'
-            ...
-        }
-    }
-];`
-};
-
-const info = {
-    canvasTooSmall: `The canvas size was increased because the default canvas size was too small to fit all the elements.
-Btw, you can manually change the canvas size by passing 'canvasSettings' to the canvas object,
-however, your canvas settings might be overridden if needed. 
-
-For example:
-
-const myTrials = [
-    ...
-    {
-        question: 'Are there circles on the picture',
-        option1: 'yes',
-        option2: 'no',
-        canvas: {
-            canvasSettings: {
-                height: int,
-                width: int
-            },
-            ...
-        }
-    },
-    ...
-];
-
-See https://github.com/babe-project/babe-project/blob/master/docs/canvas.md for more information.
-`
-};
-
-const babeProgress = function(babe) {
-    let totalProgressParts = 0;
-    let progressTrials = 0;
-    // customize.progress_bar_style is "chunks" or "separate" {
-    let totalProgressChunks = 0;
-    let filledChunks = 0;
-    let fillChunk = false;
-
-    const progress = {
-        // adds progress bar(s) to the views specified experiment.js
-        add: function() {
-            babe.views_seq.map((view) => {
-                for (let j = 0; j < babe.progress_bar.in.length; j++) {
-                    if (view.name === babe.progress_bar.in[j]) {
-                        totalProgressChunks++;
-                        totalProgressParts += view.trials;
-                        view.hasProgressBar = true;
-                    }
-                }
-            });
-        },
-
-        // updates the progress of the progress bar
-        // creates a new progress bar(s) for each view that has it and updates it
-        update: function() {
-            try {
-                addToDOM();
-            } catch (e) {
-                console.error(e.message);
-            }
-
-            const progressBars = $(".progress-bar");
-            let div, filledPart;
-
-            if (babe.progress_bar.style === "default") {
-                div = $(".progress-bar").width() / totalProgressParts;
-                filledPart = progressTrials * div;
-            } else {
-                div =
-                    $(".progress-bar").width() /
-                    babe.views_seq[babe.currentViewCounter].trials;
-                filledPart = (
-                    (babe.currentTrialInViewCounter - 1) *
-                    div
-                ).toFixed(4);
-            }
-
-            const filledElem = jQuery("<span/>", {
-                id: "filled"
-            }).appendTo(progressBars[filledChunks]);
-
-            $("#filled").css("width", filledPart);
-            progressTrials++;
-
-            if (babe.progress_bar.style === "chunks") {
-                if (fillChunk === true) {
-                    filledChunks++;
-                    fillChunk = false;
-                }
-
-                if (
-                    filledElem.width().toFixed(4) ===
-                    ($(".progress-bar").width() - div).toFixed(4)
-                ) {
-                    fillChunk = true;
-                }
-
-                for (var i = 0; i < filledChunks; i++) {
-                    progressBars[i].style.backgroundColor = "#5187BA";
-                }
-            }
-        }
-    };
-
-    // creates progress bar element(s) and add(s) it(them) to the view
-    const addToDOM = function() {
-        var bar;
-        var i;
-        var view = $(".babe-view");
-        var barWidth = babe.progress_bar.width;
-        var clearfix = jQuery("<div/>", {
-            class: "clearfix"
-        });
-        var container = jQuery("<div/>", {
-            class: "progress-bar-container"
-        });
-        view.css("padding-top", 30);
-        view.prepend(clearfix);
-        view.prepend(container);
-
-        if (babe.progress_bar.style === "chunks") {
-            for (i = 0; i < totalProgressChunks; i++) {
-                bar = jQuery("<div/>", {
-                    class: "progress-bar"
-                });
-                bar.css("width", barWidth);
-                container.append(bar);
-            }
-        } else if (babe.progress_bar.style === "separate") {
-            bar = jQuery("<div/>", {
-                class: "progress-bar"
-            });
-            bar.css("width", barWidth);
-            container.append(bar);
-        } else if (babe.progress_bar.style === "default") {
-            bar = jQuery("<div/>", {
-                class: "progress-bar"
-            });
-            bar.css("width", barWidth);
-            container.append(bar);
-        } else {
-            throw new Error(
-                'Progress_bar.style can be set to "default", "separate" or "chunks" in experiment.js'
-            );
-        }
-    };
-
-    return progress;
-};
-
-const babeUtils = {
-    view: {
-        inspector: {
-            // checks whether name and trials are present
-            params: function(config, view) {
-                if (config.trials === undefined || config.trials === "") {
-                    throw new Error(errors.noTrials.concat(findFile(view)));
-                }
-
-                if (config.name === undefined || config.name === "") {
-                    throw new Error(errors.noName.concat(findFile(view)));
-                }
-            },
-
-            // checks whether data is passed to the trial views and whether it is an array
-            missingData: function(config, view) {
-                if (config.data === undefined || config.data === null) {
-                    throw new Error(errors.noData.concat(this.findFile(view)));
-                }
-
-                if (config.data instanceof Array === false) {
-                    throw new Error(
-                        errors.notAnArray.concat(this.findFile(view))
-                    );
-                }
-
-                if (
-                    config.trial_type === undefined ||
-                    config.trial_type === ""
-                ) {
-                    throw new Error(
-                        errors.noTrialType.concat(this.findFile(view))
-                    );
-                }
-            },
-
-            // finds in which type of view the error occurs
-            findFile: function(view) {
-                return `The problem is in ${view} view type.`;
-            }
-        },
-        setter: {
-            prop: function(prop, dflt) {
-                return prop === undefined ? dflt : prop;
-            },
-
-            // sets a default title for the views that are not given a title
-            title: function(title, dflt) {
-                return title === undefined ? dflt : title;
-            },
-
-            // sets a default prolificConfirmText to the thanks view if not given
-            prolificConfirmText: function(text, dflt) {
-                return text === undefined || text === "" ? dflt : text;
-            },
-
-            // sets default button text for the views that are not given button text
-            buttonText: function(buttonText) {
-                return buttonText === undefined || buttonText === ""
-                    ? "Next"
-                    : buttonText;
-            },
-
-            question: function(question) {
-                if (question === undefined || question === "") {
-                    console.warn("this trial has no 'question'");
-                    return "";
-                } else {
-                    return question;
-                }
-            },
-
-            QUD: function(qud) {
-                if (qud === undefined || qud === "") {
-                    return "";
-                } else {
-                    return qud;
-                }
-            }
-        },
-        createTrialDOM: function(config, enableResponse) {
-            const pause = config.pause;
-            const fix_duration = config.fix_duration;
-            const stim_duration = config.stim_duration;
-            const data = config.data;
-            const view = config.view;
-            const evts = config.evts !== undefined ? config.evts : {};
-
-            // checks if there is a pause and shows the pause screen
-            const showPause = (resolve, reject) => {
-                if (
-                    pause !== undefined &&
-                    typeof pause === "number" &&
-                    isNaN(pause) === false
-                ) {
-                    setTimeout(() => {
-                        resolve();
-                    }, pause);
-                } else {
-                    resolve();
-                }
-            };
-
-            // checks if there is a fixation point and shows the fixation point
-            const showFixPoint = (resolve, reject) => {
-                if (
-                    fix_duration !== undefined &&
-                    typeof fix_duration === "number" &&
-                    isNaN(fix_duration) === false
-                ) {
-                    const fixPoint = jQuery("<div/>", {
-                        class: "babe-view-fix-point"
-                    });
-                    $(".babe-view-stimulus-container").prepend(fixPoint);
-
-                    setTimeout(() => {
-                        fixPoint.remove();
-                        resolve();
-                    }, fix_duration);
-                } else {
-                    resolve();
-                }
-            };
-
-            // checks if there is a stimulus and shows it
-            const showStim = (resolve, reject) => {
-                $(".babe-view-stimulus").removeClass("babe-nodisplay");
-
-                if (data.picture !== undefined) {
-                    $(".babe-view-stimulus").prepend(
-                        `<div class='babe-view-picture'>
-                    <img src=${data.picture}>
-                </div>`
-                    );
-                }
-
-                if (data.canvas) {
-                    babeDrawShapes(data.canvas);
-                }
-
-                resolve();
-            };
-
-            // hides the stimulus
-            const hideStim = (resolve, reject) => {
-                const spacePressed = function(e, resolve) {
-                    if (e.which === 32) {
-                        $(".babe-view-stimulus").addClass("babe-invisible");
-                        $("body").off("keydown", spacePressed);
-                        resolve();
-                    }
-                };
-
-                if (view === "imageSelection") {
-                    $(".babe-view-stimulus-container").addClass(
-                        "babe-nodisplay"
-                    );
-                    resolve();
-                }
-
-                if (
-                    stim_duration !== undefined &&
-                    typeof stim_duration === "number"
-                ) {
-                    setTimeout(() => {
-                        $(".babe-view-stimulus").addClass("babe-invisible");
-                        resolve();
-                    }, stim_duration);
-                } else if (stim_duration === "space") {
-                    $("body").on("keydown", (e) => {
-                        spacePressed(e, resolve);
-                    });
-                } else {
-                    resolve();
-                }
-            };
-
-            const hookEvts = function(e) {
-                return new Promise((res, rej) => {
-                    if (e !== undefined) {
-                        e(data, res);
-                    } else {
-                        res();
-                    }
-                });
-            };
-
-            // 1. shows a blank screen (optional)
-            // 2. then shows a fixation point (optional)
-            // 3. then shows the stimulus (obligatory)
-            // 4. then hides the stimulus (optional)
-            // 5. then enables the interations from the participant (obligatory)
-            new Promise(showPause)
-                .then(() => hookEvts(evts.after_pause))
-                .then(() => {
-                    return new Promise(showFixPoint);
-                })
-                .then(() => hookEvts(evts.after_fix_point))
-                .then(() => {
-                    return new Promise(showStim);
-                })
-                .then(() => hookEvts(evts.after_stim_shown))
-                .then(() => {
-                    return new Promise(hideStim);
-                })
-                .then(() => hookEvts(evts.after_stim_hidden))
-                .then(() => {
-                    enableResponse();
-                });
-        }
-    },
-    views: {
-        loop: function(arr, count, shuffleFlag) {
-            return _.flatMapDeep(_.range(count), function(i) {
-                return arr;
-            });
-        },
-        loopShuffled: function(arr, count) {
-            return _.flatMapDeep(_.range(count), function(i) {
-                return _.shuffle(arr);
-            });
-        }
-    }
-};
-
 const babeDrawShapes = function(trialInfo) {
     // applies user's setting if there are such
     const canvasHeight =
@@ -919,6 +393,500 @@ const babeDrawShapes = function(trialInfo) {
     }
 };
 
+const errors = {
+    contactEmail: `There is no contact_email given. Please give a contact_email to the babeInit function,
+
+for example:
+
+babeInit({
+    ...
+    deploy: {
+        ...
+        contact_email: 'yourcontactemail@email.sample',
+        ...
+    },
+    ...
+});`,
+
+    prolificURL: `There is no prolificURL given. Please give a prolificURL to the babeInit function,
+
+for example:
+
+babeInit({
+    ...
+    deploy: {
+        ...
+        prolificURL: 'https://app.prolific.ac/submissions/complete?cc=SAMPLE',
+        ...
+    },
+    ...
+});`,
+
+    noTrials: `No trials given. Each _babe view takes an object with an obligatory 'trial' property.
+
+for example:
+
+const introView = intro({
+    ...
+    trials: 1,
+    ...
+});
+
+You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
+
+    noName: `No name given. Each _babe view takes an object with an obligatory 'name' property
+
+for example:
+
+const introView = intro({
+    ...
+    name: 'introView',
+    ...
+});
+
+You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
+
+    noData: `No data given. Each _babe view takes an object with an obligatory 'data' property
+
+for example:
+
+const mainTrials = forcedChoice({
+    ...
+    data: my_main_trials,
+    ...
+});
+
+The data is a list of objects defined in your local js file.
+
+_babe's trial views expect each trial object to have specific properties. Here is an example of a forcedCoice view trial:
+
+{
+    question: 'How are you today?',
+    option1: 'fine',
+    option2: 'good'
+}
+
+You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
+
+    noTrialType: `No trial_type given. Each _babe view takes an object with an obligatory 'trial_type' property
+
+for example:
+
+const mainTrials = forcedChoice({
+    ...
+    trial_type: 'main trials',
+    ...
+});
+
+The trial type is needed for recording the results of your experiment.
+
+You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
+
+    notAnArray: `The data is not an array. Trial views get an array of objects.
+
+for example:
+
+const mainTrials = forcedChoice({
+    ...
+    data: [
+        {
+            prop: val,
+            prop: val
+        },
+        {
+            prop: val,
+            prop:val
+        }
+    ],
+    ...
+});`,
+    noSuchViewName: `The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
+
+for example:
+
+const mainView = forcedChoice({
+    ...
+    name: 'myMainView',
+    ...
+});
+
+const introView = intro({
+    ...
+    name: 'intro',
+    ...
+});
+
+babeInit({
+    ...
+    progress_bar: {
+        in: [
+            "myMainView"
+        ],
+        style: "chunks"
+        width: 100
+    },
+    ...
+});
+`,
+    canvasSort: `No such 'canvas.sort' value. canvas.sort can be 'grid', 'split_grid' or 'random'.
+
+for example:
+
+const myTrials = [
+    {
+        question: 'Are there circles on the picture',
+        option1: 'yes',
+        option2: 'yes',
+        canvas: {
+            ...
+            sort: 'split_grid'
+            ...
+        }
+    }
+];`
+};
+
+const info = {
+    canvasTooSmall: `The canvas size was increased because the default canvas size was too small to fit all the elements.
+Btw, you can manually change the canvas size by passing 'canvasSettings' to the canvas object,
+however, your canvas settings might be overridden if needed. 
+
+For example:
+
+const myTrials = [
+    ...
+    {
+        question: 'Are there circles on the picture',
+        option1: 'yes',
+        option2: 'no',
+        canvas: {
+            canvasSettings: {
+                height: int,
+                width: int
+            },
+            ...
+        }
+    },
+    ...
+];
+
+See https://github.com/babe-project/babe-project/blob/master/docs/canvas.md for more information.
+`
+};
+
+const babeInit = function(config) {
+    const babe = {};
+
+    // views handler
+    babe.views_seq = _.flatten(config.views_seq);
+    babe.currentViewCounter = 0;
+    babe.currentTrialCounter = 0;
+    babe.currentTrialInViewCounter = 0;
+
+    // progress bar information
+    babe.progress_bar = config.progress_bar;
+
+    // results collection
+    // --
+    // general data
+    babe.global_data = {
+        startDate: Date(),
+        startTime: Date.now()
+    };
+    // data from trial views
+    babe.trial_data = [];
+
+    // more deploy information added
+    babe.deploy = config.deploy;
+    babe.deploy.MTurk_server =
+        babe.deploy.deployMethod == "MTurkSandbox"
+            ? "https://workersandbox.mturk.com/mturk/externalSubmit" // URL for MTurk sandbox
+            : babe.deploy.deployMethod == "MTurk"
+                ? "https://www.mturk.com/mturk/externalSubmit" // URL for live HITs on MTurk
+                : ""; // blank if deployment is not via MTurk
+    // if the config_deploy.deployMethod is not debug, then liveExperiment is true
+    babe.deploy.liveExperiment = babe.deploy.deployMethod !== "debug";
+    babe.deploy.is_MTurk = babe.deploy.MTurk_server !== "";
+    babe.deploy.submissionURL =
+        babe.deploy.deployMethod == "localServer"
+            ? "http://localhost:4000/api/submit_experiment/" +
+              babe.deploy.experimentID
+            : babe.deploy.serverAppURL + babe.deploy.experimentID;
+
+    // This is not ideal. Should have specified the "serverAppURL" as the base URL, instead of the full URL including "submit_experiment". That naming can be misleading.
+    const regex = "/submit_experiment/";
+    babe.deploy.checkExperimentURL = babe.deploy.submissionURL.replace(
+        regex,
+        "/check_experiment/"
+    );
+
+    // adds progress bars to the views
+    babe.progress = babeProgress(babe);
+    // makes the submit available
+    babe.submission = babeSubmit(babe);
+
+    // handles the views rendering
+    babe.findNextView = function() {
+        let currentView = babe.views_seq[babe.currentViewCounter];
+
+        if (babe.currentTrialInViewCounter < currentView.trials) {
+            currentView.render(currentView.CT, babe);
+        } else {
+            babe.currentViewCounter++;
+            currentView = babe.views_seq[babe.currentViewCounter];
+            babe.currentTrialInViewCounter = 0;
+            if (currentView !== undefined) {
+                currentView.render(currentView.CT, babe);
+            } else {
+                $("#main").html(
+                    `<div class='babe-view'>
+                        <h1 class="title">Nothing more to show</h1>
+                    </div>`
+                );
+                return;
+            }
+        }
+        // increment counter for how many trials we have seen of THIS view during THIS occurrence of it
+        babe.currentTrialInViewCounter++;
+        // increment counter for how many trials we have seen in the whole experiment
+        babe.currentTrialCounter++;
+        // increment counter for how many trials we have seen of THIS view during the whole experiment
+        currentView.CT++;
+
+        // updates the progress bar if the view has one
+        if (currentView.hasProgressBar) {
+            babe.progress.update();
+        }
+    };
+
+    // checks the deployMethod
+    (function() {
+        if (
+            babe.deploy.deployMethod === "MTurk" ||
+            babe.deploy.deployMethod === "MTurkSandbox"
+        ) {
+            console.info(
+                `The experiment runs on MTurk (or MTurk's sandbox)
+----------------------------
+
+The ID of your experiment is ${babe.deploy.experimentID}
+
+The results will be submitted ${babe.deploy.submissionURL}
+
+and
+
+MTurk's server: ${babe.deploy.MTurk_server}`
+            );
+        } else if (babe.deploy.deployMethod === "Prolific") {
+            console.info(
+                `The experiment runs on Prolific
+-------------------------------
+
+The ID of your experiment is ${babe.deploy.experimentID}
+
+The results will be submitted to ${babe.deploy.submissionURL}
+
+with
+
+Prolific URL (must be the same as in the website): ${babe.deploy.prolificURL}`
+            );
+        } else if (babe.deploy.deployMethod === "directLink") {
+            console.info(
+                `The experiment uses Direct Link
+-------------------------------
+
+The ID of your experiment is ${babe.deploy.experimentID}
+
+The results will be submitted to ${babe.deploy.submissionURL}`
+            );
+        } else if (babe.deploy.deployMethod === "debug") {
+            console.info(
+                `The experiment is in Debug Mode
+-------------------------------
+
+The results will be displayed in a table at the end of the experiment and available to download in CSV format.`
+            );
+        } else if (babe.deploy.deployMethod !== "localServer") {
+            throw new Error(
+                `There is no such deployMethod.
+
+Please use 'debug', 'directLink', 'Mturk', 'MTurkSandbox', 'localServer' or 'Prolific'.
+
+The deploy method you provided is '${babe.deploy.deployMethod}'.
+
+You can find more information at https://github.com/babe-project/babe-base`
+            );
+        }
+
+        if (
+            babe.deploy.deployMethod === "Prolific" &&
+            (babe.deploy.prolificURL === undefined ||
+                babe.deploy.prolificURL === "")
+        ) {
+            throw new Error(errors.prolificURL);
+        }
+
+        if (
+            babe.deploy.contact_email === undefined ||
+            babe.deploy.contact_email === ""
+        ) {
+            throw new Error(errors.contactEmail);
+        }
+    })();
+
+    // Checks whether the experiment is valid and reachable on the server before proceeding.
+
+    if (babe.deploy.deployMethod !== "debug") {
+        $.ajax({
+            type: "GET",
+            url: babe.deploy.checkExperimentURL,
+            crossDomain: true,
+            success: function(responseData, textStatus, jqXHR) {
+                // adds progress bars
+                babe.progress.add();
+
+                // renders the first view
+                babe.findNextView();
+            },
+            error: function(jqXHR, textStatus, error) {
+                alert(
+                    `Sorry, there is an error communicating with our server and the experiment cannot proceed. Please return the HIT immediately and contact the author at ${
+                        babe.deploy.contact_email
+                    }. Please include the following error message: "${
+                        jqXHR.responseText
+                    }". Thank you for your understanding.`
+                );
+            }
+        });
+    } else {
+        // adds progress bars
+        babe.progress.add();
+
+        // renders the first view
+        babe.findNextView();
+    }
+};
+
+const babeProgress = function(babe) {
+    let totalProgressParts = 0;
+    let progressTrials = 0;
+    // customize.progress_bar_style is "chunks" or "separate" {
+    let totalProgressChunks = 0;
+    let filledChunks = 0;
+    let fillChunk = false;
+
+    const progress = {
+        // adds progress bar(s) to the views specified experiment.js
+        add: function() {
+            babe.views_seq.map((view) => {
+                for (let j = 0; j < babe.progress_bar.in.length; j++) {
+                    if (view.name === babe.progress_bar.in[j]) {
+                        totalProgressChunks++;
+                        totalProgressParts += view.trials;
+                        view.hasProgressBar = true;
+                    }
+                }
+            });
+        },
+
+        // updates the progress of the progress bar
+        // creates a new progress bar(s) for each view that has it and updates it
+        update: function() {
+            try {
+                addToDOM();
+            } catch (e) {
+                console.error(e.message);
+            }
+
+            const progressBars = $(".progress-bar");
+            let div, filledPart;
+
+            if (babe.progress_bar.style === "default") {
+                div = $(".progress-bar").width() / totalProgressParts;
+                filledPart = progressTrials * div;
+            } else {
+                div =
+                    $(".progress-bar").width() /
+                    babe.views_seq[babe.currentViewCounter].trials;
+                filledPart = (
+                    (babe.currentTrialInViewCounter - 1) *
+                    div
+                ).toFixed(4);
+            }
+
+            const filledElem = jQuery("<span/>", {
+                id: "filled"
+            }).appendTo(progressBars[filledChunks]);
+
+            $("#filled").css("width", filledPart);
+            progressTrials++;
+
+            if (babe.progress_bar.style === "chunks") {
+                if (fillChunk === true) {
+                    filledChunks++;
+                    fillChunk = false;
+                }
+
+                if (
+                    filledElem.width().toFixed(4) ===
+                    ($(".progress-bar").width() - div).toFixed(4)
+                ) {
+                    fillChunk = true;
+                }
+
+                for (var i = 0; i < filledChunks; i++) {
+                    progressBars[i].style.backgroundColor = "#5187BA";
+                }
+            }
+        }
+    };
+
+    // creates progress bar element(s) and add(s) it(them) to the view
+    const addToDOM = function() {
+        var bar;
+        var i;
+        var view = $(".babe-view");
+        var barWidth = babe.progress_bar.width;
+        var clearfix = jQuery("<div/>", {
+            class: "clearfix"
+        });
+        var container = jQuery("<div/>", {
+            class: "progress-bar-container"
+        });
+        view.css("padding-top", 30);
+        view.prepend(clearfix);
+        view.prepend(container);
+
+        if (babe.progress_bar.style === "chunks") {
+            for (i = 0; i < totalProgressChunks; i++) {
+                bar = jQuery("<div/>", {
+                    class: "progress-bar"
+                });
+                bar.css("width", barWidth);
+                container.append(bar);
+            }
+        } else if (babe.progress_bar.style === "separate") {
+            bar = jQuery("<div/>", {
+                class: "progress-bar"
+            });
+            bar.css("width", barWidth);
+            container.append(bar);
+        } else if (babe.progress_bar.style === "default") {
+            bar = jQuery("<div/>", {
+                class: "progress-bar"
+            });
+            bar.css("width", barWidth);
+            container.append(bar);
+        } else {
+            throw new Error(
+                'Progress_bar.style can be set to "default", "separate" or "chunks" in experiment.js'
+            );
+        }
+    };
+
+    return progress;
+};
+
 function babeSubmit(babe) {
     const submit = {
         // submits the data
@@ -1195,6 +1163,231 @@ function babeSubmit(babe) {
     return submit;
 }
 
+const babeUtils = {
+    view: {
+        inspector: {
+            // checks whether name and trials are present
+            params: function(config, view) {
+                if (config.trials === undefined || config.trials === "") {
+                    throw new Error(errors.noTrials.concat(findFile(view)));
+                }
+
+                if (config.name === undefined || config.name === "") {
+                    throw new Error(errors.noName.concat(findFile(view)));
+                }
+            },
+
+            // checks whether data is passed to the trial views and whether it is an array
+            missingData: function(config, view) {
+                if (config.data === undefined || config.data === null) {
+                    throw new Error(errors.noData.concat(this.findFile(view)));
+                }
+
+                if (config.data instanceof Array === false) {
+                    throw new Error(
+                        errors.notAnArray.concat(this.findFile(view))
+                    );
+                }
+
+                if (
+                    config.trial_type === undefined ||
+                    config.trial_type === ""
+                ) {
+                    throw new Error(
+                        errors.noTrialType.concat(this.findFile(view))
+                    );
+                }
+            },
+
+            // finds in which type of view the error occurs
+            findFile: function(view) {
+                return `The problem is in ${view} view type.`;
+            }
+        },
+        setter: {
+            prop: function(prop, dflt) {
+                return prop === undefined ? dflt : prop;
+            },
+
+            // sets a default title for the views that are not given a title
+            title: function(title, dflt) {
+                return title === undefined ? dflt : title;
+            },
+
+            // sets a default prolificConfirmText to the thanks view if not given
+            prolificConfirmText: function(text, dflt) {
+                return text === undefined || text === "" ? dflt : text;
+            },
+
+            // sets default button text for the views that are not given button text
+            buttonText: function(buttonText) {
+                return buttonText === undefined || buttonText === ""
+                    ? "Next"
+                    : buttonText;
+            },
+
+            question: function(question) {
+                if (question === undefined || question === "") {
+                    console.warn("this trial has no 'question'");
+                    return "";
+                } else {
+                    return question;
+                }
+            },
+
+            QUD: function(qud) {
+                if (qud === undefined || qud === "") {
+                    return "";
+                } else {
+                    return qud;
+                }
+            }
+        },
+        createTrialDOM: function(config, enableResponse) {
+            const pause = config.pause;
+            const fix_duration = config.fix_duration;
+            const stim_duration = config.stim_duration;
+            const data = config.data;
+            const view = config.view;
+            const evts = config.evts !== undefined ? config.evts : {};
+
+            // checks if there is a pause and shows the pause screen
+            const showPause = (resolve, reject) => {
+                if (
+                    pause !== undefined &&
+                    typeof pause === "number" &&
+                    isNaN(pause) === false
+                ) {
+                    setTimeout(() => {
+                        resolve();
+                    }, pause);
+                } else {
+                    resolve();
+                }
+            };
+
+            // checks if there is a fixation point and shows the fixation point
+            const showFixPoint = (resolve, reject) => {
+                if (
+                    fix_duration !== undefined &&
+                    typeof fix_duration === "number" &&
+                    isNaN(fix_duration) === false
+                ) {
+                    const fixPoint = jQuery("<div/>", {
+                        class: "babe-view-fix-point"
+                    });
+                    $(".babe-view-stimulus-container").prepend(fixPoint);
+
+                    setTimeout(() => {
+                        fixPoint.remove();
+                        resolve();
+                    }, fix_duration);
+                } else {
+                    resolve();
+                }
+            };
+
+            // checks if there is a stimulus and shows it
+            const showStim = (resolve, reject) => {
+                $(".babe-view-stimulus").removeClass("babe-nodisplay");
+
+                if (data.picture !== undefined) {
+                    $(".babe-view-stimulus").prepend(
+                        `<div class='babe-view-picture'>
+                    <img src=${data.picture}>
+                </div>`
+                    );
+                }
+
+                if (data.canvas) {
+                    babeDrawShapes(data.canvas);
+                }
+
+                resolve();
+            };
+
+            // hides the stimulus
+            const hideStim = (resolve, reject) => {
+                const spacePressed = function(e, resolve) {
+                    if (e.which === 32) {
+                        $(".babe-view-stimulus").addClass("babe-invisible");
+                        $("body").off("keydown", spacePressed);
+                        resolve();
+                    }
+                };
+
+                if (view === "imageSelection") {
+                    $(".babe-view-stimulus-container").addClass(
+                        "babe-nodisplay"
+                    );
+                    resolve();
+                }
+
+                if (
+                    stim_duration !== undefined &&
+                    typeof stim_duration === "number"
+                ) {
+                    setTimeout(() => {
+                        $(".babe-view-stimulus").addClass("babe-invisible");
+                        resolve();
+                    }, stim_duration);
+                } else if (stim_duration === "space") {
+                    $("body").on("keydown", (e) => {
+                        spacePressed(e, resolve);
+                    });
+                } else {
+                    resolve();
+                }
+            };
+
+            const hookEvts = function(e) {
+                return new Promise((res, rej) => {
+                    if (e !== undefined) {
+                        e(data, res);
+                    } else {
+                        res();
+                    }
+                });
+            };
+
+            // 1. shows a blank screen (optional)
+            // 2. then shows a fixation point (optional)
+            // 3. then shows the stimulus (obligatory)
+            // 4. then hides the stimulus (optional)
+            // 5. then enables the interations from the participant (obligatory)
+            new Promise(showPause)
+                .then(() => hookEvts(evts.after_pause))
+                .then(() => {
+                    return new Promise(showFixPoint);
+                })
+                .then(() => hookEvts(evts.after_fix_point))
+                .then(() => {
+                    return new Promise(showStim);
+                })
+                .then(() => hookEvts(evts.after_stim_shown))
+                .then(() => {
+                    return new Promise(hideStim);
+                })
+                .then(() => hookEvts(evts.after_stim_hidden))
+                .then(() => {
+                    enableResponse();
+                });
+        }
+    },
+    views: {
+        loop: function(arr, count, shuffleFlag) {
+            return _.flatMapDeep(_.range(count), function(i) {
+                return arr;
+            });
+        },
+        loopShuffled: function(arr, count) {
+            return _.flatMapDeep(_.range(count), function(i) {
+                return _.shuffle(arr);
+            });
+        }
+    }
+};
+
 const babeViews = {
     intro: function(config) {
         babeUtils.view.inspector.params(config, "intro");
@@ -1387,14 +1580,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -1490,14 +1689,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -1600,14 +1805,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -1712,14 +1923,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -1819,14 +2036,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -1911,14 +2134,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -1999,14 +2228,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -2105,14 +2340,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -2296,11 +2537,20 @@ const babeViews = {
                     }
 
                     if (config.data[CT].canvas !== undefined) {
+                        if (config.data[CT].canvas.canvasSettings !== undefined) {
+                            for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                }
+                            }
+                            delete trial_data.canvas.canvasSettings;
+                        }
                         for (let prop in config.data[CT].canvas) {
                             if (config.data[CT].canvas.hasOwnProperty(prop)) {
                                 trial_data[prop] = config.data[CT].canvas[prop];
                             }
                         }
+                        delete trial_data.canvas;
                     }
 
                     babe.trial_data.push(trial_data);
@@ -2466,14 +2716,20 @@ const babeViews = {
                         }
 
                         if (config.data[CT].canvas !== undefined) {
+                            if (config.data[CT].canvas.canvasSettings !== undefined) {
+                                for (let prop in config.data[CT].canvas.canvasSettings) {                                    
+                                    if (config.data[CT].canvas.canvasSettings.hasOwnProperty(prop)) {
+                                        trial_data[prop] = config.data[CT].canvas.canvasSettings[prop];
+                                    }
+                                }
+                                delete trial_data.canvas.canvasSettings;
+                            }
                             for (let prop in config.data[CT].canvas) {
-                                if (
-                                    config.data[CT].canvas.hasOwnProperty(prop)
-                                ) {
-                                    trial_data[prop] =
-                                        config.data[CT].canvas[prop];
+                                if (config.data[CT].canvas.hasOwnProperty(prop)) {
+                                    trial_data[prop] = config.data[CT].canvas[prop];
                                 }
                             }
+                            delete trial_data.canvas;
                         }
 
                         babe.trial_data.push(trial_data);
@@ -2734,198 +2990,5 @@ const babeViews = {
         };
 
         return thanks;
-    }
-};
-
-const babeInit = function(config) {
-    const babe = {};
-
-    // views handler
-    babe.views_seq = _.flatten(config.views_seq);
-    babe.currentViewCounter = 0;
-    babe.currentTrialCounter = 0;
-    babe.currentTrialInViewCounter = 0;
-
-    // progress bar information
-    babe.progress_bar = config.progress_bar;
-
-    // results collection
-    // --
-    // general data
-    babe.global_data = {
-        startDate: Date(),
-        startTime: Date.now()
-    };
-    // data from trial views
-    babe.trial_data = [];
-
-    // more deploy information added
-    babe.deploy = config.deploy;
-    babe.deploy.MTurk_server =
-        babe.deploy.deployMethod == "MTurkSandbox"
-            ? "https://workersandbox.mturk.com/mturk/externalSubmit" // URL for MTurk sandbox
-            : babe.deploy.deployMethod == "MTurk"
-                ? "https://www.mturk.com/mturk/externalSubmit" // URL for live HITs on MTurk
-                : ""; // blank if deployment is not via MTurk
-    // if the config_deploy.deployMethod is not debug, then liveExperiment is true
-    babe.deploy.liveExperiment = babe.deploy.deployMethod !== "debug";
-    babe.deploy.is_MTurk = babe.deploy.MTurk_server !== "";
-    babe.deploy.submissionURL =
-        babe.deploy.deployMethod == "localServer"
-            ? "http://localhost:4000/api/submit_experiment/" +
-              babe.deploy.experimentID
-            : babe.deploy.serverAppURL + babe.deploy.experimentID;
-
-    // This is not ideal. Should have specified the "serverAppURL" as the base URL, instead of the full URL including "submit_experiment". That naming can be misleading.
-    const regex = "/submit_experiment/";
-    babe.deploy.checkExperimentURL = babe.deploy.submissionURL.replace(
-        regex,
-        "/check_experiment/"
-    );
-
-    // adds progress bars to the views
-    babe.progress = babeProgress(babe);
-    // makes the submit available
-    babe.submission = babeSubmit(babe);
-
-    // handles the views rendering
-    babe.findNextView = function() {
-        let currentView = babe.views_seq[babe.currentViewCounter];
-
-        if (babe.currentTrialInViewCounter < currentView.trials) {
-            currentView.render(currentView.CT, babe);
-        } else {
-            babe.currentViewCounter++;
-            currentView = babe.views_seq[babe.currentViewCounter];
-            babe.currentTrialInViewCounter = 0;
-            if (currentView !== undefined) {
-                currentView.render(currentView.CT, babe);
-            } else {
-                $("#main").html(
-                    `<div class='babe-view'>
-                        <h1 class="title">Nothing more to show</h1>
-                    </div>`
-                );
-                return;
-            }
-        }
-        // increment counter for how many trials we have seen of THIS view during THIS occurrence of it
-        babe.currentTrialInViewCounter++;
-        // increment counter for how many trials we have seen in the whole experiment
-        babe.currentTrialCounter++;
-        // increment counter for how many trials we have seen of THIS view during the whole experiment
-        currentView.CT++;
-
-        // updates the progress bar if the view has one
-        if (currentView.hasProgressBar) {
-            babe.progress.update();
-        }
-    };
-
-    // checks the deployMethod
-    (function() {
-        if (
-            babe.deploy.deployMethod === "MTurk" ||
-            babe.deploy.deployMethod === "MTurkSandbox"
-        ) {
-            console.info(
-                `The experiment runs on MTurk (or MTurk's sandbox)
-----------------------------
-
-The ID of your experiment is ${babe.deploy.experimentID}
-
-The results will be submitted ${babe.deploy.submissionURL}
-
-and
-
-MTurk's server: ${babe.deploy.MTurk_server}`
-            );
-        } else if (babe.deploy.deployMethod === "Prolific") {
-            console.info(
-                `The experiment runs on Prolific
--------------------------------
-
-The ID of your experiment is ${babe.deploy.experimentID}
-
-The results will be submitted to ${babe.deploy.submissionURL}
-
-with
-
-Prolific URL (must be the same as in the website): ${babe.deploy.prolificURL}`
-            );
-        } else if (babe.deploy.deployMethod === "directLink") {
-            console.info(
-                `The experiment uses Direct Link
--------------------------------
-
-The ID of your experiment is ${babe.deploy.experimentID}
-
-The results will be submitted to ${babe.deploy.submissionURL}`
-            );
-        } else if (babe.deploy.deployMethod === "debug") {
-            console.info(
-                `The experiment is in Debug Mode
--------------------------------
-
-The results will be displayed in a table at the end of the experiment and available to download in CSV format.`
-            );
-        } else if (babe.deploy.deployMethod !== "localServer") {
-            throw new Error(
-                `There is no such deployMethod.
-
-Please use 'debug', 'directLink', 'Mturk', 'MTurkSandbox', 'localServer' or 'Prolific'.
-
-The deploy method you provided is '${babe.deploy.deployMethod}'.
-
-You can find more information at https://github.com/babe-project/babe-base`
-            );
-        }
-
-        if (
-            babe.deploy.deployMethod === "Prolific" &&
-            (babe.deploy.prolificURL === undefined ||
-                babe.deploy.prolificURL === "")
-        ) {
-            throw new Error(errors.prolificURL);
-        }
-
-        if (
-            babe.deploy.contact_email === undefined ||
-            babe.deploy.contact_email === ""
-        ) {
-            throw new Error(errors.contactEmail);
-        }
-    })();
-
-    // Checks whether the experiment is valid and reachable on the server before proceeding.
-
-    if (babe.deploy.deployMethod !== "debug") {
-        $.ajax({
-            type: "GET",
-            url: babe.deploy.checkExperimentURL,
-            crossDomain: true,
-            success: function(responseData, textStatus, jqXHR) {
-                // adds progress bars
-                babe.progress.add();
-
-                // renders the first view
-                babe.findNextView();
-            },
-            error: function(jqXHR, textStatus, error) {
-                alert(
-                    `Sorry, there is an error communicating with our server and the experiment cannot proceed. Please return the HIT immediately and contact the author at ${
-                        babe.deploy.contact_email
-                    }. Please include the following error message: "${
-                        jqXHR.responseText
-                    }". Thank you for your understanding.`
-                );
-            }
-        });
-    } else {
-        // adds progress bars
-        babe.progress.add();
-
-        // renders the first view
-        babe.findNextView();
     }
 };
