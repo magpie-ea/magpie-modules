@@ -1,9 +1,9 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.0.26**
+**Latest version: 0.0.27**
 
-- (change)
+- Fix submission of views containing canvas elements (flattened)
 - (change)
 - (change)
 
