@@ -44,6 +44,13 @@ const babeInit = function(config) {
         "/check_experiment/"
     );
 
+    if (typeof config.timer === 'undefined') {
+        babe.timer = "";
+    } else {
+        babe.timer = config.timer;
+        babeTimer(babe);
+    }
+
     // adds progress bars to the views
     babe.progress = babeProgress(babe);
     // makes the submit available
