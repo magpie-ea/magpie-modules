@@ -606,3 +606,56 @@ input[name=answer] {
 .babe-invisible {
     visibility: hidden;
 }
+
+/* SYLES FOR THE SNACKBAR, currently used by the timer */
+#snackbar {
+  visibility: hidden;
+  left: 30%;
+  right: 30%;
+  background-color: #5187BA;
+  color: white;
+  text-align: center;
+  font-family: "Lato", "Noto Sans", sans-serif;
+  border-radius: 2px;
+  padding: 16px;
+  z-index: 1;
+  position: fixed;
+  top: 30px;
+  font-size: 20px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+}
+
+#snackbar.fade {
+  visibility: visible;
+  -webkit-animation: fadeout 0.5s;
+  animation: fadeout 0.5s;
+}
+
+#snackbar.hide {
+  visibility: hidden;
+}
+
+@-webkit-keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {top: 0; opacity: 0;}
+  to {top: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {top: 30px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {top: 30px; opacity: 1;}
+  to {top: 0; opacity: 0;}
+}
