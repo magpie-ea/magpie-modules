@@ -395,7 +395,7 @@ $("document").ready(function() {
 
 ## Sample experiment
 
-[Here](https://github.com/babe-project/MinimalTemplate/tree/modularized) you can find a sample forced-choice experiment created with \_babe.
+[Here](https://github.com/babe-project/departure-point) you can find a minimal experiment created with \_babe, you can use this template as a starting point for your experiment. [Showroom](https://github.com/babe-project/showroom) is an experiment which demonstrates most of \_babe's functionalities including most views, hooks and the canvas-api.
 
 ## Development
 
