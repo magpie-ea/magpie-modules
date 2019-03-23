@@ -26,7 +26,7 @@ progress_bar: {
         'dropdown_choice'   // 10 trials
         'slider_rating',    // 4 trials
     ],
-    style: "default",
+    style: "separate",
     width: 120          // 120 pixels
 }
 
@@ -43,7 +43,7 @@ progress_bar: {
         'dropdown_choice'   // 10 trials
         'slider_rating',    // 4 trials
     ],
-    style: "default",
+    style: "chunks",
     width: 60           // 60 pixels
 }
 
