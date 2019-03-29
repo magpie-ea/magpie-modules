@@ -9,10 +9,10 @@
 
 ## Older versions
 
-- version: x.x
+- version: 0.0.27
+ 
+ - Fix submission of views containing canvas elements (flattened)
 
-    - (change)
-    - (change)
 
 - version: x.x
 

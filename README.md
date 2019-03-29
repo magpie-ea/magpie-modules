@@ -1,11 +1,11 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.0.27**
+**Latest version: 0.0.28**
 
-- Fix submission of views containing canvas elements (flattened)
-- (change)
-- (change)
+- Add an inactivity tracker/timer (inactive per default) #28
+- Fix localServer deployment
+- babeInit now returns the babe-object in debug mode, for easier debugging
 
 **Table of contents**
 
