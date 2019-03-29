@@ -1551,7 +1551,8 @@ const babeViews = {
             render: function(CT, babe) {
                 if (
                     babe.deploy.is_MTurk ||
-                    babe.deploy.deployMethod === "directLink"
+                    babe.deploy.deployMethod === "directLink" ||
+                    babe.deploy.deployMethod === "localServer"
                 ) {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
