@@ -526,8 +526,8 @@ const image_selection_trials = [
 * **Obligatory Fileds**
     * `key1: string`
     * `key2: string`
-    * `f: string`
-    * `j: string`
+    * `<key-specified in key1, e.g. f>: string`
+    * `<key specified in key2, e.g. j>: string`
     * `expected: string`
 
 * **Optional Fields**
