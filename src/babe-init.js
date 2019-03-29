@@ -196,4 +196,11 @@ You can find more information at https://github.com/babe-project/babe-base`
         // renders the first view
         babe.findNextView();
     }
+
+    // return the babe-object in debug mode to make debugging easier
+    if (babe.deploy.deployMethod === 'debug'){
+        return babe;
+    } else {
+        return null;
+    }
 };

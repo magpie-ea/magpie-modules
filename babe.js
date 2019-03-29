@@ -772,6 +772,13 @@ You can find more information at https://github.com/babe-project/babe-base`
         // renders the first view
         babe.findNextView();
     }
+
+    // return the babe-object in debug mode to make debugging easier
+    if (babe.deploy.deployMethod === 'debug'){
+        return babe;
+    } else {
+        return null;
+    }
 };
 
 const babeProgress = function(babe) {
@@ -3014,7 +3021,8 @@ const babeViews = {
             render: function(CT, babe) {
                 if (
                     babe.deploy.is_MTurk ||
-                    babe.deploy.deployMethod === "directLink"
+                    babe.deploy.deployMethod === "directLink" ||
+                    babe.deploy.deployMethod === "localServer"
                 ) {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
