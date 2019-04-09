@@ -1829,7 +1829,8 @@ const babeUtils = {
                 .then(() => hookEvts(evts.after_stim_hidden))
                 .then(() => {
                     enableResponse();
-                });
+                })
+                .then(() => hookEvts(evts.after_response_enabled));
         }
     },
     views: {

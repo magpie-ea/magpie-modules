@@ -1,11 +1,9 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.0.28**
+**Latest version: 0.0.29**
 
-- Add an inactivity tracker/timer (inactive per default) #28
-- Fix localServer deployment
-- babeInit now returns the babe-object in debug mode, for easier debugging
+- Bugfix hook after\_response\_enabled works again #52
 
 **Table of contents**
 
