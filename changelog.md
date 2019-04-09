@@ -1,12 +1,15 @@
 # Changelog
 
-## Latest version: 0.0.29
+## Latest version: 0.0.30
 
-- Bugfix hook after\_response\_enabled works again #52
+- Delete irrelevant files from npm
 
 
 ## Older versions
 
+- version: 0.0.29
+
+	- Bugfix hook after\_response\_enabled works again #52
 
 - version: 0.0.28
 

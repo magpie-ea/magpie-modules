@@ -1,9 +1,9 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.0.29**
+**Latest version: 0.0.30**
 
-- Bugfix hook after\_response\_enabled works again #52
+- Delete irrelevant files from npm
 
 **Table of contents**
 
