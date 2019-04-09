@@ -2,4 +2,4 @@ docs/images/*
 images/
 local_files/
 tests/
-./idea
+.idea/

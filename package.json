@@ -1,6 +1,6 @@
 {
     "name": "babe-project",
-    "version": "0.0.30",
+    "version": "0.0.31",
     "description": "Basic Architecture for Browser-based experiments (https://github.com/babe-project/babe-project)",
     "main": "babe.js",
     "dependencies": {

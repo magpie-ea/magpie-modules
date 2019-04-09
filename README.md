@@ -1,7 +1,7 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.0.30**
+**Latest version: 0.0.31**
 
 - Delete irrelevant files from npm
 
