@@ -1,9 +1,9 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.0.31**
+**Latest version: 0.0.32**
 
-- Delete irrelevant files from npm
+- Fix bug #59, spr-template now ignores non space keypresses
 
 **Table of contents**
 
