@@ -1273,8 +1273,6 @@ const babeViews = {
 
                         readingTimes.push(Date.now());
                         spaceCounter++;
-                    } else {
-                        $("body").off("keydown", handleKeyPress);
                     }
                 };
 

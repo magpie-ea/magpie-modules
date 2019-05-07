@@ -1,6 +1,6 @@
 # Changelog
 
-## Latest version: 0.0.32
+## Latest version: 0.0.32 + 0.0.33
 
 - Fix bug #59, spr-template now ignores non space keypresses
 
