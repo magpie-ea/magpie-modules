@@ -1,12 +1,16 @@
 # Changelog
 
-## Latest version: 0.0.30 + 0.0.31
+## Latest version: 0.0.32
 
-- Delete irrelevant files from npm
+- Fix bug #59, spr-template now ignores non space keypresses
 
 
 ## Older versions
 
+- version 0.0.30 + 0.0.31
+
+    - Delete irrelevant files from npm
+    
 - version: 0.0.29
 
 	- Bugfix hook after\_response\_enabled works again #52
