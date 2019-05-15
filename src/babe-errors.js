@@ -73,20 +73,6 @@ _babe's trial views expect each trial object to have specific properties. Here i
 
 You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
 
-    noTrialType: `No trial_type given. Each _babe view takes an object with an obligatory 'trial_type' property
-
-for example:
-
-const mainTrials = forcedChoice({
-    ...
-    trial_type: 'main trials',
-    ...
-});
-
-The trial type is needed for recording the results of your experiment.
-
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
-
     notAnArray: `The data is not an array. Trial views get an array of objects.
 
 for example:
@@ -105,6 +91,7 @@ const mainTrials = forcedChoice({
     ],
     ...
 });`,
+
     noSuchViewName: `The view name listed in progress_bar.in does not exist. Use the view names to reference the views in progress_bar.in.
 
 for example:

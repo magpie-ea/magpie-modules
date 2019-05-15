@@ -46,7 +46,7 @@ const babeTimer = function(babe) {
         snackbar.innerHTML = `${snack_text} <br> ${show_info_time_time? `${max_time - Math.ceil(idle_time)} seconds remaining`: ''}`;
         // timer has still plenty of time left, hide snackbar (or fade it out)
         if (idle_time  < (1-show_info_time) * max_time) {
-            snackbar.className = snackbar.className == "show"? "fade" : "hide";
+            snackbar.className = snackbar.className === "show"? "fade" : "hide";
             document.title = old_title;
         // last show_info_time percent of time, show snackbar and blink page title
         } else if (idle_time < max_time ) {

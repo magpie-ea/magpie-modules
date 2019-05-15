@@ -23,16 +23,16 @@ const babeInit = function(config) {
     // more deploy information added
     babe.deploy = config.deploy;
     babe.deploy.MTurk_server =
-        babe.deploy.deployMethod == "MTurkSandbox"
+        babe.deploy.deployMethod === "MTurkSandbox"
             ? "https://workersandbox.mturk.com/mturk/externalSubmit" // URL for MTurk sandbox
-            : babe.deploy.deployMethod == "MTurk"
+            : babe.deploy.deployMethod === "MTurk"
                 ? "https://www.mturk.com/mturk/externalSubmit" // URL for live HITs on MTurk
                 : ""; // blank if deployment is not via MTurk
     // if the config_deploy.deployMethod is not debug, then liveExperiment is true
     babe.deploy.liveExperiment = babe.deploy.deployMethod !== "debug";
     babe.deploy.is_MTurk = babe.deploy.MTurk_server !== "";
     babe.deploy.submissionURL =
-        babe.deploy.deployMethod == "localServer"
+        babe.deploy.deployMethod === "localServer"
             ? "http://localhost:4000/api/submit_experiment/" +
               babe.deploy.experimentID
             : babe.deploy.serverAppURL + babe.deploy.experimentID;
