@@ -24,14 +24,6 @@ const babeUtils = {
                     );
                 }
 
-                if (
-                    config.trial_type === undefined ||
-                    config.trial_type === ""
-                ) {
-                    throw new Error(
-                        errors.noTrialType.concat(this.findFile(view))
-                    );
-                }
             },
 
             // finds in which type of view the error occurs
@@ -77,6 +69,60 @@ const babeUtils = {
                     return qud;
                 }
             }
+        },
+        save_config_trial_data: function(config_info, trial_data) {
+            for (let prop in config_info) {
+                if (config_info.hasOwnProperty(prop)) {
+                    trial_data[prop] = config_info[prop];
+                }
+            }
+
+            if (config_info.canvas !== undefined) {
+                if (config_info.canvas.canvasSettings !== undefined) {
+                    for (let prop in config_info.canvas.canvasSettings) {
+                        if (config_info.canvas.canvasSettings.hasOwnProperty(prop)) {
+                            trial_data[prop] = config_info.canvas.canvasSettings[prop];
+                        }
+                    }
+                    delete trial_data.canvas.canvasSettings;
+                }
+                for (let prop in config_info.canvas) {
+                    if (config_info.canvas.hasOwnProperty(prop)) {
+                        trial_data[prop] = config_info.canvas[prop];
+                    }
+                }
+                delete trial_data.canvas;
+            }
+
+            return trial_data;
+        },
+        fill_defaults_post_test: function(config) {
+            return {
+                age: {
+                    title: babeUtils.view.setter.prop(config.age_question, "Age")
+                },
+                gender: {
+                    title: babeUtils.view.setter.prop(config.gender_question, "Gender"),
+                    male: babeUtils.view.setter.prop(config.gender_male, "male"),
+                    female: babeUtils.view.setter.prop(config.gender_female, "female"),
+                    other: babeUtils.view.setter.prop(config.gender_other, "other")
+                },
+                edu: {
+                    title: babeUtils.view.setter.prop(config.edu_question, "Level of Education"),
+                    graduated_high_school: babeUtils.view.setter.prop(config.edu_graduated_high_school,
+                        "Graduated High School"),
+                    graduated_college: babeUtils.view.setter.prop(config.edu_graduated_college, "Graduated College"),
+                    higher_degree: babeUtils.view.setter.prop(config.edu_higher_degree, "Higher Degree")
+                },
+                langs: {
+                    title: babeUtils.view.setter.prop(config.languages_question, "Native Languages"),
+                    text: babeUtils.view.setter.prop(config.languages_more,
+                        "(i.e. the language(s) spoken at home when you were a child)")
+                },
+                comments: {
+                    title: babeUtils.view.setter.prop(config.comments_question, "Further Comments")
+                }
+            };
         },
         createTrialDOM: function(config, enableResponse) {
             const pause = config.pause;
@@ -151,7 +197,7 @@ const babeUtils = {
                     }
                 };
 
-                if (view === "imageSelection") {
+                if (view === "image_selection") {
                     $(".babe-view-stimulus-container").addClass(
                         "babe-nodisplay"
                     );
