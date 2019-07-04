@@ -417,6 +417,12 @@ input[name=answer] {
 .babe-spr-sentence .spr-word-hidden  {
     visibility: hidden;
 }
+.babe-spr-sentence .one-line {
+    margin: 0 0;
+}
+.babe-spr-sentence .spr-word.no-line:after {
+    visibility: hidden;
+}
 
 /* 
     POST TEST
