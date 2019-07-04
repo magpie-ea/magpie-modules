@@ -1,7 +1,7 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.1.1**
+**Latest version: 0.1.1 + 0.1.2**
 
 - Image display:
     - Bugfix: Images are now scaled down correctly, if they are high
