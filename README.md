@@ -1,13 +1,16 @@
 # \_babe project
 basic architecture for browser-based experiments
 
-**Latest version: 0.1.0**
+**Latest version: 0.1.1**
 
-- Major view restructuring (non-backwards compatible)
-    - All template views are now instantiated by `babeViews.view_generator(<view_type>, <config>)`
-        - You can pass a dict as an optional third parameter `{stimulus_container_generator: <custom_func>, answer_container_generator: <custom_func>, handle_response_function: <custom_func>}`
-        - With this parameter, you can customize views
-    - `trial_type` is no longer used and is replaced by `trial_name`
+- Image display:
+    - Bugfix: Images are now scaled down correctly, if they are high
+    - Images do not scale up anymore, if they are smaller than the image container
+    - The maximum width of the image container increased (350px -> 960px)
+- SPR:
+    - New options how to display the sentence added
+    - Option 'wordPos': 'next' or 'same'
+    - Option 'underline': 'words', 'sentence' or 'none'
 
 
 **Table of contents**

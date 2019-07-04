@@ -498,7 +498,7 @@ const handle_response_functions = {
         let spaceCounter = 0;
         let wordList;
         let readingTimes = [];
-// wordPos "next" or "same", if "next" words appear next to each other, if "same" all words appear at the same place
+        // wordPos "next" or "same", if "next" words appear next to each other, if "same" all words appear at the same place
         // default: "next"
         let wordPos = config.data[CT].wordPos === undefined ? "next" : config.data[CT].wordPos;
         let showNeighbor = wordPos === "next";
