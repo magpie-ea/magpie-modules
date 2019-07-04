@@ -498,34 +498,46 @@ const handle_response_functions = {
         let spaceCounter = 0;
         let wordList;
         let readingTimes = [];
+        // wordPos "next" or "same", if "next" words appear next to each other, if "same" all words appear at the same place
+        // default: "next"
+        let wordPos = config.data[CT].wordPos === undefined ? "next" : config.data[CT].wordPos;
+        let showNeighbor = wordPos === "next";
+        // underline "words", "sentence" or "none", if "words" every word gets underlined, if "sentence" the sentence gets
+        // underlined, if "none" there is no underline
+        // default: "words"
+        let underline = config.data[CT].underline === undefined ? "words" : config.data[CT].underline;
+        let not_underline = underline === "none";
+        let one_line = underline === "sentence";
 
         // shows the sentence word by word on SPACE press
         const handle_key_press = function(e) {
 
-            if (e.which === 32 && spaceCounter < wordList.length) {
-                wordList[spaceCounter].classList.remove(
-                    "spr-word-hidden"
-                );
+            if (e.which === 32 && spaceCounter < sentenceList.length) {
+                if (showNeighbor) {
+                    wordList[spaceCounter].classList.remove("spr-word-hidden");
+                } else {
+                    $(".babe-spr-sentence").html(`<span class='spr-word'>${sentenceList[spaceCounter]}</span>`);
+                    if (not_underline){
+                        $('.babe-spr-sentence .spr-word').addClass('no-line');
+                    }
+                }
 
                 if (spaceCounter === 0) {
                     $(".babe-help-text").addClass("babe-invisible");
                 }
 
-                if (spaceCounter > 0) {
-                    wordList[spaceCounter - 1].classList.add(
-                        "spr-word-hidden"
-                    );
+                if (spaceCounter > 0 && showNeighbor) {
+                    wordList[spaceCounter - 1].classList.add("spr-word-hidden");
                 }
 
                 readingTimes.push(Date.now());
                 spaceCounter++;
-            } else if (
-                e.which === 32 &&
-                spaceCounter === wordList.length
-            ) {
-                wordList[spaceCounter - 1].classList.add(
-                    "spr-word-hidden"
-                );
+            } else if (e.which === 32 && spaceCounter === sentenceList.length) {
+                if (showNeighbor) {
+                    wordList[spaceCounter - 1].classList.add("spr-word-hidden");
+                } else {
+                    $(".babe-spr-sentence").html("");
+                }
 
                 $(".babe-view").append(answer_container_generator(config, CT));
 
@@ -558,15 +570,24 @@ const handle_response_functions = {
         // shows the help text
         $(".babe-help-text").removeClass("babe-nodisplay");
 
-        // creates the sentence
-        sentenceList.map((word) => {
-            $(".babe-spr-sentence").append(
-                `<span class='spr-word spr-word-hidden'>${word}</span>`
-            );
-        });
+        if (showNeighbor) {
+            // creates the sentence
+            sentenceList.map((word) => {
+                $(".babe-spr-sentence").append(
+                    `<span class='spr-word spr-word-hidden'>${word}</span>`
+                );
+            });
 
-        // creates an array of spr word elements
-        wordList = $(".spr-word").toArray();
+            // creates an array of spr word elements
+            wordList = $(".spr-word").toArray();
+        }
+
+        if (not_underline){
+            $('.babe-spr-sentence .spr-word').addClass('no-line');
+        }
+        if (one_line){
+            $('.babe-spr-sentence .spr-word').addClass('one-line');
+        }
 
         // attaches an eventListener to the body for space
         $("body").on("keydown", handle_key_press);
