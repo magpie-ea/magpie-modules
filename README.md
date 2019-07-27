@@ -1,5 +1,5 @@
-# \_babe project
-basic architecture for browser-based experiments
+# \_magpie project
+minimal architecture for the generation of portable interactive experiments
 
 **Latest version: 0.1.1 + 0.1.2**
 
@@ -15,10 +15,10 @@ basic architecture for browser-based experiments
 
 **Table of contents**
 
-- [Create an experiment with \_babe](#create-an-experiment-with-_babe)
-    - [Install and import \_babe](#install-and-import_babe)
+- [Create an experiment with \_magpie](#create-an-experiment-with-_magpie)
+    - [Install and import \_magpie](#install-and-import_magpie)
     - [Experiment Initialisation](#experiment-initialisation)
-    - [Views](#views-in-_babe)
+    - [Views](#views-in-_magpie)
     - [Deploy configuraton](#deploy-configuration)
     - [Progress bar](#progress-bar)
 - [Sample experiment](#sample-experiment)
@@ -26,13 +26,13 @@ basic architecture for browser-based experiments
 - [Deployment using Netlify](#deployment-using-netlify)
 
 
-## Create an experiment with \_babe
+## Create an experiment with \_magpie
 
-### Install and import \_babe
+### Install and import \_magpie
 
 #### Option 1: Install with npm (recommended)
 
-1. Get \_babe
+1. Get \_magpie
 
 You need to have npm installed in your machine. [Install npm](https://www.npmjs.com/get-npm).
 
@@ -52,95 +52,95 @@ npm init
 
 # install the dependencies with npm
 
-npm install babe-project --save
+npm install magpie-modules --save
 ```
 
-the npm installation process creates a folder (named `node_modules`) in your experiment's directory where the npm dependencies are stored. After successfully installing \_babe, the `node_modules` folder should contain `babe-project` and its dependencies `jquery` and `csv-js`.
+the npm installation process creates a folder (named `node_modules`) in your experiment's directory where the npm dependencies are stored. After successfully installing \_magpie, the `node_modules` folder should contain `magpie-modules` and its dependencies `jquery` and `csv-js`.
 
-2. Add \_babe
+2. Add \_magpie
 
-The `babe-project` folder includes the following three files that you can add to your experiment:
+The `magpie-modules` folder includes the following three files that you can add to your experiment:
 
-- `babe.full.js` - includes \_babe functions and its dependencies (jquery nad csv-js), no need to install and import jquery and csv-js.
-- `babe.js` - includes only \_babe functions (jquery nad csv-js), jquery and csv-js have to be included separately.
-- `babe.css` - includes babe styles.
+- `magpie.full.js` - includes \_magpie functions and its dependencies (jquery nad csv-js), no need to install and import jquery and csv-js.
+- `magpie.js` - includes only \_magpie functions (jquery nad csv-js), jquery and csv-js have to be included separately.
+- `magpie.css` - includes magpie styles.
 
-Import \_babe with a script tag:
+Import \_magpie with a script tag:
 
-add `babe.full.js`
+add `magpie.full.js`
 
-`<script src='path/to/node_modules/babe-project/babe.full.js'></script>`
+`<script src='path/to/node_modules/magpie-modules/magpie.full.js'></script>`
 
-or add `babe.js`, `jquery` and `csv.js`
+or add `magpie.js`, `jquery` and `csv.js`
 
 `<script src='path/to/node_modules/jquery/dist/jquery.min.js'></script>`
 
 `<script src='path/to/node_modules/csv-js/csv.js'></script>`
 
-`<script src='path/to/node_modules/babe-project/babe.js'></script>`
+`<script src='path/to/node_modules/magpie-modules/magpie.js'></script>`
 
-3. Update \_babe 
+3. Update \_magpie 
 
-You can get newer versions of \_babe with
+You can get newer versions of \_magpie with
 
 `npm update`
 
 
-#### Option 2: Download the babe-project (not reccommended)
+#### Option 2: Download the magpie-modules (not reccommended)
 
 1. Download the .zip from this repository
 
-2. Unzip and move `babe.full.js`, `babe.js` and `babe.css` in the `libraries/` folder of your experiment.
+2. Unzip and move `magpie.full.js`, `magpie.js` and `magpie.css` in the `libraries/` folder of your experiment.
 
  Your experiment's structure should look like this:
 
 - experiment/
     - libraries/
-        - babe.full.js
-        - babe.css
-        - babe.js
+        - magpie.full.js
+        - magpie.css
+        - magpie.js
 
- `babe.full.js` includes the dependencies that \_babe uses (jQuery, and csv-js). There is no need to install and import jQuery, and csv-js.
+ `magpie.full.js` includes the dependencies that \_magpie uses (jQuery, and csv-js). There is no need to install and import jQuery, and csv-js.
 
- `babe.js` includes only the \_babe package, the dependencies should be installed separately for \_babe to work.
+ `magpie.js` includes only the \_magpie package, the dependencies should be installed separately for \_magpie to work.
 
- `babe.css` includes styles for \_babe experiments.
+ `magpie.css` includes styles for \_magpie experiments.
 
-3. Import \_babe in your main `html` file
+3. Import \_magpie in your main `html` file
 
  the full version or no-dependencies version:
 
- `<script src="libraries/babe.full.js></script>` or `<script src="libraries/babe.js></script>`
+ `<script src="libraries/magpie.full.js></script>` or `<script src="libraries/magpie.js></script>`
 
- and \_babe-styles:
+ and \_magpie-styles:
 
- `<link rel="stylesheet" type="text/css" href="libraries/babe.css">`
+ `<link rel="stylesheet" type="text/css" href="libraries/magpie.css">`
 
 
 ## Usage
 
-Once you have installed and included \_babe in your files, you can start using \_babe funcitons to create your experiment.
+Once you have installed and included \_magpie in your files, you can start using \_magpie funcitons to create your experiment.
 You can use:
 
-* babeInit({..}) - to initialize the experiment
-* babeViews._view_({..}) - to create an instance of a \_babe view
+* magpieInit({..}) - to initialize the experiment
+* magpieViews._view_({..}) - to create an instance of a \_magpie view
 
 ### Experiment initialisation
 
-Use `babeInit({..})` to create a \_babe experiment.
+Use `magpieInit({..})` to create a \_magpie experiment.
 
-`babeInit` takes an object as a parameter with the following properties:
+`magpieInit` takes an object as a parameter with the following properties:
 
-* `views_seq` - an array of view objects in the sequence you want them to appear in your experiment. [more info](https://github.com/babe-project/babe-base#views-in-_babe)
-* `deploy` - an object with information about the deploy methods of your experiment. [more info](https://github.com/babe-project/babe-base#deploy-configuration)
-* `progress_bar` - an object with information about the progress bars in the views of your experiment. [more info](https://github.com/babe-project/babe-base#progress-bar)
+* `views_seq` - an array of view objects in the sequence you want them to appear in your experiment. [more info](https://github.com/magpie-ea/magpie-modules#views-in-_magpie)
+* `deploy` - an object with information about the deploy methods of your experiment. [more info](https://github.com/magpie-ea/magpie-modules#deploy-configuration)
+* `progress_bar` - an object with information about the progress bars in the views of your experiment. [more info](https://github.com/magpie-ea/magpie-modules#progress-bar)
 
 
-Sample `babeInit` call:
+Sample `magpieInit` call:
 
 ```
 $("document").ready(function() {
-    babeInit({
+    magpieInit({
         views_seq: [
             intro,
             instructions,
@@ -150,7 +150,7 @@ $("document").ready(function() {
         ],
         deploy: {
             "experimentID": "4",
-            "serverAppURL": "https://babe-demo.herokuapp.com/api/submit_experiment/",
+            "serverAppURL": "https://magpie-demo.herokuapp.com/api/submit_experiment/",
             "deployMethod": "debug",
             "contact_email": "YOUREMAIL@wherelifeisgreat.you",
             "prolificURL": "https://app.prolific.ac/submissions/complete?cc=ABCD1234"
@@ -167,9 +167,9 @@ $("document").ready(function() {
 });
 ```
 
-### Views in \_babe
+### Views in \_magpie
 
-\_babe views get inserted in a html element with id `main`, you need to have an html tag (preferrably `div` or `main`)
+\_magpie views get inserted in a html element with id `main`, you need to have an html tag (preferrably `div` or `main`)
 with `id="main"`
 
 Sample `index.html`
@@ -201,30 +201,30 @@ Sample `index.html`
 
 #### Included views
 
-\_babe provides several ready-made views which you can access form the `babeViews` object. The views use [js template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
+\_magpie provides several ready-made views which you can access form the `magpieViews` object. The views use [js template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)
 
 * Trial Type Views (TTV):
-    * `babeViews.forcedChoice` - binary forced-choice task
-    * `babeViews.sliderRating` - slider rating task
-    * `babeViews.textboxInput` - textbox input task
-    * `babeViews.dropdownMenu` - dropdown menu task
-    * `babeViews.ratingScale` - Likert-scale rating task
-    * `babeViews.sentenceChoice` - text selection task
-    * `babeViews.imageSelection` - click-on-a-picture task
-    * `babeViews.keyPress`- press a button task
-    * `babeViews.selfPacedReading`
-    * `babeViews.selfPacedReading_ratingScale`
+    * `magpieViews.forcedChoice` - binary forced-choice task
+    * `magpieViews.sliderRating` - slider rating task
+    * `magpieViews.textboxInput` - textbox input task
+    * `magpieViews.dropdownMenu` - dropdown menu task
+    * `magpieViews.ratingScale` - Likert-scale rating task
+    * `magpieViews.sentenceChoice` - text selection task
+    * `magpieViews.imageSelection` - click-on-a-picture task
+    * `magpieViews.keyPress`- press a button task
+    * `magpieViews.selfPacedReading`
+    * `magpieViews.selfPacedReading_ratingScale`
 
 * Other Type Views (OTV):
-    * `babeViews.intro`  - introduction view
-    * `babeViews.instructions`-  instructions view
-    * `babeViews.begin` - begin experiment view; can be used between the practice and the main view
-    * `babeViews.postTest` - post-experiment questionnaire
-    * `babeViews.thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
+    * `magpieViews.intro`  - introduction view
+    * `magpieViews.instructions`-  instructions view
+    * `magpieViews.begin` - begin experiment view; can be used between the practice and the main view
+    * `magpieViews.postTest` - post-experiment questionnaire
+    * `magpieViews.thanks` - the last view that handles the submission of the results of creates a table with the results in 'Debug Mode'
 
 
-Each \_babe view function takes an object as a parameter with obligatory and optional properties.
-[Here](docs/views.md) you can find more information about how to use the \_babe views.
+Each \_magpie view function takes an object as a parameter with obligatory and optional properties.
+[Here](docs/views.md) you can find more information about how to use the \_magpie views.
 
 #### Custom views
 
@@ -236,21 +236,21 @@ The views are functions that return an object with the following properties:
 * `trials: number` - the number of trials this view appears
 * `CT: 0` - current trial, always starts from 0
 * `render: function` - a function that renders the view
-    * pass `CT` and `babe` as parameters to render()
+    * pass `CT` and `magpie` as parameters to render()
 
-Add the data gathered from your custom trial type views to `babe.trial_data`
+Add the data gathered from your custom trial type views to `magpie.trial_data`
 
 Sample custom trial type view:
 
 *The templates use [js template strings](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)*
 
 ```
-babeViews.pressTheButton = function(config) {
+magpieViews.pressTheButton = function(config) {
     const _pressTheButton = {
         name: config.name,
         title: config.title, // 
         buttonText: config.buttonText,
-        render(CT, babe) {
+        render(CT, magpie) {
             let startTime = Date.now();
 
             const viewTemplate =
@@ -262,12 +262,12 @@ babeViews.pressTheButton = function(config) {
             $("#main").html(viewTemplate);
 
             $('#the-button').on('click', function(e) {
-                _babe.trial_data.push({
+                _magpie.trial_data.push({
                     trial_type: config.trial_type,
                     trial_number: CT+1,
                     RT: Date.now() - startTime
                 });
-                _babe.findNextView();
+                _magpie.findNextView();
             });
         },
         CT: 0,
@@ -277,7 +277,7 @@ babeViews.pressTheButton = function(config) {
     return _pressTheButton;
 };
 
-const mainTrial = babeViews.pressTheButton({
+const mainTrial = magpieViews.pressTheButton({
     name: 'buttonPress',
     title: 'How quickly can you press this button?',
     buttonText: 'Press me!',
@@ -286,7 +286,7 @@ const mainTrial = babeViews.pressTheButton({
 });
 
 $("document").ready(function() {
-    babeInit({
+    magpieInit({
         ...
         views_seq: [
             ...
@@ -301,11 +301,11 @@ $("document").ready(function() {
 Sample custom info view:
 
 ```
-babeViews.sayHello = function(config) {
+magpieViews.sayHello = function(config) {
     const _sayHello = {
         name: config.name,
         title: config.title,
-        render(CT, babe) {
+        render(CT, magpie) {
             const viewTemplate =
             `<div class='view'>
                 <h1 class="title">${title}</h1>
@@ -315,7 +315,7 @@ babeViews.sayHello = function(config) {
             $("#main").html(viewTemplate);
 
             $('#hello-button').on('click', function(e) {
-                _babe.findNextView();
+                _magpie.findNextView();
             });
         },
         CT: 0,
@@ -325,14 +325,14 @@ babeViews.sayHello = function(config) {
     return _sayHello;
 };
 
-const hello = babeViews.sayHello({
+const hello = magpieViews.sayHello({
     name: 'buttonPress',
     title: 'Hello!?',
     trials: 1
 });
 
 $("document").ready(function() {
-    babeInit({
+    magpieInit({
         ...
         views_seq: [
             ...
@@ -346,7 +346,7 @@ $("document").ready(function() {
 
 ##### Canvas
 
-babe also includes a small library to create simple shapes as a picture for your experiment.
+magpie also includes a small library to create simple shapes as a picture for your experiment.
 
 <img src='docs/images/canvas_samples/random.png' alt='random placement example' height='auto' width='400' />
 
@@ -358,8 +358,8 @@ Check the [canvas api](docs/canvas.md) for more information.
 
 The deploy config expects the following properties:
 
-* `experimentID: string` - the experimentID is needed to recover data from the babe server app. You receive the experimentID when you create the experiment using the babe server app
-* `serverAppURL: string` - if you use the _babe server app, specify its URL here
+* `experimentID: string` - the experimentID is needed to recover data from the magpie server app. You receive the experimentID when you create the experiment using the magpie server app
+* `serverAppURL: string` - if you use the _magpie server app, specify its URL here
 * `deployMethod: string` - use one of 'debug', 'localServer', 'MTurk', 'MTurkSandbox', 'Prolific', 'directLink'
 * `contact_email: string` - who to contact in case of trouble
 * `prolificURL: string` - the prolific completion URL if the deploy method is "Prolific"
@@ -369,7 +369,7 @@ prolificURL is only needed if the experiment runs on Prolific.
 
 ### Progress Bar
 
-\_babe provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `babeInit`. Use the names of the views in `progress_bar.in`.
+\_magpie provides the option to include progress bars in the views specified in the `progress_bar.in` list passed to `magpieInit`. Use the names of the views in `progress_bar.in`.
 
 You can use one of the following 3 styles (include pictues)
 
@@ -383,7 +383,7 @@ Sample progress bar
 
 ```
 $("document").ready(function() {
-    babeInit({
+    magpieInit({
         ...
         progress_bar: {
             in: [
@@ -401,11 +401,11 @@ $("document").ready(function() {
 
 ## Sample experiment
 
-[Here](https://github.com/babe-project/departure-point) you can find a minimal experiment created with \_babe, you can use this template as a starting point for your experiment. [Showroom](https://github.com/babe-project/showroom) is an experiment which demonstrates most of \_babe's functionalities including most views, hooks and the canvas-api.
+[Here](https://github.com/magpie-ea/departure-point) you can find a minimal experiment created with \_magpie, you can use this template as a starting point for your experiment. [Showroom](https://github.com/magpie-ea/showroom) is an experiment which demonstrates most of \_magpie's functionalities including most views, hooks and the canvas-api.
 
 ## Development
 
-To get the development version of the \_babe package, clone this repository and install the dependencies by running `npm install` in the terminal.
+To get the development version of the \_magpie package, clone this repository and install the dependencies by running `npm install` in the terminal.
 
 ### Workflow
 
@@ -417,34 +417,34 @@ branches:
 #### (1) Source files
 
 - src/
-    - `babe-canvas.js`
-    - `babe-errors.js`
-    - `babe-init.js`
-    - `babe-progress-bar.js`
-    - `babe-submit.js`
-    - `babe-utils.js`
-    - `babe-views.js`
+    - `magpie-canvas.js`
+    - `magpie-errors.js`
+    - `magpie-init.js`
+    - `magpie-progress-bar.js`
+    - `magpie-submit.js`
+    - `magpie-utils.js`
+    - `magpie-views.js`
 
-- `babe.css`
+- `magpie.css`
 
-#### (2) Create babe.js and babe.full.js
+#### (2) Create magpie.js and magpie.full.js
 
-##### Option 1: Build the \_babe package files while developing
+##### Option 1: Build the \_magpie package files while developing
 
-Use `npm run watch` command from the `babe-project` folder to start a process which watches for changes in the files in `src` and builds (updates) `babe.js` and `babe.full.js`. This commands builds both `babe.js` and `babe.full.js` when a file  in `src` is saved.
+Use `npm run watch` command from the `magpie-modules` folder to start a process which watches for changes in the files in `src` and builds (updates) `magpie.js` and `magpie.full.js`. This commands builds both `magpie.js` and `magpie.full.js` when a file  in `src` is saved.
 
-##### Option 2: Make changes to the files and then build the \_babe files
+##### Option 2: Make changes to the files and then build the \_magpie files
 
-Run `npm run concat` from the `babe-project` folder. This command builds both `babe.js` and `babe.full.js`.
+Run `npm run concat` from the `magpie-modules` folder. This command builds both `magpie.js` and `magpie.full.js`.
 
 #### (3) Merge into master
 - include a changelog information in the README
 - merge to master
-- [update the version of \_babe](https://docs.npmjs.com/about-semantic-versioning) in `package.json`
+- [update the version of \_magpie](https://docs.npmjs.com/about-semantic-versioning) in `package.json`
 
 #### (4) Publish to npm
 
-Run `npm publish` from the `babe-project` folder to publish the new version of \_babe.
+Run `npm publish` from the `magpie-modules` folder to publish the new version of \_magpie.
 
 ## Deployment using Netlify 
 

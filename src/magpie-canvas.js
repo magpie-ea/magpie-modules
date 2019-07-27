@@ -1,4 +1,4 @@
-const babeDrawShapes = function(trialInfo) {
+const magpieDrawShapes = function(trialInfo) {
     // applies user's setting if there are such
     const canvasHeight =
         trialInfo.canvasSettings === undefined ||
@@ -20,11 +20,11 @@ const babeDrawShapes = function(trialInfo) {
         const canvas = {};
         const canvasElem = document.createElement("canvas");
         const context = canvasElem.getContext("2d");
-        canvasElem.classList.add("babe-view-canvas");
+        canvasElem.classList.add("magpie-view-canvas");
         canvasElem.height = height;
         canvasElem.width = width;
         canvasElem.style.backgroundColor = bg;
-        $(".babe-view-stimulus").prepend(canvasElem);
+        $(".magpie-view-stimulus").prepend(canvasElem);
 
         // draws a SHAPE of SIZE and COLOR in the position X and Y
         canvas.draw = function(shape, size, x, y, color) {
@@ -199,7 +199,7 @@ const babeDrawShapes = function(trialInfo) {
                 let width = canvasElem.width;
                 // calculate the area of the elements
                 let elementsArea = size * size * number;
-                let stimContainerElem = $(".babe-view-stimulus-container");
+                let stimContainerElem = $(".magpie-view-stimulus-container");
 
                 // keep increasing the canvas until the elementsArea is smaller than 10% of the overall canvas area
                 const increaseCanvas = function(height, width) {

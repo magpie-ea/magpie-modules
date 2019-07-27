@@ -1,21 +1,21 @@
-const babeTimer = function(babe) {
+const magpieTimer = function(magpie) {
     // idle time in seconds, gets reset as soon as the user does something
     let idle_time = 0;
     // time in seconds a user can spent idle (default: 600)
-    const max_time = typeof babe.timer.minutes !== 'undefined' ? babe.timer.minutes * 60 : 10 * 60;
+    const max_time = typeof magpie.timer.minutes !== 'undefined' ? magpie.timer.minutes * 60 : 10 * 60;
     // percentage of timer time left, after which information is displayed, between 0 and 1 (default: 0.2, i.e. last 20% of timer)
-    const show_info_time = typeof babe.timer.show_info_time !== 'undefined'? babe.timer.show_info_time : 0.2;
+    const show_info_time = typeof magpie.timer.show_info_time !== 'undefined'? magpie.timer.show_info_time : 0.2;
     // text displayed on the snackbar, to inform the user that he should do something (default: "Still here?")
-    const snack_text = typeof babe.timer.snack_text!== 'undefined' ? babe.timer.snack_text : "Still here?";
+    const snack_text = typeof magpie.timer.snack_text!== 'undefined' ? magpie.timer.snack_text : "Still here?";
     // whether to display the remaining time in seconds on the snachbar (default: true)
-    const show_info_time_time = typeof babe.timer.show_info_time_time !== 'undefined' ? babe.timer.show_info_time_time : true;
+    const show_info_time_time = typeof magpie.timer.show_info_time_time !== 'undefined' ? magpie.timer.show_info_time_time : true;
     // information needed for blinking of page title
     let is_old_title = true;
     const old_title = document.title;
     // text displayed in the blinking page title (default: "Still here?")
-    const new_title = typeof babe.timer.new_title !== 'undefined' ?  babe.timer.new_title : "Still here?";
+    const new_title = typeof magpie.timer.new_title !== 'undefined' ?  magpie.timer.new_title : "Still here?";
     // function that is called after the timer is finished (default: function() {location.reload(true)}, i.e. page refresh)
-    const end_function = typeof babe.timer.end_function !== 'undefined' ? babe.timer.end_function : function() {location.reload(true)};
+    const end_function = typeof magpie.timer.end_function !== 'undefined' ? magpie.timer.end_function : function() {location.reload(true)};
 
     // function to add the information snackbar to the dom
     const add_timer = function(){

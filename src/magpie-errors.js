@@ -1,9 +1,9 @@
 const errors = {
-    contactEmail: `There is no contact_email given. Please give a contact_email to the babeInit function,
+    contactEmail: `There is no contact_email given. Please give a contact_email to the magpieInit function,
 
 for example:
 
-babeInit({
+magpieInit({
     ...
     deploy: {
         ...
@@ -13,11 +13,11 @@ babeInit({
     ...
 });`,
 
-    prolificURL: `There is no prolificURL given. Please give a prolificURL to the babeInit function,
+    prolificURL: `There is no prolificURL given. Please give a prolificURL to the magpieInit function,
 
 for example:
 
-babeInit({
+magpieInit({
     ...
     deploy: {
         ...
@@ -27,7 +27,7 @@ babeInit({
     ...
 });`,
 
-    noTrials: `No trials given. Each _babe view takes an object with an obligatory 'trial' property.
+    noTrials: `No trials given. Each _magpie view takes an object with an obligatory 'trial' property.
 
 for example:
 
@@ -37,9 +37,9 @@ const introView = intro({
     ...
 });
 
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
+You can find more information at https://github.com/magpie-ea/magpie-modules#views-in-_magpie`,
 
-    noName: `No name given. Each _babe view takes an object with an obligatory 'name' property
+    noName: `No name given. Each _magpie view takes an object with an obligatory 'name' property
 
 for example:
 
@@ -49,9 +49,9 @@ const introView = intro({
     ...
 });
 
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
+You can find more information at https://github.com/magpie-ea/magpie-modules#views-in-_magpie`,
 
-    noData: `No data given. Each _babe view takes an object with an obligatory 'data' property
+    noData: `No data given. Each _magpie view takes an object with an obligatory 'data' property
 
 for example:
 
@@ -63,7 +63,7 @@ const mainTrials = forcedChoice({
 
 The data is a list of objects defined in your local js file.
 
-_babe's trial views expect each trial object to have specific properties. Here is an example of a forcedCoice view trial:
+_magpie's trial views expect each trial object to have specific properties. Here is an example of a forcedCoice view trial:
 
 {
     question: 'How are you today?',
@@ -71,7 +71,7 @@ _babe's trial views expect each trial object to have specific properties. Here i
     option2: 'good'
 }
 
-You can find more information at https://github.com/babe-project/babe-base#views-in-_babe`,
+You can find more information at https://github.com/magpie-ea/magpie-modules#views-in-_magpie`,
 
     notAnArray: `The data is not an array. Trial views get an array of objects.
 
@@ -108,7 +108,7 @@ const introView = intro({
     ...
 });
 
-babeInit({
+magpieInit({
     ...
     progress_bar: {
         in: [
@@ -162,6 +162,6 @@ const myTrials = [
     ...
 ];
 
-See https://github.com/babe-project/babe-project/blob/master/docs/canvas.md for more information.
+See https://github.com/magpie-ea/magpie-modules/blob/master/docs/canvas.md for more information.
 `
 };

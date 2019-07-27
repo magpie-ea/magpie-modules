@@ -1,4 +1,4 @@
-const babeUtils = {
+const magpieUtils = {
     view: {
         inspector: {
             // checks whether name and trials are present
@@ -99,28 +99,28 @@ const babeUtils = {
         fill_defaults_post_test: function(config) {
             return {
                 age: {
-                    title: babeUtils.view.setter.prop(config.age_question, "Age")
+                    title: magpieUtils.view.setter.prop(config.age_question, "Age")
                 },
                 gender: {
-                    title: babeUtils.view.setter.prop(config.gender_question, "Gender"),
-                    male: babeUtils.view.setter.prop(config.gender_male, "male"),
-                    female: babeUtils.view.setter.prop(config.gender_female, "female"),
-                    other: babeUtils.view.setter.prop(config.gender_other, "other")
+                    title: magpieUtils.view.setter.prop(config.gender_question, "Gender"),
+                    male: magpieUtils.view.setter.prop(config.gender_male, "male"),
+                    female: magpieUtils.view.setter.prop(config.gender_female, "female"),
+                    other: magpieUtils.view.setter.prop(config.gender_other, "other")
                 },
                 edu: {
-                    title: babeUtils.view.setter.prop(config.edu_question, "Level of Education"),
-                    graduated_high_school: babeUtils.view.setter.prop(config.edu_graduated_high_school,
+                    title: magpieUtils.view.setter.prop(config.edu_question, "Level of Education"),
+                    graduated_high_school: magpieUtils.view.setter.prop(config.edu_graduated_high_school,
                         "Graduated High School"),
-                    graduated_college: babeUtils.view.setter.prop(config.edu_graduated_college, "Graduated College"),
-                    higher_degree: babeUtils.view.setter.prop(config.edu_higher_degree, "Higher Degree")
+                    graduated_college: magpieUtils.view.setter.prop(config.edu_graduated_college, "Graduated College"),
+                    higher_degree: magpieUtils.view.setter.prop(config.edu_higher_degree, "Higher Degree")
                 },
                 langs: {
-                    title: babeUtils.view.setter.prop(config.languages_question, "Native Languages"),
-                    text: babeUtils.view.setter.prop(config.languages_more,
+                    title: magpieUtils.view.setter.prop(config.languages_question, "Native Languages"),
+                    text: magpieUtils.view.setter.prop(config.languages_more,
                         "(i.e. the language(s) spoken at home when you were a child)")
                 },
                 comments: {
-                    title: babeUtils.view.setter.prop(config.comments_question, "Further Comments")
+                    title: magpieUtils.view.setter.prop(config.comments_question, "Further Comments")
                 }
             };
         },
@@ -155,9 +155,9 @@ const babeUtils = {
                     isNaN(fix_duration) === false
                 ) {
                     const fixPoint = jQuery("<div/>", {
-                        class: "babe-view-fix-point"
+                        class: "magpie-view-fix-point"
                     });
-                    $(".babe-view-stimulus-container").prepend(fixPoint);
+                    $(".magpie-view-stimulus-container").prepend(fixPoint);
 
                     setTimeout(() => {
                         fixPoint.remove();
@@ -170,18 +170,18 @@ const babeUtils = {
 
             // checks if there is a stimulus and shows it
             const showStim = (resolve, reject) => {
-                $(".babe-view-stimulus").removeClass("babe-nodisplay");
+                $(".magpie-view-stimulus").removeClass("magpie-nodisplay");
 
                 if (data.picture !== undefined) {
-                    $(".babe-view-stimulus").prepend(
-                        `<div class='babe-view-picture'>
+                    $(".magpie-view-stimulus").prepend(
+                        `<div class='magpie-view-picture'>
                     <img src=${data.picture}>
                 </div>`
                     );
                 }
 
                 if (data.canvas) {
-                    babeDrawShapes(data.canvas);
+                    magpieDrawShapes(data.canvas);
                 }
 
                 resolve();
@@ -191,15 +191,15 @@ const babeUtils = {
             const hideStim = (resolve, reject) => {
                 const spacePressed = function(e, resolve) {
                     if (e.which === 32) {
-                        $(".babe-view-stimulus").addClass("babe-invisible");
+                        $(".magpie-view-stimulus").addClass("magpie-invisible");
                         $("body").off("keydown", spacePressed);
                         resolve();
                     }
                 };
 
                 if (view === "image_selection") {
-                    $(".babe-view-stimulus-container").addClass(
-                        "babe-nodisplay"
+                    $(".magpie-view-stimulus-container").addClass(
+                        "magpie-nodisplay"
                     );
                     resolve();
                 }
@@ -209,7 +209,7 @@ const babeUtils = {
                     typeof stim_duration === "number"
                 ) {
                     setTimeout(() => {
-                        $(".babe-view-stimulus").addClass("babe-invisible");
+                        $(".magpie-view-stimulus").addClass("magpie-invisible");
                         resolve();
                     }, stim_duration);
                 } else if (stim_duration === "space") {

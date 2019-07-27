@@ -1,4 +1,4 @@
-const babeViews = {
+const magpieViews = {
     // Every view_generator needs a view_type and a config dict as input
     // In addition you can pass an optional dict with custom (or from other trial_types) view_template,
     // answer_container and enable_response generators,
@@ -6,7 +6,7 @@ const babeViews = {
     // With this options you can customize views,
     // otherwise you could create full custom views
     // (you do everything you own, the "only" constraints are that you have a render function
-    // and you have to call babe.findNextView(), e.g. you don't need to use babeUtils.view.createTrialDOM)
+    // and you have to call magpie.findNextView(), e.g. you don't need to use magpieUtils.view.createTrialDOM)
     view_generator: function(view_type, config,
                               {
                                   stimulus_container_generator=view_info_dict[view_type].default_view_temp,
@@ -16,13 +16,13 @@ const babeViews = {
     ) {
         // First it will inspect, if the parameters and the config dict passed are correct
         if (view_info_dict[view_type].type === "trial") {
-            babeUtils.view.inspector.missingData(config, view_type);
+            magpieUtils.view.inspector.missingData(config, view_type);
         }
-        babeUtils.view.inspector.params(config, view_type);
+        magpieUtils.view.inspector.params(config, view_type);
         // Now, it will set the title of the view to the default title if no title is set and the button
         // (otherwise we would get a Undefined error in the view_template)
-        config.title = babeUtils.view.setter.title(config.title, view_info_dict[view_type].default_title);
-        config.button = babeUtils.view.setter.buttonText(config.buttonText);
+        config.title = magpieUtils.view.setter.title(config.title, view_info_dict[view_type].default_title);
+        config.button = magpieUtils.view.setter.buttonText(config.buttonText);
 
         // Here, the view gets constructed, every view has a name, CT (current trial in view counter),
         // trials (number of trials of this view) and a render function
@@ -30,8 +30,8 @@ const babeViews = {
             name: config.name,
             CT: 0,
             trials: config.trials,
-            // The render function gets the babe object as well as the current trial in view counter as input
-            render: function(CT, babe){
+            // The render function gets the magpie object as well as the current trial in view counter as input
+            render: function(CT, magpie){
 
                 // If no data is passed (e.g. wrapping views), generate empty config.data[CT] objects
                 if (typeof config.data === 'undefined'){
@@ -40,8 +40,8 @@ const babeViews = {
 
                 // First we will set the question and the QUD to "", to avoid Undefined
                 if (view_info_dict[view_type].type === "trial") {
-                    config.data[CT].question = babeUtils.view.setter.question(config.data[CT].question);
-                    config.data[CT].QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                    config.data[CT].question = magpieUtils.view.setter.question(config.data[CT].question);
+                    config.data[CT].QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 }
 
 
@@ -52,7 +52,7 @@ const babeViews = {
                 let startingTime = Date.now();
 
                 // Finally we create the TrialDOM (including the trial life cycle and hooks)
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -64,7 +64,7 @@ const babeViews = {
                     // After the first three steps of the trial view lifecycle (can all be empty)
                     // We call the following function and interactions are now enabled
                     function() {
-                        handle_response_function(config, CT, babe, answer_container_generator, startingTime)
+                        handle_response_function(config, CT, magpie, answer_container_generator, startingTime)
                     }
                 );
             }
