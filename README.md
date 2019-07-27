@@ -1,16 +1,11 @@
 # \_magpie project
 minimal architecture for the generation of portable interactive experiments
 
-**Latest version: 0.1.1 + 0.1.2**
+**Latest version: 0.1.0**
 
-- Image display:
-    - Bugfix: Images are now scaled down correctly, if they are high
-    - Images do not scale up anymore, if they are smaller than the image container
-    - The maximum width of the image container increased (350px -> 960px)
-- SPR:
-    - New options how to display the sentence added
-    - Option 'wordPos': 'next' or 'same'
-    - Option 'underline': 'words', 'sentence' or 'none'
+- Say hello to our new name \_magpie 
+    - This project is now called `magpie-modules` on npm
+    - Otherwise it is the same as 0.1.2 of babe-project
 
 
 **Table of contents**
