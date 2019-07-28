@@ -1,4 +1,4 @@
-# \_babe progress bar
+# \_magpie progress bar
 
 <img src='images/progress_samples/pb_default.png' alt='progress bar sample' height='auto' width='700' />
 

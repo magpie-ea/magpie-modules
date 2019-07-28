@@ -3,27 +3,27 @@ var watch = require('gulp-watch');
 var concat = require('concat');
 var prettier = require('gulp-prettier');
 
-// builds babe.js and babe.full.js
+// builds magpie.js and magpie.full.js
 gulp.task('concat', function() {
     concat([
-        'src/babe-errors.js',
-        'src/babe-progress-bar.js',
-        'src/babe-utils.js',
-        'src/babe-canvas.js',
-        'src/babe-submit.js',
-        'src/babe-views.js',
-        'src/babe-init.js'], 'babe.js');
+        'src/magpie-errors.js',
+        'src/magpie-progress-bar.js',
+        'src/magpie-utils.js',
+        'src/magpie-canvas.js',
+        'src/magpie-submit.js',
+        'src/magpie-views.js',
+        'src/magpie-init.js'], 'magpie.js');
     concat([
-        'src/babe-errors.js',
-        'src/babe-progress-bar.js',
-        'src/babe-utils.js',
-        'src/babe-canvas.js',
-        'src/babe-submit.js',
-        'src/babe-views.js',
-        'src/babe-init.js',
+        'src/magpie-errors.js',
+        'src/magpie-progress-bar.js',
+        'src/magpie-utils.js',
+        'src/magpie-canvas.js',
+        'src/magpie-submit.js',
+        'src/magpie-views.js',
+        'src/magpie-init.js',
         'node_modules/jquery/dist/jquery.min.js',
         'node_modules/lodash/lodash.js',
-        'node_modules/csv-js/csv.js'], 'babe.full.js');
+        'node_modules/csv-js/csv.js'], 'magpie.full.js');
 });
 
 // watches for changes in the src/ folder

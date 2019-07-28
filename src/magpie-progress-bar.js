@@ -1,4 +1,4 @@
-const babeProgress = function(babe) {
+const magpieProgress = function(magpie) {
     let totalProgressParts = 0;
     let progressTrials = 0;
     // customize.progress_bar_style is "chunks" or "separate" {
@@ -9,9 +9,9 @@ const babeProgress = function(babe) {
     const progress = {
         // adds progress bar(s) to the views specified experiment.js
         add: function() {
-            babe.views_seq.map((view) => {
-                for (let j = 0; j < babe.progress_bar.in.length; j++) {
-                    if (view.name === babe.progress_bar.in[j]) {
+            magpie.views_seq.map((view) => {
+                for (let j = 0; j < magpie.progress_bar.in.length; j++) {
+                    if (view.name === magpie.progress_bar.in[j]) {
                         totalProgressChunks++;
                         totalProgressParts += view.trials;
                         view.hasProgressBar = true;
@@ -32,15 +32,15 @@ const babeProgress = function(babe) {
             const progressBars = $(".progress-bar");
             let div, filledPart;
 
-            if (babe.progress_bar.style === "default") {
+            if (magpie.progress_bar.style === "default") {
                 div = $(".progress-bar").width() / totalProgressParts;
                 filledPart = progressTrials * div;
             } else {
                 div =
                     $(".progress-bar").width() /
-                    babe.views_seq[babe.currentViewCounter].trials;
+                    magpie.views_seq[magpie.currentViewCounter].trials;
                 filledPart = (
-                    (babe.currentTrialInViewCounter - 1) *
+                    (magpie.currentTrialInViewCounter - 1) *
                     div
                 ).toFixed(4);
             }
@@ -52,7 +52,7 @@ const babeProgress = function(babe) {
             $("#filled").css("width", filledPart);
             progressTrials++;
 
-            if (babe.progress_bar.style === "chunks") {
+            if (magpie.progress_bar.style === "chunks") {
                 if (fillChunk === true) {
                     filledChunks++;
                     fillChunk = false;
@@ -76,8 +76,8 @@ const babeProgress = function(babe) {
     const addToDOM = function() {
         var bar;
         var i;
-        var view = $(".babe-view");
-        var barWidth = babe.progress_bar.width;
+        var view = $(".magpie-view");
+        var barWidth = magpie.progress_bar.width;
         var clearfix = jQuery("<div/>", {
             class: "clearfix"
         });
@@ -88,7 +88,7 @@ const babeProgress = function(babe) {
         view.prepend(clearfix);
         view.prepend(container);
 
-        if (babe.progress_bar.style === "chunks") {
+        if (magpie.progress_bar.style === "chunks") {
             for (i = 0; i < totalProgressChunks; i++) {
                 bar = jQuery("<div/>", {
                     class: "progress-bar"
@@ -96,13 +96,13 @@ const babeProgress = function(babe) {
                 bar.css("width", barWidth);
                 container.append(bar);
             }
-        } else if (babe.progress_bar.style === "separate") {
+        } else if (magpie.progress_bar.style === "separate") {
             bar = jQuery("<div/>", {
                 class: "progress-bar"
             });
             bar.css("width", barWidth);
             container.append(bar);
-        } else if (babe.progress_bar.style === "default") {
+        } else if (magpie.progress_bar.style === "default") {
             bar = jQuery("<div/>", {
                 class: "progress-bar"
             });

@@ -1,10 +1,10 @@
-# \_babe views
+# \_magpie views
 
 **Table of contents**
 
-* [List of the available \_babe views](#babe-views)
-* [Properties of \_babe's Trial Type Views](#trial-views-properties)
-* [Properties of \_babe's Wraping views Type Views](#wrapping-views-properties)
+* [List of the available \_magpie views](#magpie-views)
+* [Properties of \_magpie's Trial Type Views](#trial-views-properties)
+* [Properties of \_magpie's Wraping views Type Views](#wrapping-views-properties)
 * [Trial views' lifecycle](#trial-views-lifecycle)
 * [Trial views' hooks](#trial-views-hooks)
 * [Trial views data format](#trial-views-data-format)
@@ -18,44 +18,44 @@
     * [Key press data format](#key-press-task)
     * [Self-paced reading with forced choice response data format](#self-paced-reading-with-forced-choice-response)
     * [Self-paced reading with slider rating response data format](#self-paced-reading-with-rating-scale-response)
-* [Sample use of \_babe views](#sample-use-of-_babe-views)
+* [Sample use of \_magpie views](#sample-use-of-_magpie-views)
 
-## Views \_babe provide
+## Views \_magpie provide
 
 ### Trial views
 
-* babeViews.forcedChoice
+* magpieViews.forcedChoice
     * [image of the view](images/views_samples/view_fc.png)
-* babeViews.sliderRating
+* magpieViews.sliderRating
     * [image of the view](images/views_samples/view_sr.png)
-* babeViews.dropdownChoice
+* magpieViews.dropdownChoice
     * [image of the view](images/views_samples/view_dc.png)
-* babeViews.textboxInput
+* magpieViews.textboxInput
     * [image of the view](images/views_samples/view_ti.png)
-* babeViews.ratingScale
+* magpieViews.ratingScale
     * [image of the view](images/views_samples/view_rc.png)
-* babeViews.imageSelection
+* magpieViews.imageSelection
     * [image of the view](images/views_samples/view_is.png)
-* babeViews.sentenceChoice
+* magpieViews.sentenceChoice
     * [image of the view](images/views_samples/view_ss.png)
-* babeViews.keyPress
+* magpieViews.keyPress
     * [image of the view](images/views_samples/view_kp.png)
-* babeViews.selfPacedReading
-* babeViews.selfPacedReading_ratingScale
+* magpieViews.selfPacedReading
+* magpieViews.selfPacedReading_ratingScale
 
 ### Wrapping views
 
-* babeViews.intro
+* magpieViews.intro
     * gives general information about the experiment
     * records the participant's prolific id if the experiment runs on [Prolific](prolific.ac)
-* babeViews.instructions
+* magpieViews.instructions
     * gives experiment-specific instructions
-* babeViews.begin
+* magpieViews.begin
     * warns the participant the experiment is about to begin
     * can be used between the practice trial and the main trial
-* babeViews.postTest
+* magpieViews.postTest
     * collects extra information about the participant (age, gender, etc.)
-* babeViews.thanks (and submit the data)
+* magpieViews.thanks (and submit the data)
     * Debug mode: displays the data
     * submits the data of the live experiments
 
@@ -81,7 +81,7 @@
 * `name: string`
 
 ### **Optional fields by view type**:
-* babeViews.intro:
+* magpieViews.intro:
     * `buttonText: string`
         * the text of the button that takes the participant to the next view
         * default: 'Next'
@@ -92,7 +92,7 @@
         * the text of the view
         * default: *there is no default*
 
-* babeViews.instructions:
+* magpieViews.instructions:
     * `buttonText: string`
         * the text of the button that takes the participant to the next view
         * default: 'Next'
@@ -103,7 +103,7 @@
         * the text of the view
         * default: *there is no default*
 
-* babeViews.begin:
+* magpieViews.begin:
     * `buttonText: string`
         * the text of the button that takes the participant to the next view
         * default: 'Next'
@@ -114,7 +114,7 @@
         * the text of the view
         * default: *there is no default*
 
-* babeViews.postTest:
+* magpieViews.postTest:
     * `buttonText: string`
         * the text of the button that takes the participant to the next view
         * default: 'Next'
@@ -158,7 +158,7 @@
         * more info about what native languages are
         * default: '(i.e. the language(s) spoken at home when you were a child)'
 
-* babeViews.thanks:
+* magpieViews.thanks:
     * `title: string`
         * the title of the view
         * default: 'Thank you for taking part in this experiment!'
@@ -193,7 +193,7 @@ The views you created do not need to use these timeouts, however, each trial vie
 
 ## Trial views hooks
 
-You can create functions in your local js files and hook these functions to the trial view. To understand how hooks work, first learn about babe's [trial views lifecycle](#trial-views-lifecycle)
+You can create functions in your local js files and hook these functions to the trial view. To understand how hooks work, first learn about magpie's [trial views lifecycle](#trial-views-lifecycle)
 
 **Hooks**
 
@@ -252,7 +252,7 @@ function checkResponse(data, next) {
 and add a `after_response_enabled` hook to the view:
 
 ```
-const practice = babeViews.forcedChoice({
+const practice = magpieViews.forcedChoice({
     trials: 20,
     name: 'practice',
     trial_type: 'practice',
@@ -280,7 +280,7 @@ const practice = babeViews.forcedChoice({
 * **Optional Fields**
     * `question: string`
     * `QUD: string` - text that is always present on the slide
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `picture: string (link)`
 
 #### Sample data
@@ -312,7 +312,7 @@ const forced_choice_trials = [
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `picture: string (link)`
     * `min_chars: number`
         * the minumum number of characters in the textarea field before proceeding is available
@@ -346,7 +346,7 @@ const textbox_input_trials = [
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `picture: string (link)`
     * `question: string`
 
@@ -381,7 +381,7 @@ const slider_rating_trials = [
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `picture: string (link)`
     * `question_left_part: string`
     * `question_right_part: string`
@@ -416,7 +416,7 @@ const dropdown_choice_trials = [
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `picture: string (link)`
     * `question: string`
 
@@ -451,7 +451,7 @@ const rating_scale_trials = [
 
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `picture: string (link)`
     * `question: string`
 
@@ -494,7 +494,7 @@ const sentence_choice_trials = [
 * **Optional Fields**
     * `QUD: string` - text that is always present on the slide
     * `question: string`
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
 
 #### Sample data
 
@@ -533,7 +533,7 @@ const image_selection_trials = [
 * **Optional Fields**
     * `question: string`
     * `picture: string (link)`
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
 
 #### Sample data
 
@@ -575,7 +575,7 @@ const key_press_trials = [
         * instructions to press SPACE above the spr sentence lines
         * default - *Press the SPACE bar to reveal the words*
     * `picture: string`
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `question: string`
 
 #### Sample data
@@ -614,7 +614,7 @@ const spr_trials = [
     * `QUD: string` - text that is always present on the slide
     * `help_text: string` - SPACE press text above the spr sentence
     * `picture: string`
-    * `canvas: object` [more about babe canvas](canvas.md)
+    * `canvas: object` [more about magpie canvas](canvas.md)
     * `question: string`
 
 #### Sample data
@@ -639,14 +639,14 @@ const spr_rc_trials = [
 ];
 ```
 
-## Sample use of \_babe views
+## Sample use of \_magpie views
 
-Sample use of \_babe views:
+Sample use of \_magpie views:
 
 ```
 // your_js_file.js
 
-const intro = babeViews.intro({
+const intro = magpieViews.intro({
     name: 'intro',
     title: 'Welcome!',
     text: "Let's start!",
@@ -654,7 +654,7 @@ const intro = babeViews.intro({
     trials: 1
 });
 
-const instructions = babeViews.instructions({
+const instructions = magpieViews.instructions({
     name: 'instuctions',
     title: 'Instructions',
     text: 'Choose an answer',
@@ -662,28 +662,28 @@ const instructions = babeViews.instructions({
     trials: 1
 });
 
-const practice = babeViews.forcedChoice({
+const practice = magpieViews.forcedChoice({
     name: 'practice_forced_choice',
     trial_type: 'practice',
     data: practice_trials,
     trials: 2
 });
 
-const main = babeViews.forcedChoice({
+const main = magpieViews.forcedChoice({
     name: 'main_forced_choice',
     trial_type: 'main',
     data: main_trials,
     trials: 4
 });
 
-const thanks = babeViews.thanks({
+const thanks = magpieViews.thanks({
     name: 'thanks'
     title: 'Thank you for taking part in this experiment!',
     trials: 1
 });
 
 $("document").ready(function() {
-    babeInit({
+    magpieInit({
         views_seq: [
             intro,
             instructions,
@@ -692,7 +692,7 @@ $("document").ready(function() {
         ],
         deploy: {
             'experimentID': '4',
-            'serverAppURL': 'https://babe-demo.herokuapp.com/api/submit_experiment/',
+            'serverAppURL': 'https://magpie-demo.herokuapp.com/api/submit_experiment/',
             'deployMethod': 'debug',
             'contact_email": 'YOUREMAIL@wherelifeisgreat.you',
             'prolificURL": 'https://app.prolific.ac/submissions/complete?cc=ABCD1234'

@@ -1,4 +1,4 @@
-const babeUtils = {
+const magpieUtils = {
     view: {
         inspector: {
             // checks whether name and trials are present
@@ -109,9 +109,9 @@ const babeUtils = {
                     isNaN(fix_duration) === false
                 ) {
                     const fixPoint = jQuery("<div/>", {
-                        class: "babe-view-fix-point"
+                        class: "magpie-view-fix-point"
                     });
-                    $(".babe-view-stimulus-container").prepend(fixPoint);
+                    $(".magpie-view-stimulus-container").prepend(fixPoint);
 
                     setTimeout(() => {
                         fixPoint.remove();
@@ -124,18 +124,18 @@ const babeUtils = {
 
             // checks if there is a stimulus and shows it
             const showStim = (resolve, reject) => {
-                $(".babe-view-stimulus").removeClass("babe-nodisplay");
+                $(".magpie-view-stimulus").removeClass("magpie-nodisplay");
 
                 if (data.picture !== undefined) {
-                    $(".babe-view-stimulus").prepend(
-                        `<div class='babe-view-picture'>
+                    $(".magpie-view-stimulus").prepend(
+                        `<div class='magpie-view-picture'>
                     <img src=${data.picture}>
                 </div>`
                     );
                 }
 
                 if (data.canvas) {
-                    babeDrawShapes(data.canvas);
+                    magpieDrawShapes(data.canvas);
                 }
 
                 resolve();
@@ -145,15 +145,15 @@ const babeUtils = {
             const hideStim = (resolve, reject) => {
                 const spacePressed = function(e, resolve) {
                     if (e.which === 32) {
-                        $(".babe-view-stimulus").addClass("babe-invisible");
+                        $(".magpie-view-stimulus").addClass("magpie-invisible");
                         $("body").off("keydown", spacePressed);
                         resolve();
                     }
                 };
 
                 if (view === "imageSelection") {
-                    $(".babe-view-stimulus-container").addClass(
-                        "babe-nodisplay"
+                    $(".magpie-view-stimulus-container").addClass(
+                        "magpie-nodisplay"
                     );
                     resolve();
                 }
@@ -163,7 +163,7 @@ const babeUtils = {
                     typeof stim_duration === "number"
                 ) {
                     setTimeout(() => {
-                        $(".babe-view-stimulus").addClass("babe-invisible");
+                        $(".magpie-view-stimulus").addClass("magpie-invisible");
                         resolve();
                     }, stim_duration);
                 } else if (stim_duration === "space") {

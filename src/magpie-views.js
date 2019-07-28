@@ -1,19 +1,19 @@
-const babeViews = {
+const magpieViews = {
     intro: function(config) {
-        babeUtils.view.inspector.params(config, "intro");
+        magpieUtils.view.inspector.params(config, "intro");
         const intro = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, "Welcome!"),
+            title: magpieUtils.view.setter.title(config.title, "Welcome!"),
             text: config.text,
-            button: babeUtils.view.setter.buttonText(config.buttonText),
-            render: function(CT, babe) {
+            button: magpieUtils.view.setter.buttonText(config.buttonText),
+            render: function(CT, magpie) {
                 let prolificId;
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <section class="babe-text-container">
-                        <p class="babe-view-text">${this.text}</p>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <section class="magpie-text-container">
+                        <p class="magpie-view-text">${this.text}</p>
                     </section>
-                    <button id="next" class='babe-view-button' class="babe-nodisplay">${
+                    <button id="next" class='magpie-view-button' class="magpie-nodisplay">${
                         this.button
                     }</button>
                 </div>`;
@@ -29,15 +29,15 @@ const babeViews = {
 
                 function showNextBtn() {
                     if (prolificId.val().trim() !== "") {
-                        next.removeClass("babe-nodisplay");
+                        next.removeClass("magpie-nodisplay");
                     } else {
-                        next.addClass("babe-nodisplay");
+                        next.addClass("magpie-nodisplay");
                     }
                 }
 
-                if (babe.deploy.deployMethod === "Prolific") {
-                    $(".babe-text-container").append(prolificForm);
-                    next.addClass("babe-nodisplay");
+                if (magpie.deploy.deployMethod === "Prolific") {
+                    $(".magpie-text-container").append(prolificForm);
+                    next.addClass("magpie-nodisplay");
                     prolificId = $("#prolific-id");
 
                     prolificId.on("keyup", function() {
@@ -51,11 +51,11 @@ const babeViews = {
 
                 // moves to the next view
                 next.on("click", function() {
-                    if (babe.deploy.deployMethod === "Prolific") {
-                        babe.global_data.prolific_id = prolificId.val().trim();
+                    if (magpie.deploy.deployMethod === "Prolific") {
+                        magpie.global_data.prolific_id = prolificId.val().trim();
                     }
 
-                    babe.findNextView();
+                    magpie.findNextView();
                 });
             },
             CT: 0,
@@ -67,19 +67,19 @@ const babeViews = {
     },
 
     instructions: function(config) {
-        babeUtils.view.inspector.params(config, "instructions");
+        magpieUtils.view.inspector.params(config, "instructions");
         const instructions = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, "Instructions"),
+            title: magpieUtils.view.setter.title(config.title, "Instructions"),
             text: config.text,
-            button: babeUtils.view.setter.buttonText(config.buttonText),
-            render: function(CT, babe) {
-                const viewTemplate = `<div class="babe-view">
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <section class="babe-text-container">
-                        <p class="babe-view-text">${this.text}</p>
+            button: magpieUtils.view.setter.buttonText(config.buttonText),
+            render: function(CT, magpie) {
+                const viewTemplate = `<div class="magpie-view">
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <section class="magpie-text-container">
+                        <p class="magpie-view-text">${this.text}</p>
                     </section>
-                    <button id="next" class='babe-view-button'>${
+                    <button id="next" class='magpie-view-button'>${
                         this.button
                     }</button>
                 </div>`;
@@ -88,7 +88,7 @@ const babeViews = {
 
                 // moves to the next view
                 $("#next").on("click", function() {
-                    babe.findNextView();
+                    magpie.findNextView();
                 });
             },
             CT: 0,
@@ -99,20 +99,20 @@ const babeViews = {
     },
 
     begin: function(config) {
-        babeUtils.view.inspector.params(config, "begin experiment");
+        magpieUtils.view.inspector.params(config, "begin experiment");
         const begin = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, "Begin"),
+            title: magpieUtils.view.setter.title(config.title, "Begin"),
             text: config.text,
-            button: babeUtils.view.setter.buttonText(config.buttonText),
+            button: magpieUtils.view.setter.buttonText(config.buttonText),
             // render function renders the view
-            render: function(CT, babe) {
-                const viewTemplate = `<div class="babe-view">
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <section class='babe-text-container'>
-                        <p class='babe-view-text'>${this.text}</p>
+            render: function(CT, magpie) {
+                const viewTemplate = `<div class="magpie-view">
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <section class='magpie-text-container'>
+                        <p class='magpie-view-text'>${this.text}</p>
                     </section>
-                    <button id='next' class='babe-view-button'>${
+                    <button id='next' class='magpie-view-button'>${
                         this.button
                     }</button>
                 </div>`;
@@ -121,7 +121,7 @@ const babeViews = {
 
                 // moves to the next view
                 $("#next").on("click", function() {
-                    babe.findNextView();
+                    magpie.findNextView();
                 });
             },
             CT: 0,
@@ -132,39 +132,39 @@ const babeViews = {
     },
 
     forcedChoice: function(config) {
-        babeUtils.view.inspector.missingData(config, "forced choice");
-        babeUtils.view.inspector.params(config, "forced choice");
+        magpieUtils.view.inspector.missingData(config, "forced choice");
+        magpieUtils.view.inspector.params(config, "forced choice");
         const forcedChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
 
                 $("#main").html(viewTemplate);
 
-                const answerContainerElem = `<div class='babe-view-answer-container'>
-                    <p class='babe-view-question'>${question}</p>
-                    <label for='o1' class='babe-response-buttons'>${option1}</label>
+                const answerContainerElem = `<div class='magpie-view-answer-container'>
+                    <p class='magpie-view-question'>${question}</p>
+                    <label for='o1' class='magpie-response-buttons'>${option1}</label>
                     <input type='radio' name='answer' id='o1' value=${option1} />
                     <input type='radio' name='answer' id='o2' value=${option2} />
-                    <label for='o2' class='babe-response-buttons'>${option2}</label>
+                    <label for='o2' class='magpie-response-buttons'>${option2}</label>
                 </div>`;
 
                 const enableResponse = function() {
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
 
                     // attaches an event listener to the yes / no radio inputs
                     // when an input is selected a response property with a value equal
@@ -206,15 +206,15 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -234,49 +234,49 @@ const babeViews = {
     },
 
     sliderRating: function(config) {
-        babeUtils.view.inspector.missingData(config, "slider rating");
-        babeUtils.view.inspector.params(config, "slider rating");
+        magpieUtils.view.inspector.missingData(config, "slider rating");
+        magpieUtils.view.inspector.params(config, "slider rating");
         const sliderRating = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 const option1 = config.data[CT].optionLeft;
                 const option2 = config.data[CT].optionRight;
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-QUD'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-QUD'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
 
-                const answerContainerElem = `<p class='babe-view-question'>${question}</p>
-                <div class='babe-view-answer-container'>
-                    <span class='babe-response-slider-option'>${option1}</span>
-                    <input type='range' id='response' class='babe-response-slider' min='0' max='100' value='50'/>
-                    <span class='babe-response-slider-option'>${option2}</span>
+                const answerContainerElem = `<p class='magpie-view-question'>${question}</p>
+                <div class='magpie-view-answer-container'>
+                    <span class='magpie-response-slider-option'>${option1}</span>
+                    <input type='range' id='response' class='magpie-response-slider' min='0' max='100' value='50'/>
+                    <span class='magpie-response-slider-option'>${option2}</span>
                 </div>
-                <button id="next" class='babe-view-button babe-nodisplay'>Next</button>`;
+                <button id="next" class='magpie-view-button magpie-nodisplay'>Next</button>`;
 
                 $("#main").html(viewTemplate);
 
                 const enableResponse = function() {
                     let response;
 
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
 
                     response = $("#response");
                     // checks if the slider has been changed
                     response.on("change", function() {
-                        $("#next").removeClass("babe-nodisplay");
+                        $("#next").removeClass("magpie-nodisplay");
                     });
                     response.on("click", function() {
-                        $("#next").removeClass("babe-nodisplay");
+                        $("#next").removeClass("magpie-nodisplay");
                     });
 
                     $("#next").on("click", function() {
@@ -315,15 +315,15 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -343,34 +343,34 @@ const babeViews = {
     },
 
     textboxInput: function(config) {
-        babeUtils.view.inspector.missingData(config, "textbox input");
-        babeUtils.view.inspector.params(config, "textbox input");
+        magpieUtils.view.inspector.missingData(config, "textbox input");
+        magpieUtils.view.inspector.params(config, "textbox input");
         const textboxInput = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const question = babeUtils.view.setter.question(
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
                 const minChars =
                     config.data[CT].min_chars === undefined
                         ? 10
                         : config.data[CT].min_chars;
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
 
-                const answerContainerElem = `<p class='babe-view-question'>${question}</p>
-                    <div class='babe-view-answer-container'>
-                        <textarea name='textbox-input' rows=10 cols=50 class='babe-response-text' />
+                const answerContainerElem = `<p class='magpie-view-question'>${question}</p>
+                    <div class='magpie-view-answer-container'>
+                        <textarea name='textbox-input' rows=10 cols=50 class='magpie-response-text' />
                     </div>
-                    <button id='next' class='babe-view-button babe-nodisplay'>next</button>`;
+                    <button id='next' class='magpie-view-button magpie-nodisplay'>next</button>`;
 
                 $("#main").html(viewTemplate);
 
@@ -378,7 +378,7 @@ const babeViews = {
                     let next;
                     let textInput;
 
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
 
                     next = $("#next");
                     textInput = $("textarea");
@@ -388,9 +388,9 @@ const babeViews = {
                         // if the text is longer than (in this case) 10 characters without the spaces
                         // the 'next' button appears
                         if (textInput.val().trim().length > minChars) {
-                            next.removeClass("babe-nodisplay");
+                            next.removeClass("magpie-nodisplay");
                         } else {
-                            next.addClass("babe-nodisplay");
+                            next.addClass("magpie-nodisplay");
                         }
                     });
 
@@ -431,15 +431,15 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -459,14 +459,14 @@ const babeViews = {
     },
 
     dropdownChoice: function(config) {
-        babeUtils.view.inspector.missingData(config, "dropdown choice");
-        babeUtils.view.inspector.params(config, "dropdown choice");
+        magpieUtils.view.inspector.missingData(config, "dropdown choice");
+        magpieUtils.view.inspector.params(config, "dropdown choice");
         const dropdownChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 const question_left_part =
                     config.data[CT].question_left_part === undefined
                         ? ""
@@ -477,15 +477,15 @@ const babeViews = {
                         : config.data[CT].question_right_part;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
 
-                const answerContainerElem = `<div class='babe-view-answer-container babe-response-dropdown'>
+                const answerContainerElem = `<div class='magpie-view-answer-container magpie-response-dropdown'>
                     ${question_left_part}
                     <select id='response' name='answer'>
                         <option disabled selected></option>
@@ -494,7 +494,7 @@ const babeViews = {
                     </select>
                     ${question_right_part}
                     </p>
-                    <button id='next' class='babe-view-button babe-nodisplay'>Next</button>
+                    <button id='next' class='magpie-view-button magpie-nodisplay'>Next</button>
                 </div>`;
 
                 $("#main").html(viewTemplate);
@@ -502,12 +502,12 @@ const babeViews = {
                 const enableResponse = function() {
                     let response;
 
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
 
                     response = $("#response");
 
                     response.on("change", function() {
-                        $("#next").removeClass("babe-nodisplay");
+                        $("#next").removeClass("magpie-nodisplay");
                     });
 
                     $("#next").on("click", function() {
@@ -549,15 +549,15 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -577,51 +577,51 @@ const babeViews = {
     },
 
     ratingScale: function(config) {
-        babeUtils.view.inspector.missingData(config, "rating scale");
-        babeUtils.view.inspector.params(config, "rating scale");
+        magpieUtils.view.inspector.missingData(config, "rating scale");
+        magpieUtils.view.inspector.params(config, "rating scale");
         const ratingScale = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 const option1 = config.data[CT].optionLeft;
                 const option2 = config.data[CT].optionRight;
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
 
-                const answerContainerElem = `<p class='babe-view-question'>${question}</p>
-                    <div class='babe-view-answer-container'>
-                        <strong class='babe-response-rating-option babe-view-text'>${option1}</strong>
-                        <label for="1" class='babe-response-rating'>1</label>
+                const answerContainerElem = `<p class='magpie-view-question'>${question}</p>
+                    <div class='magpie-view-answer-container'>
+                        <strong class='magpie-response-rating-option magpie-view-text'>${option1}</strong>
+                        <label for="1" class='magpie-response-rating'>1</label>
                         <input type="radio" name="answer" id="1" value="1" />
-                        <label for="2" class='babe-response-rating'>2</label>
+                        <label for="2" class='magpie-response-rating'>2</label>
                         <input type="radio" name="answer" id="2" value="2" />
-                        <label for="3" class='babe-response-rating'>3</label>
+                        <label for="3" class='magpie-response-rating'>3</label>
                         <input type="radio" name="answer" id="3" value="3" />
-                        <label for="4" class='babe-response-rating'>4</label>
+                        <label for="4" class='magpie-response-rating'>4</label>
                         <input type="radio" name="answer" id="4" value="4" />
-                        <label for="5" class='babe-response-rating'>5</label>
+                        <label for="5" class='magpie-response-rating'>5</label>
                         <input type="radio" name="answer" id="5" value="5" />
-                        <label for="6" class='babe-response-rating'>6</label>
+                        <label for="6" class='magpie-response-rating'>6</label>
                         <input type="radio" name="answer" id="6" value="6" />
-                        <label for="7" class='babe-response-rating'>7</label>
+                        <label for="7" class='magpie-response-rating'>7</label>
                         <input type="radio" name="answer" id="7" value="7" />
-                        <strong class='babe-response-rating-option babe-view-text'>${option2}</strong>
+                        <strong class='magpie-response-rating-option magpie-view-text'>${option2}</strong>
                     </div>`;
 
                 $("#main").html(viewTemplate);
 
                 const enableResponse = function() {
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
                     // attaches an event listener to the yes / no radio inputs
                     // when an input is selected a response property with a value equal
                     // to the answer is added to the trial object
@@ -662,15 +662,15 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -690,39 +690,39 @@ const babeViews = {
     },
 
     sentenceChoice: function(config) {
-        babeUtils.view.inspector.missingData(config, "sentence choice");
-        babeUtils.view.inspector.params(config, "sentence choice");
+        magpieUtils.view.inspector.missingData(config, "sentence choice");
+        magpieUtils.view.inspector.params(config, "sentence choice");
         const sentenceChoice = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
                 const answerContainerElem = `
-                    <div class='babe-view-answer-container'>
-                        <p class='babe-view-question'>${question}</p>
-                        <label for='s1' class='babe-response-sentence'>${option1}</label>
+                    <div class='magpie-view-answer-container'>
+                        <p class='magpie-view-question'>${question}</p>
+                        <label for='s1' class='magpie-response-sentence'>${option1}</label>
                         <input type='radio' name='answer' id='s1' value="${option1}" />
-                        <label for='s2' class='babe-response-sentence'>${option2}</label>
+                        <label for='s2' class='magpie-response-sentence'>${option2}</label>
                         <input type='radio' name='answer' id='s2' value="${option2}" />
                     </div>`;
 
                 $("#main").html(viewTemplate);
 
                 const enableResponse = function() {
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
 
                     $("input[name=answer]").on("change", function(e) {
                         var RT = Date.now() - startingTime; // measure RT before anything else
@@ -760,15 +760,15 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -788,40 +788,40 @@ const babeViews = {
     },
 
     imageSelection: function(config) {
-        babeUtils.view.inspector.missingData(config, "image selection");
-        babeUtils.view.inspector.params(config, "image selection");
+        magpieUtils.view.inspector.missingData(config, "image selection");
+        magpieUtils.view.inspector.params(config, "image selection");
         const imageSelection = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
-                const question = babeUtils.view.setter.question(
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
                 const picture1 = config.data[CT].picture1;
                 const picture2 = config.data[CT].picture2;
                 const option1 = config.data[CT].option1;
                 const option2 = config.data[CT].option2;
-                const viewTemplate = `<div class="babe-view">
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class="magpie-view">
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
-                const answerContainerElem = `<div class='babe-view-answer-container'>
-                        <p class='babe-view-question'>${question}</p>
-                        <label for="img1" class='babe-view-picture babe-response-picture'><img src=${picture1}></label>
+                const answerContainerElem = `<div class='magpie-view-answer-container'>
+                        <p class='magpie-view-question'>${question}</p>
+                        <label for="img1" class='magpie-view-picture magpie-response-picture'><img src=${picture1}></label>
                         <input type="radio" name="answer" id="img1" value="${option1}" />
                         <input type="radio" name="answer" id="img2" value="${option2}" />
-                        <label for="img2" class='babe-view-picture babe-response-picture'><img src=${picture2}></label>
+                        <label for="img2" class='magpie-view-picture magpie-response-picture'><img src=${picture2}></label>
                     </div>`;
 
                 $("#main").html(viewTemplate);
 
                 const enableResponse = function() {
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
                     $("input[name=answer]").on("change", function() {
                         const RT = Date.now() - startingTime; // measure RT before anything else
                         const trial_data = {
@@ -854,15 +854,15 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -882,29 +882,29 @@ const babeViews = {
     },
 
     keyPress: function(config) {
-        babeUtils.view.inspector.missingData(config, "key press");
-        babeUtils.view.inspector.params(config, "key press");
+        magpieUtils.view.inspector.missingData(config, "key press");
+        magpieUtils.view.inspector.params(config, "key press");
         const keyPress = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
                 const key1 = config.data[CT].key1;
                 const key2 = config.data[CT].key2;
                 const value1 = config.data[CT][key1];
                 const value2 = config.data[CT][key2];
-                const viewTemplate = `<div class="babe-view">
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class="magpie-view">
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-response-keypress-header'><strong>${key1}</strong> = ${value1}, <strong>${key2}</strong> = ${value2}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
                 </div>`;
-                const answerContainerElem = `<div class='babe-view-answer-container'>
-                        <p class='babe-view-question'>${question}</p>`;
+                const answerContainerElem = `<div class='magpie-view-answer-container'>
+                        <p class='magpie-view-question'>${question}</p>`;
 
                 $("#main").html(viewTemplate);
 
@@ -966,21 +966,21 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
+                        magpie.trial_data.push(trial_data);
                         $("body").off("keydown", handleKeyPress);
-                        babe.findNextView();
+                        magpie.findNextView();
                     }
                 };
 
                 const enableResponse = function() {
-                    $(".babe-view").append(answerContainerElem);
+                    $(".magpie-view").append(answerContainerElem);
                     $("body").on("keydown", handleKeyPress);
                 };
 
                 startingTime = Date.now();
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -1000,17 +1000,17 @@ const babeViews = {
     },
 
     selfPacedReading: function(config) {
-        babeUtils.view.inspector.missingData(config, "self-paced reading");
-        babeUtils.view.inspector.params(config, "self-paced reading");
+        magpieUtils.view.inspector.missingData(config, "self-paced reading");
+        magpieUtils.view.inspector.params(config, "self-paced reading");
         const spr = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 const helpText =
                     config.data[CT].help_text !== undefined
                         ? config.data[CT].help_text
@@ -1028,20 +1028,20 @@ const babeViews = {
                 let spaceCounter = 0;
                 let wordList;
                 let readingTimes = [];
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
-                    <p class='babe-help-text babe-nodisplay'>${helpText}</p>
-                    <p class='babe-spr-sentence'></p>
-                    <div class='babe-view-answer-container babe-nodisplay'>
-                        <p class='babe-view-question'>${question}</p>
-                        <label for='o1' class='babe-response-buttons'>${option1}</label>
+                    <p class='magpie-help-text magpie-nodisplay'>${helpText}</p>
+                    <p class='magpie-spr-sentence'></p>
+                    <div class='magpie-view-answer-container magpie-nodisplay'>
+                        <p class='magpie-view-question'>${question}</p>
+                        <label for='o1' class='magpie-response-buttons'>${option1}</label>
                         <input type='radio' name='answer' id='o1' value="${option1}" />
                         <input type='radio' name='answer' id='o2' value="${option2}" />
-                        <label for='o2' class='babe-response-buttons'>${option2}</label>
+                        <label for='o2' class='magpie-response-buttons'>${option2}</label>
                     </div>
                 </div>`;
 
@@ -1058,7 +1058,7 @@ const babeViews = {
                         );
 
                         if (spaceCounter === 0) {
-                            $(".babe-help-text").addClass("babe-invisible");
+                            $(".magpie-help-text").addClass("magpie-invisible");
                         }
 
                         if (spaceCounter > 0) {
@@ -1076,8 +1076,8 @@ const babeViews = {
                         wordList[spaceCounter - 1].classList.add(
                             "spr-word-hidden"
                         );
-                        $(".babe-view-answer-container").removeClass(
-                            "babe-nodisplay"
+                        $(".magpie-view-answer-container").removeClass(
+                            "magpie-nodisplay"
                         );
 
                         readingTimes.push(Date.now());
@@ -1088,11 +1088,11 @@ const babeViews = {
                 // happens when the stimulus is hidden
                 const enableResponse = function() {
                     // shows the help text
-                    $(".babe-help-text").removeClass("babe-nodisplay");
+                    $(".magpie-help-text").removeClass("magpie-nodisplay");
 
                     // creates the sentence
                     sentenceList.map((word) => {
-                        $(".babe-spr-sentence").append(
+                        $(".magpie-spr-sentence").append(
                             `<span class='spr-word spr-word-hidden'>${word}</span>`
                         );
                     });
@@ -1105,7 +1105,7 @@ const babeViews = {
                 };
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -1161,8 +1161,8 @@ const babeViews = {
                         delete trial_data.canvas;
                     }
 
-                    babe.trial_data.push(trial_data);
-                    babe.findNextView();
+                    magpie.trial_data.push(trial_data);
+                    magpie.findNextView();
                 });
             },
             CT: 0,
@@ -1173,23 +1173,23 @@ const babeViews = {
     },
 
     selfPacedReading_ratingScale: function(config) {
-        babeUtils.view.inspector.missingData(
+        magpieUtils.view.inspector.missingData(
             config,
             "self-paced reading ratingScale"
         );
-        babeUtils.view.inspector.params(
+        magpieUtils.view.inspector.params(
             config,
             "self-paced reading scale ratingScale"
         );
         const spr = {
             name: config.name,
-            title: babeUtils.view.setter.title(config.title, ""),
-            render: function(CT, babe) {
+            title: magpieUtils.view.setter.title(config.title, ""),
+            render: function(CT, magpie) {
                 let startingTime;
-                const question = babeUtils.view.setter.question(
+                const question = magpieUtils.view.setter.question(
                     config.data[CT].question
                 );
-                const QUD = babeUtils.view.setter.QUD(config.data[CT].QUD);
+                const QUD = magpieUtils.view.setter.QUD(config.data[CT].QUD);
                 const title =
                     config.data[CT].title !== undefined
                         ? config.data[CT].title
@@ -1207,32 +1207,32 @@ const babeViews = {
                 let spaceCounter = 0;
                 let wordList;
                 let readingTimes = [];
-                const viewTemplate = `<div class='babe-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <p class='babe-view-question babe-view-qud'>${QUD}</p>
-                    <div class='babe-view-stimulus-container'>
-                        <div class='babe-view-stimulus babe-nodisplay'></div>
+                const viewTemplate = `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <p class='magpie-view-question magpie-view-qud'>${QUD}</p>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus magpie-nodisplay'></div>
                     </div>
-                    <p class='babe-help-text babe-nodisplay'>${helpText}</p>
-                    <p class='babe-spr-sentence'></p>
-                    <div class='babe-view-answer-container babe-nodisplay'>
-                        <p class='babe-view-question'>${question}</p>
-                        <strong class='babe-response-rating-option babe-view-text'>${option1}</strong>
-                        <label for="1" class='babe-response-rating'>1</label>
+                    <p class='magpie-help-text magpie-nodisplay'>${helpText}</p>
+                    <p class='magpie-spr-sentence'></p>
+                    <div class='magpie-view-answer-container magpie-nodisplay'>
+                        <p class='magpie-view-question'>${question}</p>
+                        <strong class='magpie-response-rating-option magpie-view-text'>${option1}</strong>
+                        <label for="1" class='magpie-response-rating'>1</label>
                         <input type="radio" name="answer" id="1" value="1" />
-                        <label for="2" class='babe-response-rating'>2</label>
+                        <label for="2" class='magpie-response-rating'>2</label>
                         <input type="radio" name="answer" id="2" value="2" />
-                        <label for="3" class='babe-response-rating'>3</label>
+                        <label for="3" class='magpie-response-rating'>3</label>
                         <input type="radio" name="answer" id="3" value="3" />
-                        <label for="4" class='babe-response-rating'>4</label>
+                        <label for="4" class='magpie-response-rating'>4</label>
                         <input type="radio" name="answer" id="4" value="4" />
-                        <label for="5" class='babe-response-rating'>5</label>
+                        <label for="5" class='magpie-response-rating'>5</label>
                         <input type="radio" name="answer" id="5" value="5" />
-                        <label for="6" class='babe-response-rating'>6</label>
+                        <label for="6" class='magpie-response-rating'>6</label>
                         <input type="radio" name="answer" id="6" value="6" />
-                        <label for="7" class='babe-response-rating'>7</label>
+                        <label for="7" class='magpie-response-rating'>7</label>
                         <input type="radio" name="answer" id="7" value="7" />
-                        <strong class='babe-response-rating-option babe-view-text'>${option2}</strong>
+                        <strong class='magpie-response-rating-option magpie-view-text'>${option2}</strong>
                     </div>
                 </div>`;
 
@@ -1249,7 +1249,7 @@ const babeViews = {
                         );
 
                         if (spaceCounter === 0) {
-                            $(".babe-help-text").addClass("babe-invisible");
+                            $(".magpie-help-text").addClass("magpie-invisible");
                         }
 
                         if (spaceCounter > 0) {
@@ -1267,8 +1267,8 @@ const babeViews = {
                         wordList[spaceCounter - 1].classList.add(
                             "spr-word-hidden"
                         );
-                        $(".babe-view-answer-container").removeClass(
-                            "babe-nodisplay"
+                        $(".magpie-view-answer-container").removeClass(
+                            "magpie-nodisplay"
                         );
 
                         readingTimes.push(Date.now());
@@ -1279,11 +1279,11 @@ const babeViews = {
                 // happens when the stimulus is hidden
                 const enableResponse = function() {
                     // shows the help text
-                    $(".babe-help-text").removeClass("babe-nodisplay");
+                    $(".magpie-help-text").removeClass("magpie-nodisplay");
 
                     // creates the sentence
                     sentenceList.map((word) => {
-                        $(".babe-spr-sentence").append(
+                        $(".magpie-spr-sentence").append(
                             `<span class='spr-word spr-word-hidden'>${word}</span>`
                         );
                     });
@@ -1338,13 +1338,13 @@ const babeViews = {
                             delete trial_data.canvas;
                         }
 
-                        babe.trial_data.push(trial_data);
-                        babe.findNextView();
+                        magpie.trial_data.push(trial_data);
+                        magpie.findNextView();
                     });
                 };
 
                 // creates the DOM of the trial view
-                babeUtils.view.createTrialDOM(
+                magpieUtils.view.createTrialDOM(
                     {
                         pause: config.pause,
                         fix_duration: config.fix_duration,
@@ -1364,87 +1364,87 @@ const babeViews = {
     },
 
     postTest: function(config) {
-        babeUtils.view.inspector.params(config, "post test");
+        magpieUtils.view.inspector.params(config, "post test");
         const postTest = {
             name: config.name,
-            title: babeUtils.view.setter.title(
+            title: magpieUtils.view.setter.title(
                 config.title,
                 "Additional Information"
             ),
             text: config.text,
             quest: {
                 age: {
-                    title: babeUtils.view.setter.prop(
+                    title: magpieUtils.view.setter.prop(
                         config.age_question,
                         "Age"
                     )
                 },
                 gender: {
-                    title: babeUtils.view.setter.prop(
+                    title: magpieUtils.view.setter.prop(
                         config.gender_question,
                         "Gender"
                     ),
-                    male: babeUtils.view.setter.prop(
+                    male: magpieUtils.view.setter.prop(
                         config.gender_male,
                         "male"
                     ),
-                    female: babeUtils.view.setter.prop(
+                    female: magpieUtils.view.setter.prop(
                         config.gender_female,
                         "female"
                     ),
-                    other: babeUtils.view.setter.prop(
+                    other: magpieUtils.view.setter.prop(
                         config.gender_other,
                         "other"
                     )
                 },
                 edu: {
-                    title: babeUtils.view.setter.prop(
+                    title: magpieUtils.view.setter.prop(
                         config.edu_question,
                         "Level of Education"
                     ),
-                    graduated_high_school: babeUtils.view.setter.prop(
+                    graduated_high_school: magpieUtils.view.setter.prop(
                         config.edu_graduated_high_school,
                         "Graduated High School"
                     ),
-                    graduated_college: babeUtils.view.setter.prop(
+                    graduated_college: magpieUtils.view.setter.prop(
                         config.edu_graduated_college,
                         "Graduated College"
                     ),
-                    higher_degree: babeUtils.view.setter.prop(
+                    higher_degree: magpieUtils.view.setter.prop(
                         config.edu_higher_degree,
                         "Higher Degree"
                     )
                 },
                 langs: {
-                    title: babeUtils.view.setter.prop(
+                    title: magpieUtils.view.setter.prop(
                         config.languages_question,
                         "Native Languages"
                     ),
-                    text: babeUtils.view.setter.prop(
+                    text: magpieUtils.view.setter.prop(
                         config.languages_more,
                         "(i.e. the language(s) spoken at home when you were a child)"
                     )
                 },
                 comments: {
-                    title: babeUtils.view.setter.prop(
+                    title: magpieUtils.view.setter.prop(
                         config.comments_question,
                         "Further Comments"
                     )
                 }
             },
-            button: babeUtils.view.setter.buttonText(config.buttonText),
-            render: function(CT, babe) {
-                const viewTemplate = `<div class='babe-view babe-post-test-view'>
-                    <h1 class='babe-view-title'>${this.title}</h1>
-                    <section class='babe-text-container'>
-                        <p class='babe-view-text'>${this.text}</p>
+            button: magpieUtils.view.setter.buttonText(config.buttonText),
+            render: function(CT, magpie) {
+                const viewTemplate = `<div class='magpie-view magpie-post-test-view'>
+                    <h1 class='magpie-view-title'>${this.title}</h1>
+                    <section class='magpie-text-container'>
+                        <p class='magpie-view-text'>${this.text}</p>
                     </section>
                     <form>
-                        <p class='babe-view-text'>
+                        <p class='magpie-view-text'>
                             <label for="age">${this.quest.age.title}:</label>
                             <input type="number" name="age" min="18" max="110" id="age" />
                         </p>
-                        <p class='babe-view-text'>
+                        <p class='magpie-view-text'>
                             <label for="gender">${
                                 this.quest.gender.title
                             }:</label>
@@ -1461,7 +1461,7 @@ const babeViews = {
                 }</option>
                             </select>
                         </p>
-                        <p class='babe-view-text'>
+                        <p class='magpie-view-text'>
                             <label for="education">${
                                 this.quest.edu.title
                             }:</label>
@@ -1480,7 +1480,7 @@ const babeViews = {
                                 }">${this.quest.edu.higher_degree}</option>
                             </select>
                         </p>
-                        <p class='babe-view-text'>
+                        <p class='magpie-view-text'>
                             <label for="languages" name="languages">${
                                 this.quest.langs.title
                             }:<br /><span>${
@@ -1488,14 +1488,14 @@ const babeViews = {
                 }</</span></label>
                             <input type="text" id="languages"/>
                         </p>
-                        <p class="babe-view-text">
+                        <p class="magpie-view-text">
                             <label for="comments">${
                                 this.quest.comments.title
                             }</label>
                             <textarea name="comments" id="comments"
                             rows="6" cols="40"></textarea>
                         </p>
-                        <button id="next" class='babe-view-button'>${
+                        <button id="next" class='magpie-view-button'>${
                             this.button
                         }</button>
                     </form>
@@ -1508,21 +1508,21 @@ const babeViews = {
                     e.preventDefault();
 
                     // records the post test info
-                    babe.global_data.age = $("#age").val();
-                    babe.global_data.gender = $("#gender").val();
-                    babe.global_data.education = $("#education").val();
-                    babe.global_data.languages = $("#languages").val();
-                    babe.global_data.comments = $("#comments")
+                    magpie.global_data.age = $("#age").val();
+                    magpie.global_data.gender = $("#gender").val();
+                    magpie.global_data.education = $("#education").val();
+                    magpie.global_data.languages = $("#languages").val();
+                    magpie.global_data.comments = $("#comments")
                         .val()
                         .trim();
-                    babe.global_data.endTime = Date.now();
-                    babe.global_data.timeSpent =
-                        (babe.global_data.endTime -
-                            babe.global_data.startTime) /
+                    magpie.global_data.endTime = Date.now();
+                    magpie.global_data.timeSpent =
+                        (magpie.global_data.endTime -
+                            magpie.global_data.startTime) /
                         60000;
 
                     // moves to the next view
-                    babe.findNextView();
+                    magpie.findNextView();
                 });
             },
             CT: 0,
@@ -1533,64 +1533,64 @@ const babeViews = {
     },
 
     thanks: function(config) {
-        babeUtils.view.inspector.params(config, "thanks");
+        magpieUtils.view.inspector.params(config, "thanks");
         const thanks = {
             name: config.name,
-            title: babeUtils.view.setter.title(
+            title: magpieUtils.view.setter.title(
                 config.title,
                 "Thank you for taking part in this experiment!"
             ),
-            prolificConfirmText: babeUtils.view.setter.prolificConfirmText(
+            prolificConfirmText: magpieUtils.view.setter.prolificConfirmText(
                 config.prolificConfirmText,
                 "Please press the button below to confirm that you completed the experiment with Prolific"
             ),
-            render: function(CT, babe) {
+            render: function(CT, magpie) {
                 if (
-                    babe.deploy.is_MTurk ||
-                    babe.deploy.deployMethod === "directLink" ||
-                    babe.deploy.deployMethod === "localServer"
+                    magpie.deploy.is_MTurk ||
+                    magpie.deploy.deployMethod === "directLink" ||
+                    magpie.deploy.deployMethod === "localServer"
                 ) {
                     // updates the fields in the hidden form with info for the MTurk's server
                     $("#main").html(
-                        `<div class='babe-view babe-thanks-view'>
-                            <h2 id='warning-message' class='babe-warning'>Submitting the data
-                                <p class='babe-view-text'>please do not close the tab</p>
-                                <div class='babe-loader'></div>
+                        `<div class='magpie-view magpie-thanks-view'>
+                            <h2 id='warning-message' class='magpie-warning'>Submitting the data
+                                <p class='magpie-view-text'>please do not close the tab</p>
+                                <div class='magpie-loader'></div>
                             </h2>
-                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${
+                            <h1 id='thanks-message' class='magpie-thanks magpie-nodisplay'>${
                                 this.title
                             }</h1>
                         </div>`
                     );
-                } else if (babe.deploy.deployMethod === "Prolific") {
+                } else if (magpie.deploy.deployMethod === "Prolific") {
                     $("#main").html(
-                        `<div class='babe-view babe-thanks-view'>
-                            <h2 id='warning-message' class='babe-warning'>Submitting the data
-                                <p class='babe-view-text'>please do not close the tab</p>
-                                <div class='babe-loader'></div>
+                        `<div class='magpie-view magpie-thanks-view'>
+                            <h2 id='warning-message' class='magpie-warning'>Submitting the data
+                                <p class='magpie-view-text'>please do not close the tab</p>
+                                <div class='magpie-loader'></div>
                             </h2>
-                            <h1 id='thanks-message' class='babe-thanks babe-nodisplay'>${
+                            <h1 id='thanks-message' class='magpie-thanks magpie-nodisplay'>${
                                 this.title
                             }</h1>
-                            <p id='extra-message' class='babe-view-text babe-nodisplay'>
+                            <p id='extra-message' class='magpie-view-text magpie-nodisplay'>
                                 ${this.prolificConfirmText}
                                 <a href="${
-                                    babe.deploy.prolificURL
-                                }" class="babe-view-button prolific-url">Confirm</a>
+                                    magpie.deploy.prolificURL
+                                }" class="magpie-view-button prolific-url">Confirm</a>
                             </p>
                         </div>`
                     );
-                } else if (babe.deploy.deployMethod === "debug") {
+                } else if (magpie.deploy.deployMethod === "debug") {
                     $("main").html(
-                        `<div id='babe-debug-table-container' class='babe-view babe-thanks-view'>
-                            <h1 class='babe-view-title'>Debug Mode</h1>
+                        `<div id='magpie-debug-table-container' class='magpie-view magpie-thanks-view'>
+                            <h1 class='magpie-view-title'>Debug Mode</h1>
                         </div>`
                     );
                 } else {
-                    console.error("No such babe.deploy.deployMethod");
+                    console.error("No such magpie.deploy.deployMethod");
                 }
 
-                babe.submission.submit(babe);
+                magpie.submission.submit(magpie);
             },
             CT: 0,
             trials: 1
