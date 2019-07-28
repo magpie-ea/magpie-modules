@@ -1,11 +1,11 @@
 {
     "name": "magpie-modules",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "minimal architecture for the generation of portable interactive experiments (https://github.com/magpie-ea/magpie-modules)",
     "main": "magpie.js",
     "dependencies": {
         "csv-js": "^1.0.0",
-        "jquery": "^3.3.1",
+        "jquery": "^3.4.1",
         "lodash": "^4.17.12"
     },
     "devDependencies": {
@@ -19,7 +19,7 @@
     "scripts": {
         "watch": "gulp",
         "prettify": "gulp prettify",
-        "concat": "concat -o magpie.js src/* && concat -o magpie.full.js node_modules/jquery/dist/jquery.min.js node_modules/csv-js/csv.js magpie.js"
+        "concat": "concat -o magpie.js src/* && concat -o magpie.full.js node_modules/jquery/dist/jquery.min.js node_modules/csv-js/csv.js node_modules/lodash/lodash.min.js magpie.js"
     },
     "author": "",
     "license": "MIT"

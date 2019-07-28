@@ -1,9 +1,10 @@
 # Changelog
 
-## Latest version: 0.1.0 
+## Latest version: 0.1.1 
 
 - Say hello to our new name \_magpie 
     - This project is now called `magpie-modules` on npm
+    - Lodash is now included in magpie.full.js
     - Otherwise it is the same as 0.1.2 of babe-project
 
 ## Older versions (babe-project)
