@@ -1,9 +1,10 @@
 const magpieMousetracking = function (config, data) {
     var $view = $('.magpie-view')
     var listener = function (evt) {
-        var delta = Date.now() - data.mousetrackingStartTime
-        data.mousetrackingPath.push({x: evt.originalEvent.layerX, y: evt.originalEvent.layerY, time: delta})
+        data.mousetracking.x = evt.originalEvent.layerX
+        data.mousetracking.y = evt.originalEvent.layerY
     }
+    var interval
 
     if (!config.enabled) {
         return
@@ -11,13 +12,23 @@ const magpieMousetracking = function (config, data) {
 
     // cleanup function
     data.mousetracking = {
+        x: 0,
+        y: 0,
         cleanup: function () {
             $view.off('mouseover', listener)
+            clearInterval(interval)
         },
         start: function() {
             $view.on('mouseover', listener)
-            data.mousetrackingPath = []
+            data.mousetrackingX = []
+            data.mousetrackingY = []
+            data.mousetrackingTime = []
             data.mousetrackingStartTime = Date.now()
+            interval = setInterval(function() {
+                data.mousetrackingX.push(data.mousetracking.x)
+                data.mousetrackingY.push(data.mousetracking.y)
+                data.mousetrackingTime.push(Date.now() - data.mousetrackingStartTime)
+            }, 50)
         }
     }
 
