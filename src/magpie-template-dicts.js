@@ -53,7 +53,18 @@ const stimulus_container_generators = {
                     <p class='magpie-help-text magpie-nodisplay'>${helpText}</p>
                     <p class='magpie-spr-sentence'></p>
                 </div>`;
-    }
+    },
+    listen_and_decide: function(config, CT) {
+        return `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${config.title}</h1>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus'>
+                        <p>Listen</p>
+                        <audio src="${config.audioPath}${config.data[CT].question_file}" class="magpie-lad-question magpie-nodisplay" /></div>
+                    </div>
+                    <audio src="${config.audioPath}${config.data[CT].answer_file}" class="magpie-lad-answer magpie-nodisplay" />
+                </div>`;
+    },
 };
 
 // The answer container dict contains a generator function for every view type we support
@@ -194,7 +205,36 @@ const answer_container_generators = {
                         <input type="radio" name="answer" id="img2" value="${config.data[CT].option2}" />
                         <label for="img2" class='magpie-view-picture magpie-response-picture'><img src=${config.data[CT].picture2}></label>
                     </div>`;
-    }
+    },
+    image_selection_mousetracking: function(config, CT) {
+        const path = config.imagePath
+        let left,right
+        // randomize location allocation
+        if (Math.random() > 0.5) {
+            left = config.data[CT].picture_target
+            config.data[CT].target_side = 'left'
+            right = config.data[CT].picture_competitor
+            config.data[CT].competitor_location = 'right'
+        }else{
+            left = config.data[CT].picture_competitor
+            config.data[CT].competitor_location = 'left'
+            right = config.data[CT].picture_target
+            config.data[CT].target_location = 'right'
+        }
+
+        return    `<div class='magpie-view-answer-container'>
+                            <img src='${path}${left}' class='magpie-view-picture magpie-response-picture magpie-response-picture-left' id="img1">
+                            <img src='${path}${right}' class='magpie-view-picture magpie-response-picture magpie-response-picture-right' id="img2">
+                            <p class="clearfix"></p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                        <button class="magpie-lad-start">Start</button>
+                    </div>`;
+    },
 };
 
 // The enable response dict contains a generator function for every view type we support
@@ -592,6 +632,52 @@ const handle_response_functions = {
         // attaches an eventListener to the body for space
         $("body").on("keydown", handle_key_press);
 
+    },
+    listen_and_decide: function(config, CT, magpie, answer_container_generator, startingTime) {
+        const $view = $(".magpie-view")
+        const $question = $('.magpie-lad-question')
+        setTimeout(function() {
+            $question[0].play()
+        }, config.initialDelay)
+        $question.on('ended', function() {
+            $view.append(answer_container_generator(config, CT));
+            $('.magpie-view-stimulus-container').addClass('magpie-nodisplay')
+            const $answer = $('.magpie-lad-answer')
+            const $start = $('.magpie-lad-start')
+
+            $start.click(function(evt) {
+                config.data[CT].mousetracking.start({x: evt.originalEvent.clientX, y: evt.originalEvent.clientY})
+                $('#img1').on(config.decisionEvent, function() {
+                    submit('left')
+                })
+                $('#img2').on(config.decisionEvent, function() {
+                    submit('right')
+                })
+                $answer[0].play()
+            })
+
+        })
+        function submit(position) {
+            let response = (position === config.data[CT].target_location)? 'target' : 'competitor'
+
+            // For filler trials we compare with the expected respons
+            if (config.data[CT].expected_response) {
+                const img = position === config.data[CT].target_location? config.data[CT].picture_target : config.data[CT].picture_competitor
+                response = (img === config.data[CT].expected_response)? 'target' : 'competitor'
+            }
+
+            const RT = Date.now() - startingTime; // measure RT before anything else
+            let trial_data = {
+                trial_name: config.name,
+                trial_number: CT + 1,
+                response,
+                RT: RT
+            };
+
+            trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
+            magpie.trial_data.push(trial_data);
+            magpie.findNextView();
+        }
     }
 };
 
@@ -715,5 +801,13 @@ const view_info_dict = {
         default_view_temp: stimulus_container_generators.self_paced_reading,
         default_answer_temp: answer_container_generators.rating_scale,
         default_handle_response: handle_response_functions.self_paced_reading
+    },
+    listen_and_decide_mousetracking: {
+        type: "trial",
+        default_title: "",
+        default_button_text: "",
+        default_view_temp: stimulus_container_generators.listen_and_decide,
+        default_answer_temp: answer_container_generators.image_selection_mousetracking,
+        default_handle_response: handle_response_functions.listen_and_decide
     }
 };
