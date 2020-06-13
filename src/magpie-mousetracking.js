@@ -6,10 +6,6 @@ const magpieMousetracking = function (config, data) {
     }
     var interval
 
-    if (!config.enabled) {
-        return
-    }
-
     // cleanup function
     data.mousetracking = {
         x: 0,
