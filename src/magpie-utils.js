@@ -189,9 +189,7 @@ const magpieUtils = {
                     magpieDrawShapes(data.canvas);
                 }
 
-                if (config.mousetracking) {
-                    magpieMousetracking(config.mousetracking, data)
-                }
+                magpieMousetracking(config.mousetracking, data)
 
                 resolve();
             };

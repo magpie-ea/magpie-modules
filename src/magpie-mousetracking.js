@@ -32,7 +32,7 @@ const magpieMousetracking = function (config, data) {
         }
     }
 
-    if (config.autostart) {
+    if (config && config.autostart) {
         data.mousetracking.start()
     }
 };
