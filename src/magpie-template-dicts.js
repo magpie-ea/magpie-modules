@@ -212,7 +212,7 @@ const answer_container_generators = {
         // randomize location allocation
         if (Math.random() > 0.5) {
             left = config.data[CT].picture_target
-            config.data[CT].target_side = 'left'
+            config.data[CT].target_location = 'left'
             right = config.data[CT].picture_competitor
             config.data[CT].competitor_location = 'right'
         }else{
@@ -660,8 +660,8 @@ const handle_response_functions = {
         function submit(position) {
             let response = (position === config.data[CT].target_location)? 'target' : 'competitor'
 
-            // For filler trials we compare with the expected respons
-            if (config.data[CT].expected_response) {
+            // For filler trials we compare with the expected response
+            if (config.data[CT].condition === 'filler' && config.data[CT].expected_response) {
                 const img = position === config.data[CT].target_location? config.data[CT].picture_target : config.data[CT].picture_competitor
                 response = (img === config.data[CT].expected_response)? 'target' : 'competitor'
             }
