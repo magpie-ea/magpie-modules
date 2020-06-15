@@ -20,6 +20,8 @@ const magpieMousetracking = function (config, data) {
                 origin = $view.getBoundingClientRect()
             }
             $view.on('mouseover', listener)
+            data.mousetracking.x = origin.x
+            data.mousetracking.y = origin.y
             data.mousetrackingX = []
             data.mousetrackingY = []
             data.mousetrackingTime = []
