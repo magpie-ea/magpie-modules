@@ -140,7 +140,7 @@ body {
   transform: rotate(-45deg);
 }
 
-/* 
+/*
     PROGRESS BAR
 */
 .progress-bar-container {
@@ -203,7 +203,7 @@ input[name=answer] {
     text-transform: uppercase;
 }
 
-/* 
+/*
     likert scale rating task
     ---
     rating buttons
@@ -290,7 +290,7 @@ input[name=answer] {
     ---
     slider styles
 
-    slider  ---o--- 
+    slider  ---o---
     --- track
     o  thumb
  */
@@ -426,9 +426,22 @@ input[name=answer] {
     visibility: hidden;
 }
 
-/* 
+/*
+    LISTEN AND DECIDE
+ */
+.magpie-response-picture {
+    width: 25%;
+}
+.magpie-response-picture-left {
+    float: left;
+}
+.magpie-response-picture-right {
+    float: right;
+}
+
+/*
     POST TEST
-    
+
     age
     education
     languages
@@ -467,7 +480,7 @@ input[name=answer] {
     margin: 5px 0 0 0;
 }
 
-/* 
+/*
     THANKS VIEW
 
     submission loader

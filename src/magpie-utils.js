@@ -94,6 +94,11 @@ const magpieUtils = {
                 delete trial_data.canvas;
             }
 
+            if (config_info.mousetracking !== undefined) {
+                config_info.mousetracking.cleanup()
+                delete trial_data.mousetracking;
+            }
+
             return trial_data;
         },
         fill_defaults_post_test: function(config) {
@@ -182,6 +187,10 @@ const magpieUtils = {
 
                 if (data.canvas) {
                     magpieDrawShapes(data.canvas);
+                }
+
+                if (config.mousetracking) {
+                    magpieMousetracking(config.mousetracking, data)
                 }
 
                 resolve();

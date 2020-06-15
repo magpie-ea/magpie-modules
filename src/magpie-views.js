@@ -59,7 +59,8 @@ const magpieViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.hook,
-                        view: view_type
+                        view: view_type,
+                        mousetracking: config.mousetracking
                     },
                     // After the first three steps of the trial view lifecycle (can all be empty)
                     // We call the following function and interactions are now enabled
