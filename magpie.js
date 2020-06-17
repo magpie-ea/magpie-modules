@@ -768,6 +768,47 @@ You can find more information at https://github.com/magpie-ea/magpie-modules`
     }
 };
 
+const magpieMousetracking = function (config, data) {
+    var $view = $('.magpie-view')
+    var listener = function (evt) {
+        data.mousetracking.x = evt.originalEvent.clientX
+        data.mousetracking.y = evt.originalEvent.clientY
+    }
+    var interval
+
+    // cleanup function
+    data.mousetracking = {
+        x: 0,
+        y: 0,
+        cleanup: function () {
+            $view.off('mouseover', listener)
+            clearInterval(interval)
+            data.mousetrackingDuration = data.mousetrackingTime[data.mousetrackingTime.length - 1]
+        },
+        start: function (origin) {
+            if (!origin || !origin.x || !origin.y) {
+                origin = $view.getBoundingClientRect()
+            }
+            $view.on('mouseover', listener)
+            data.mousetracking.x = origin.x
+            data.mousetracking.y = origin.y
+            data.mousetrackingX = []
+            data.mousetrackingY = []
+            data.mousetrackingTime = []
+            data.mousetrackingStartTime = Date.now()
+            interval = setInterval(function () {
+                data.mousetrackingX.push(data.mousetracking.x - origin.x)
+                data.mousetrackingY.push(data.mousetracking.y - origin.y)
+                data.mousetrackingTime.push(Date.now() - data.mousetrackingStartTime)
+            }, 50)
+        }
+    }
+
+    if (config && config.autostart) {
+        data.mousetracking.start()
+    }
+};
+
 const magpieProgress = function(magpie) {
     let totalProgressParts = 0;
     let progressTrials = 0;
@@ -1219,7 +1260,18 @@ const stimulus_container_generators = {
                     <p class='magpie-help-text magpie-nodisplay'>${helpText}</p>
                     <p class='magpie-spr-sentence'></p>
                 </div>`;
-    }
+    },
+    listen_and_decide: function(config, CT) {
+        return `<div class='magpie-view'>
+                    <h1 class='magpie-view-title'>${config.title}</h1>
+                    <div class='magpie-view-stimulus-container'>
+                        <div class='magpie-view-stimulus'>
+                        <p>Listen</p>
+                        <audio src="${config.audioPath}${config.data[CT].question_file}" class="magpie-lad-question magpie-nodisplay" /></div>
+                    </div>
+                    <audio src="${config.audioPath}${config.data[CT].answer_file}" class="magpie-lad-answer magpie-nodisplay" />
+                </div>`;
+    },
 };
 
 // The answer container dict contains a generator function for every view type we support
@@ -1360,7 +1412,36 @@ const answer_container_generators = {
                         <input type="radio" name="answer" id="img2" value="${config.data[CT].option2}" />
                         <label for="img2" class='magpie-view-picture magpie-response-picture'><img src=${config.data[CT].picture2}></label>
                     </div>`;
-    }
+    },
+    image_selection_mousetracking: function(config, CT) {
+        const path = config.imagePath
+        let left,right
+        // randomize location allocation
+        if (Math.random() > 0.5) {
+            left = config.data[CT].picture_target
+            config.data[CT].target_location = 'left'
+            right = config.data[CT].picture_competitor
+            config.data[CT].competitor_location = 'right'
+        }else{
+            left = config.data[CT].picture_competitor
+            config.data[CT].competitor_location = 'left'
+            right = config.data[CT].picture_target
+            config.data[CT].target_location = 'right'
+        }
+
+        return    `<div class='magpie-view-answer-container'>
+                            <img src='${path}${left}' class='magpie-view-picture magpie-response-picture magpie-response-picture-left' id="img1">
+                            <img src='${path}${right}' class='magpie-view-picture magpie-response-picture magpie-response-picture-right' id="img2">
+                            <p class="clearfix"></p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                            <p>&nbsp;</p>
+                        <button class="magpie-lad-start">Start</button>
+                    </div>`;
+    },
 };
 
 // The enable response dict contains a generator function for every view type we support
@@ -1758,6 +1839,52 @@ const handle_response_functions = {
         // attaches an eventListener to the body for space
         $("body").on("keydown", handle_key_press);
 
+    },
+    listen_and_decide: function(config, CT, magpie, answer_container_generator, startingTime) {
+        const $view = $(".magpie-view")
+        const $question = $('.magpie-lad-question')
+        setTimeout(function() {
+            $question[0].play()
+        }, config.initialDelay)
+        $question.on('ended', function() {
+            $view.append(answer_container_generator(config, CT));
+            $('.magpie-view-stimulus-container').addClass('magpie-nodisplay')
+            const $answer = $('.magpie-lad-answer')
+            const $start = $('.magpie-lad-start')
+
+            $start.click(function(evt) {
+                config.data[CT].mousetracking.start({x: evt.originalEvent.clientX, y: evt.originalEvent.clientY})
+                $('#img1').on(config.decisionEvent, function() {
+                    submit('left')
+                })
+                $('#img2').on(config.decisionEvent, function() {
+                    submit('right')
+                })
+                $answer[0].play()
+            })
+
+        })
+        function submit(position) {
+            let response = (position === config.data[CT].target_location)? 'target' : 'competitor'
+
+            // For filler trials we compare with the expected response
+            if (config.data[CT].condition === 'filler' && config.data[CT].expected_response) {
+                const img = position === config.data[CT].target_location? config.data[CT].picture_target : config.data[CT].picture_competitor
+                response = (img === config.data[CT].expected_response)? 'target' : 'competitor'
+            }
+
+            const RT = Date.now() - startingTime; // measure RT before anything else
+            let trial_data = {
+                trial_name: config.name,
+                trial_number: CT + 1,
+                response,
+                RT: RT
+            };
+
+            trial_data = magpieUtils.view.save_config_trial_data(config.data[CT], trial_data);
+            magpie.trial_data.push(trial_data);
+            magpie.findNextView();
+        }
     }
 };
 
@@ -1881,8 +2008,17 @@ const view_info_dict = {
         default_view_temp: stimulus_container_generators.self_paced_reading,
         default_answer_temp: answer_container_generators.rating_scale,
         default_handle_response: handle_response_functions.self_paced_reading
+    },
+    listen_and_decide_mousetracking: {
+        type: "trial",
+        default_title: "",
+        default_button_text: "",
+        default_view_temp: stimulus_container_generators.listen_and_decide,
+        default_answer_temp: answer_container_generators.image_selection_mousetracking,
+        default_handle_response: handle_response_functions.listen_and_decide
     }
 };
+
 const magpieTimer = function(magpie) {
     // idle time in seconds, gets reset as soon as the user does something
     let idle_time = 0;
@@ -2045,6 +2181,11 @@ const magpieUtils = {
                 delete trial_data.canvas;
             }
 
+            if (config_info.mousetracking !== undefined) {
+                config_info.mousetracking.cleanup()
+                delete trial_data.mousetracking;
+            }
+
             return trial_data;
         },
         fill_defaults_post_test: function(config) {
@@ -2134,6 +2275,8 @@ const magpieUtils = {
                 if (data.canvas) {
                     magpieDrawShapes(data.canvas);
                 }
+
+                magpieMousetracking(config.mousetracking, data)
 
                 resolve();
             };
@@ -2282,7 +2425,8 @@ const magpieViews = {
                         stim_duration: config.stim_duration,
                         data: config.data[CT],
                         evts: config.hook,
-                        view: view_type
+                        view: view_type,
+                        mousetracking: config.mousetracking
                     },
                     // After the first three steps of the trial view lifecycle (can all be empty)
                     // We call the following function and interactions are now enabled
