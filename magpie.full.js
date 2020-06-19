@@ -1286,10 +1286,11 @@ You can find more information at https://github.com/magpie-ea/magpie-modules`
 const magpieMousetracking = function (config, data) {
     var $view = $('.magpie-view')
     var listener = function (evt) {
-        data.mousetracking.x = evt.originalEvent.clientX
-        data.mousetracking.y = evt.originalEvent.clientY
+        data.mousetrackingX.push(evt.originalEvent.clientX - data.mousetracking.x)
+        data.mousetrackingY.push(evt.originalEvent.clientY - data.mousetracking.y)
+        data.mousetrackingTime.push(Date.now() - data.mousetrackingStartTime)
     }
-    var interval
+    var rate = config && config.rate ? config.rate : 15
 
     // cleanup function
     data.mousetracking = {
@@ -1297,30 +1298,50 @@ const magpieMousetracking = function (config, data) {
         y: 0,
         cleanup: function () {
             $view.off('mouseover', listener)
-            clearInterval(interval)
             data.mousetrackingDuration = data.mousetrackingTime[data.mousetrackingTime.length - 1]
+            interpolate(rate)
         },
         start: function (origin) {
             if (!origin || !origin.x || !origin.y) {
                 origin = $view.getBoundingClientRect()
             }
             $view.on('mouseover', listener)
+            data.mousetrackingStartTime = Date.now()
             data.mousetracking.x = origin.x
             data.mousetracking.y = origin.y
-            data.mousetrackingX = []
-            data.mousetrackingY = []
-            data.mousetrackingTime = []
-            data.mousetrackingStartTime = Date.now()
-            interval = setInterval(function () {
-                data.mousetrackingX.push(data.mousetracking.x - origin.x)
-                data.mousetrackingY.push(data.mousetracking.y - origin.y)
-                data.mousetrackingTime.push(Date.now() - data.mousetrackingStartTime)
-            }, 50)
+            data.mousetrackingX = [0]
+            data.mousetrackingY = [0]
+            data.mousetrackingTime = [0]
+
         }
     }
 
     if (config && config.autostart) {
         data.mousetracking.start()
+    }
+
+    function interpolate(rate) {
+        const interpolated = {time: [], x: [], y: []}
+        for (let i = 0; i < data.mousetrackingTime.length; i++) {
+            interpolated.time.push(data.mousetrackingTime[i])
+            interpolated.x.push(data.mousetrackingX[i])
+            interpolated.y.push(data.mousetrackingY[i])
+            if (i < data.mousetrackingTime.length - 1 &&
+                data.mousetrackingTime[i + 1] - data.mousetrackingTime[i] > rate) {
+                const steps = ((data.mousetrackingTime[i + 1] - data.mousetrackingTime[i]) / rate) - 1;
+                const xDelta = (data.mousetrackingX[i + 1] - data.mousetrackingX[i]) / (steps + 1)
+                const yDelta = (data.mousetrackingY[i + 1] - data.mousetrackingY[i]) / (steps + 1)
+                const index = interpolated.time.length-1
+                for (let j = 0; j < steps; j++) {
+                    interpolated.time.push(interpolated.time[index + j] + rate)
+                    interpolated.x.push(Math.round(interpolated.x[index + j] + xDelta))
+                    interpolated.y.push(Math.round(interpolated.y[index + j] + yDelta))
+                }
+            }
+        }
+        data.mousetrackingTime = interpolated.time
+        data.mousetrackingX = interpolated.x
+        data.mousetrackingY = interpolated.y
     }
 };
 
@@ -2673,6 +2694,10 @@ const magpieUtils = {
             }
         },
         save_config_trial_data: function(config_info, trial_data) {
+            if (config_info.mousetracking !== undefined) {
+                config_info.mousetracking.cleanup()
+            }
+
             for (let prop in config_info) {
                 if (config_info.hasOwnProperty(prop)) {
                     trial_data[prop] = config_info[prop];
@@ -2697,7 +2722,6 @@ const magpieUtils = {
             }
 
             if (config_info.mousetracking !== undefined) {
-                config_info.mousetracking.cleanup()
                 delete trial_data.mousetracking;
             }
 

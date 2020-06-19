@@ -71,6 +71,10 @@ const magpieUtils = {
             }
         },
         save_config_trial_data: function(config_info, trial_data) {
+            if (config_info.mousetracking !== undefined) {
+                config_info.mousetracking.cleanup()
+            }
+
             for (let prop in config_info) {
                 if (config_info.hasOwnProperty(prop)) {
                     trial_data[prop] = config_info[prop];
@@ -95,7 +99,6 @@ const magpieUtils = {
             }
 
             if (config_info.mousetracking !== undefined) {
-                config_info.mousetracking.cleanup()
                 delete trial_data.mousetracking;
             }
 
