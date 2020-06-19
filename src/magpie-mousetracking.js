@@ -1,5 +1,5 @@
 const magpieMousetracking = function (config, data) {
-    var $view = $('.magpie-view')
+    var $view = $('body')
     var listener = function (evt) {
         data.mousetrackingX.push(evt.originalEvent.clientX - data.mousetracking.x)
         data.mousetrackingY.push(evt.originalEvent.clientY - data.mousetracking.y)
@@ -12,15 +12,16 @@ const magpieMousetracking = function (config, data) {
         x: 0,
         y: 0,
         cleanup: function () {
-            $view.off('mouseover', listener)
+            $view.off('mousemove', listener)
             data.mousetrackingDuration = data.mousetrackingTime[data.mousetrackingTime.length - 1]
             interpolate(rate)
         },
         start: function (origin) {
             if (!origin || !origin.x || !origin.y) {
-                origin = $view.getBoundingClientRect()
+                const rect = $view.getBoundingClientRect()
+                origin = {x: (rect.left+rect.right)/2, y: (rect.top+rect.bottom)/2}
             }
-            $view.on('mouseover', listener)
+            $view.on('mousemove', listener)
             data.mousetrackingStartTime = Date.now()
             data.mousetracking.x = origin.x
             data.mousetracking.y = origin.y
