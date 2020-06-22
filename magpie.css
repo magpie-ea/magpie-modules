@@ -431,12 +431,24 @@ input[name=answer] {
  */
 .magpie-response-picture {
     width: 25%;
+    max-width: 350px;
+    height: auto;
 }
 .magpie-response-picture-left {
-    float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 .magpie-response-picture-right {
-    float: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.magpie-lad-start {
+    position: absolute;
+    bottom: 50px;
+    left: 49%;
 }
 
 /*
