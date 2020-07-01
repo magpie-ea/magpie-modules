@@ -1,13 +1,15 @@
 # Changelog
 
-## Latest version: 0.1.1 
+## Latest version: 0.2.0
 
-- Say hello to our new name \_magpie 
+- version 0.2.0
+    - new module: Mouse tracking
+    - new view template: listen and decide
+
+- version 0.1.1
     - This project is now called `magpie-modules` on npm
     - Lodash is now included in magpie.full.js
     - Otherwise it is the same as 0.1.2 of babe-project
-
-## Older versions (babe-project)
 
 - version 0.1.1 + 0.1.2
     - Image display:
