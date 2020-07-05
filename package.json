@@ -1,6 +1,6 @@
 {
     "name": "magpie-modules",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "minimal architecture for the generation of portable interactive experiments (https://github.com/magpie-ea/magpie-modules)",
     "main": "magpie.js",
     "dependencies": {

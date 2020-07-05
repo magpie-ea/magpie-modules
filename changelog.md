@@ -1,6 +1,8 @@
 # Changelog
 
-## Latest version: 0.2.0
+## Latest version: 0.2.1
+- version 0.2.1
+    - Fix: Don't run mousetracking cleanup if it isn't used
 
 - version 0.2.0
     - new module: Mouse tracking
