@@ -1298,6 +1298,9 @@ const magpieMousetracking = function (config, data) {
         y: 0,
         cleanup: function () {
             $view.off('mousemove', listener)
+            if (!data.mousetrackingTime) {
+                return;
+            }
             data.mousetrackingDuration = data.mousetrackingTime[data.mousetrackingTime.length - 1]
             interpolate(rate)
         },
