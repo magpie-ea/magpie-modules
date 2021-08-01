@@ -145,7 +145,7 @@ function magpieSubmit(magpie) {
             for (var k = 0; k < columns.length; k++) {
                 if (
                     !trialData[j].hasOwnProperty(columns[k]) ||
-                    typeof trialData[j] === 'undefined'
+                    typeof trialData[j][columns[k]] === 'undefined'
                 ) {
                     trialData[j][columns[k]] = 'NA';
                 }
