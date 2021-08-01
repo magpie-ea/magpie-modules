@@ -1,13 +1,7 @@
 # \_magpie project
 minimal architecture for the generation of portable interactive experiments
 
-**Latest version: 0.1.1**
-
-- Say hello to our new name \_magpie 
-    - This project is now called `magpie-modules` on npm
-	- Lodash is now included in magpie.full.js
-    - Otherwise it is the same as 0.1.2 of babe-project
-
+**Latest version: 0.2.2**
 
 **Table of contents**
 

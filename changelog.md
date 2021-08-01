@@ -1,6 +1,9 @@
 # Changelog
 
-## Latest version: 0.2.1
+## Latest version: 0.2.2
+- version 0.2.2
+    - Fix addEmptyColumns: Account for columns that contain undefined
+
 - version 0.2.1
     - Fix: Don't run mousetracking cleanup if it isn't used
 
@@ -41,16 +44,16 @@
     
 - version: 0.0.29
 
-	- Bugfix hook after\_response\_enabled works again #52
+    - Bugfix hook after\_response\_enabled works again #52
 
 - version: 0.0.28
 
-	- Add an inactivity tracker/timer (inactive per default) #28
-	- Fix localServer deployment
-	- babeInit now returns the magpie-object in debug mode, for easier debugging
+    - Add an inactivity tracker/timer (inactive per default) #28
+    - Fix localServer deployment
+    - babeInit now returns the magpie-object in debug mode, for easier debugging
 
 - version: 0.0.27
  
-	- Fix submission of views containing canvas elements (flattened)
+    - Fix submission of views containing canvas elements (flattened)
 
 
