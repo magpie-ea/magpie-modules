@@ -1,7 +1,7 @@
 # \_magpie project
 minimal architecture for the generation of portable interactive experiments
 
-**Latest version: 0.2.2**
+**Latest version: 0.2.3**
 
 **Table of contents**
 

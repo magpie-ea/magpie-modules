@@ -1,7 +1,7 @@
 # Changelog
 
-## Latest version: 0.2.2
-- version 0.2.2
+## Latest version: 0.2.3
+- version 0.2.3
     - Fix addEmptyColumns: Account for columns that contain undefined
 
 - version 0.2.1
